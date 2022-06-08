@@ -15,6 +15,11 @@
   "engines": {
     "node": ">=14.17.0"
   },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "mockjs": "^1.1.0",
+    "vite-plugin-mock": "^2.9.6"
+  },
   "devDependencies": {
     "@playwright/test": "^1.22.2",
     "@types/mockjs": "^1.0.6",
@@ -40,10 +45,5 @@
     "vite",
     "vue3",
     "vue"
-  ],
-  "dependencies": {
-    "axios": "^0.27.2",
-    "mockjs": "^1.1.0",
-    "vite-plugin-mock": "^2.9.6"
-  }
+  ]
 }

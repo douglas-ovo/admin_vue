@@ -1,25 +1,29 @@
-# electron-vite-vue
+# 技术栈
+electron + vite + vue3 + ts + mock
 
+
+
+# 原模板
+![electron-vite-vue](https://github.com/electron-vite/electron-vite-vue)
+
+# 原README
+## electron-vite-vue
 [![awesome-vite](https://awesome.re/mentioned-badge.svg)](https://github.com/vitejs/awesome-vite)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/ae3863e3-1aec-4eb1-8f9f-1890af56929d/deploy-status)](https://app.netlify.com/sites/electron-vite/deploys)
 ![GitHub license](https://img.shields.io/github/license/caoxiemeihao/electron-vite-vue?style=flat)
 ![GitHub stars](https://img.shields.io/github/stars/caoxiemeihao/electron-vite-vue?color=fa6470&style=flat)
 ![GitHub forks](https://img.shields.io/github/forks/caoxiemeihao/electron-vite-vue?style=flat)
 
+🥳 Electron + Vite + Vue 整合模板 -- **结构简单，容易上手！**
 
-**English | [简体中文](README.zh-CN.md)**
+## 概述
 
-🥳 Real simple `Electron` + `Vue` + `Vite` boilerplate.
+📦 开箱即用  
+💪 支持 C/C++ 模块  
+🔩 支持在渲染进程中使用 Electron、Node.js API  
+🌱 结构清晰，可塑性强  
+🖥 很容易实现多窗口  
 
-## Overview
-
-📦 Out of the box  
-💪 Support C/C++ addons  
-🔩 Support Use Electron、Node.js API in Renderer-process  
-🌱 Simple directory structure，real flexible  
-🖥 It's easy to implement multiple windows  
-
-## Quick Start
+## 快速开始
 
 ```sh
 npm create electron-vite
@@ -29,38 +33,36 @@ npm create electron-vite
 
 ![electron-vite-vue.gif](https://github.com/electron-vite/electron-vite-vue/blob/main/packages/renderer/public/electron-vite-vue.gif?raw=true)
 
-## Debug
+## 调试
 
 ![electron-vite-react-debug.gif](https://github.com/electron-vite/electron-vite-react/blob/main/packages/renderer/public/electron-vite-react-debug.gif?raw=true)
 
-## Directory
-
-A `dist` folder will be generated everytime when `dev` or `build` command is executed. File structure of `dist` is identical to the `packages` directory to avoid any potential path calculation errors.
+## 目录结构
 
 ```tree
-├── dist                      Will be generated following the structure of "packages" directory
+├── dist                      构建后，根据 packages 目录生成
 |   ├── main
 |   ├── preload
 |   └── renderer
 |
 ├── scripts
-|   ├── build.mjs             Build script -> npm run build
-|   └── watch.mjs             Develop script -> npm run dev
+|   ├── build.mjs             项目开发脚本 npm run build
+|   └── watch.mjs             项目开发脚本 npm run dev
 |
 ├── packages
-|   ├── main                  Main-process source code
+|   ├── main                  主进程源码
 |   |   └── vite.config.ts
-|   ├── preload               Preload-script source code
+|   ├── preload               预加载脚本源码
 |   |   └── vite.config.ts
-|   └── renderer              Renderer-process source code
+|   └── renderer              渲染进程源码
 |       └── vite.config.ts
 ```
 
-## List the modules you may use as far as possible
+## 一些常见的案例
 
-Used in `Main-process` 👉 [electron-vite-boilerplate](https://github.com/caoxiemeihao/electron-vite-boilerplate)
+在 Main-process 中使用 👉 [electron-vite-boilerplate](https://github.com/caoxiemeihao/electron-vite-boilerplate)
 
-Used in `Renderer-process` 👉 [electron-vite-boilerplate/tree/nodeIntegration](https://github.com/caoxiemeihao/electron-vite-boilerplate/tree/nodeIntegration)
+在 Renderer-process 中使用 👉 [electron-vite-boilerplate/tree/nodeIntegration](https://github.com/caoxiemeihao/electron-vite-boilerplate/tree/nodeIntegration)
 
 **ES Modules**
 
