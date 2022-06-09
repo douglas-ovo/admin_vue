@@ -1,10 +1,15 @@
 <template>
-  <h2>{{ text }} electron+vite+ts+mock</h2>
+  <router-view></router-view>
 </template>
 
 <script setup lang="ts">
-import axios from 'axios'
+import axios from './http'
 import { ref } from 'vue'
+import { useRoute } from "vue-router";
+
+const route = useRoute()
+console.log(route);
+
 
 const text = ref('')
 axios.get("/userinfo.json").then(res => {
@@ -16,8 +21,5 @@ axios.get('/list.json').then(res => {
 })
 </script>
 
-<style>
-#app {
-  font-size: 12px;
-}
+<style lang="less" scoped>
 </style>

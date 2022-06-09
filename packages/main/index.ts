@@ -1,10 +1,18 @@
-import { app, BrowserWindow, shell, ipcMain } from 'electron'
+import {
+  app,
+  BrowserWindow,
+  shell,
+  ipcMain,
+  Tray,
+  Menu,
+  globalShortcut,
+  screen
+} from 'electron'
 import { release } from 'os'
-import { join } from 'path'
+import path, { join } from 'path'
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith('6.1')) app.disableHardwareAcceleration()
-
 // Set application name for Windows 10+ notifications
 if (process.platform === 'win32') app.setAppUserModelId(app.getName())
 
@@ -14,34 +22,72 @@ if (!app.requestSingleInstanceLock()) {
 }
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
+
+let __static: string
+if (process.env.NODE_ENV !== 'development') {
+  __static = join(__dirname, '/static').replace(/\\/g, '\\\\')
+}
+
 let win: BrowserWindow | null = null
+let tray: Tray | null = null
+
+const contextMenu = Menu.buildFromTemplate([{
+  label: '退出系统',
+  click: function () {
+    (tray as Tray).destroy()
+    app.quit()
+  }
+}])
 
 async function createWindow() {
   win = new BrowserWindow({
     title: 'Main window',
+    width: 1280,
+    height: 760,
+    useContentSize: true,
+    // frame: false, // 去除边框
     webPreferences: {
+      devTools: true,
       preload: join(__dirname, '../preload/index.cjs'),
-      nodeIntegration: true,
+      nodeIntegration: false,
       contextIsolation: false,
+      webSecurity: false
     },
   })
-  win.webContents.openDevTools()
+  
+  Menu.setApplicationMenu(null)
+  
+  globalShortcut.register('CommandOrControl+q', function () {
+    (win as BrowserWindow).webContents.openDevTools()
+  })
+
+  //设置托盘
+  if (process.env.NODE_ENV !== 'development') {
+    // tray = new Tray(path.join(__static, './icon.ico'))
+  } else {
+    // tray = new Tray('./build/icons/icon.ico')
+    // tray = new Tray(path.join(__static, './icon.ico'))
+  }
+  // tray.setToolTip('月光宝盒')
+  // tray.setContextMenu(contextMenu)
+  // tray.on('click', () => {
+  //   (win as BrowserWindow).show();
+  //   // mainWindow.maximize();
+  //   (win as BrowserWindow).focus();
+  //   (win as BrowserWindow).setSkipTaskbar(false)
+  // })
 
   if (app.isPackaged) {
     win.loadFile(join(__dirname, '../renderer/index.html'))
   } else {
-    // 🚧 Use ['ENV_NAME'] avoid vite:define plugin
     const url = `http://${process.env['VITE_DEV_SERVER_HOST']}:${process.env['VITE_DEV_SERVER_PORT']}`
-
     win.loadURL(url)
-    // win.webContents.openDevTools()
   }
 
   // Test active push message to Renderer-process
   win.webContents.on('did-finish-load', () => {
     win?.webContents.send('main-process-message', new Date().toLocaleString())
   })
-
   // Make all links open with the browser, not with the application
   win.webContents.setWindowOpenHandler(({ url }) => {
     if (url.startsWith('https:')) shell.openExternal(url)
@@ -86,7 +132,7 @@ ipcMain.handle("open-win", (event, arg) => {
       hash: `${arg}`,
     })
   } else {
-    // 🚧 Use ['ENV_NAME'] avoid vite:define plugin
+    //Use ['ENV_NAME'] avoid vite:define plugin
     const url = `http://${process.env["VITE_DEV_SERVER_HOST"]}:${process.env["VITE_DEV_SERVER_PORT"]}/#${arg}`
     childWindow.loadURL(url);
     // childWindow.webContents.openDevTools({ mode: "undocked", activate: true })
