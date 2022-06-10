@@ -19,6 +19,9 @@ axios.get("/userinfo.json").then(res => {
 axios.get('/list.json').then(res => {
   console.log(res);
 })
+axios.post('/login.json', { data: { username: 'admin', password: '123123' } }).then(res => {
+  console.log(res);
+})
 </script>
 
 <style lang="less" scoped>
