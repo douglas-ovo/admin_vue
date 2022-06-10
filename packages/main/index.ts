@@ -25,7 +25,7 @@ process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
 let __static: string
 if (process.env.NODE_ENV !== 'development') {
-  __static = join(__dirname, '/static').replace(/\\/g, '\\\\')
+  __static = join(__dirname, '/renderer/public').replace(/\\/g, '\\\\')
 }
 
 let win: BrowserWindow | null = null
@@ -54,28 +54,27 @@ async function createWindow() {
       webSecurity: false
     },
   })
-  
+
   Menu.setApplicationMenu(null)
-  
+
   globalShortcut.register('CommandOrControl+q', function () {
     (win as BrowserWindow).webContents.openDevTools()
   })
 
   //设置托盘
   if (process.env.NODE_ENV !== 'development') {
-    // tray = new Tray(path.join(__static, './icon.ico'))
+    tray = new Tray(path.join(__static, './icon.ico'))
   } else {
-    // tray = new Tray('./build/icons/icon.ico')
-    // tray = new Tray(path.join(__static, './icon.ico'))
+    tray = new Tray('./dist/renderer/icon.ico')
   }
-  // tray.setToolTip('月光宝盒')
-  // tray.setContextMenu(contextMenu)
-  // tray.on('click', () => {
-  //   (win as BrowserWindow).show();
-  //   // mainWindow.maximize();
-  //   (win as BrowserWindow).focus();
-  //   (win as BrowserWindow).setSkipTaskbar(false)
-  // })
+  tray.setToolTip('xixi系统')
+  tray.setContextMenu(contextMenu)
+  tray.on('click', () => {
+    (win as BrowserWindow).show();
+    // mainWindow.maximize();
+    (win as BrowserWindow).focus();
+    (win as BrowserWindow).setSkipTaskbar(false)
+  })
 
   if (app.isPackaged) {
     win.loadFile(join(__dirname, '../renderer/index.html'))
