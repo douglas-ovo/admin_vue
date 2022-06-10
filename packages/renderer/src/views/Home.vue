@@ -3,6 +3,7 @@
         <Header />
         <div class="main">
             <Menu />
+            <router-view />
         </div>
     </div>
 </template>
@@ -30,7 +31,9 @@ const router = useRouter()
     display: flex;
     flex-direction: column;
 }
+
 .main {
     flex: 1;
+    display: flex;
 }
 </style>

@@ -1,8 +1,8 @@
 <template>
     <div class="header">
         <h2>haha</h2>
-        <el-dropdown ref="dropdown1" trigger="contextmenu" style="margin-right: 30px">
-            <div class="userinfo" @click="showClick">
+        <el-dropdown ref="dropdown1" style="margin-right: 30px">
+            <div class="userinfo">
                 <div class="avatar"></div>
                 <div class="un">admin</div>
             </div>
@@ -48,7 +48,7 @@ function quit() {
 <style lang="less" scoped>
 .header {
     height: 100px;
-    background: #93b5cf;
+    background: #baccd9;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -59,6 +59,10 @@ function quit() {
     display: flex;
     align-items: center;
     cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 
     .avatar {
         height: 30px;

@@ -2,42 +2,76 @@
     <div class="menu">
         <el-menu active-text-color="#ffd04b" background-color="#545c64" class="el-menu-vertical-demo" default-active="2"
             text-color="#fff" @open="handleOpen" @close="handleClose">
-            <el-sub-menu index="1">
+            <el-menu-item index="1" @click="menuCheck">
+                <el-icon>
+                    <Odometer />
+                </el-icon>
+                <span>仪表盘</span>
+            </el-menu-item>
+
+            <el-sub-menu index="2">
                 <template #title>
                     <el-icon>
-                        <location />
+                        <Avatar />
                     </el-icon>
-                    <span>Navigator One</span>
+                    <span>超级管理员</span>
                 </template>
-                <el-menu-item-group title="Group One">
-                    <el-menu-item index="1-1">item one</el-menu-item>
-                    <el-menu-item index="1-2">item one</el-menu-item>
-                </el-menu-item-group>
-                <el-menu-item-group title="Group Two">
-                    <el-menu-item index="1-3">item three</el-menu-item>
-                </el-menu-item-group>
-                <el-sub-menu index="1-4">
-                    <template #title>item four</template>
-                    <el-menu-item index="1-4-1">item one</el-menu-item>
-                </el-sub-menu>
+
+                <el-menu-item index="2-1">
+                    <el-icon>
+                        <Stamp />
+                    </el-icon>
+                    <span>角色管理</span>
+                </el-menu-item>
+
+                <el-menu-item index="2-2">
+                    <el-icon>
+                        <Grid />
+                    </el-icon>
+                    <span>商品分类管理</span>
+                </el-menu-item>
+
+                <el-menu-item index="2-3">
+                    <el-icon>
+                        <Goods />
+                    </el-icon>
+                    <span>商品管理</span>
+                </el-menu-item>
+
+                <el-menu-item index="2-4">
+                    <el-icon>
+                        <User />
+                    </el-icon>
+                    <span>用户管理</span>
+                </el-menu-item>
             </el-sub-menu>
-            <el-menu-item index="2">
+
+            <el-menu-item index="3">
                 <el-icon>
-                    <icon-menu />
+                    <Setting />
                 </el-icon>
-                <span>Navigator Two</span>
+                <span>系统工具</span>
             </el-menu-item>
-            <el-menu-item index="3" disabled>
-                <el-icon>
-                    <document />
-                </el-icon>
-                <span>Navigator Three</span>
-            </el-menu-item>
+
             <el-menu-item index="4">
                 <el-icon>
-                    <setting />
+                    <QuestionFilled />
                 </el-icon>
-                <span>Navigator Four</span>
+                <span>关于我们</span>
+            </el-menu-item>
+
+            <el-menu-item index="5">
+                <el-icon>
+                    <QuestionFilled />
+                </el-icon>
+                <span>关于我们</span>
+            </el-menu-item>
+
+            <el-menu-item index="6">
+                <el-icon>
+                    <QuestionFilled />
+                </el-icon>
+                <span>关于我们</span>
             </el-menu-item>
         </el-menu>
     </div>
@@ -50,19 +84,38 @@ export default {
 }
 </script>
 <script lang="ts" setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, unref } from 'vue'
+import { useRouter } from "vue-router";
 import {
-    Document,
-    Menu as IconMenu,
-    Location,
+    // Menu as IconMenu,
+    Avatar,
+    Odometer,
     Setting,
+    QuestionFilled,
+    Stamp,
+    Grid,
+    Goods,
+    User
 } from '@element-plus/icons-vue'
 
+const router = useRouter()
+
 const handleOpen = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath)
+    // console.log(key, keyPath)
 }
 const handleClose = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath)
+    // console.log(key, keyPath)
+}
+
+const menuCheck = (val: any) => {
+    switch (val.index) {
+        case '1':
+            router.push({ name: 'chart' })
+            break;
+
+        default:
+            break;
+    }
 }
 </script>
 
@@ -70,10 +123,15 @@ const handleClose = (key: string, keyPath: string[]) => {
 <style lang="less" scoped>
 .menu {
     height: 100%;
-    width: 300px;
+    width: 200px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 
-    :deep(.el-menu) {
+    :deep(.el-menu-vertical-demo) {
         height: 100%;
+        padding-top: 20px;
     }
 }
 </style>

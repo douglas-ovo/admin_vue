@@ -1,7 +1,7 @@
-import { userInfo } from "os";
 import { createRouter, createWebHistory } from "vue-router";
 const Home = () => import('@/views/Home.vue')
 const Login = () => import('@/views/Login.vue')
+const ChartPage = () => import('@/views/home/ChartPage.vue')
 
 const router = createRouter({
     history: createWebHistory(),
@@ -10,6 +10,14 @@ const router = createRouter({
             path: "/",
             name: 'home',
             component: Home,
+            redirect: 'chart',
+            children: [
+                {
+                    path: 'chart',
+                    name: 'chart',
+                    component: ChartPage
+                }
+            ]
         },
         {
             path: "/login",
