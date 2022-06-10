@@ -62,19 +62,19 @@ async function createWindow() {
   })
 
   //设置托盘
-  if (process.env.NODE_ENV !== 'development') {
-    tray = new Tray(path.join(__static, './icon.ico'))
-  } else {
-    tray = new Tray('./dist/renderer/icon.ico')
-  }
-  tray.setToolTip('xixi系统')
-  tray.setContextMenu(contextMenu)
-  tray.on('click', () => {
-    (win as BrowserWindow).show();
-    // mainWindow.maximize();
-    (win as BrowserWindow).focus();
-    (win as BrowserWindow).setSkipTaskbar(false)
-  })
+  // if (process.env.NODE_ENV !== 'development') {
+  //   tray = new Tray(path.join(__static, './icon.ico'))
+  // } else {
+  //   tray = new Tray('./dist/renderer/icon.ico')
+  // }
+  // tray.setToolTip('xixi系统')
+  // tray.setContextMenu(contextMenu)
+  // tray.on('click', () => {
+  //   (win as BrowserWindow).show();
+  //   // mainWindow.maximize();
+  //   (win as BrowserWindow).focus();
+  //   (win as BrowserWindow).setSkipTaskbar(false)
+  // })
 
   if (app.isPackaged) {
     win.loadFile(join(__dirname, '../renderer/index.html'))
