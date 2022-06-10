@@ -5,7 +5,7 @@ import electron from 'vite-plugin-electron/renderer'
 import pkg from '../../package.json'
 
 //mock
-import path, { resolve as resolves } from 'path'
+import path from 'path'
 import { viteMockServe } from 'vite-plugin-mock'
 
 //elementUI
@@ -18,7 +18,7 @@ export default defineConfig({
   root: __dirname,
   resolve: {
     alias: {
-      '@': resolves(__dirname, 'src'),
+      '@': path.resolve(__dirname, 'src'),
     }
   },
   plugins: [
@@ -52,7 +52,7 @@ export default defineConfig({
         ` import { setupProdMockServer } from './src/mock';
         setupProdMockServer(); `,
       watchFiles: true, // 监听文件内容变更
-      injectFile: resolves("src/main.ts"), // 在main.ts注册后需要在此处注入，否则可能报找不到setupProdMockServer的错误
+      injectFile: path.resolve("src/main.ts"), // 在main.ts注册后需要在此处注入，否则可能报找不到setupProdMockServer的错误
     })
   ],
   css: {

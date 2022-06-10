@@ -43,7 +43,7 @@ async function createWindow() {
   win = new BrowserWindow({
     title: 'Main window',
     width: 1280,
-    height: 760,
+    height: 720,
     useContentSize: true,
     // frame: false, // 去除边框
     webPreferences: {

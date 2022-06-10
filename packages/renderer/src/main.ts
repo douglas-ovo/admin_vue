@@ -4,6 +4,7 @@ import { setupProdMockServer } from '../../mock';
 import "@/assets/css/base.less";
 import { createPinia } from 'pinia'
 import router from './router'
+import 'element-plus/theme-chalk/src/index.scss'
 
 // if (process.env.NODE_ENV === 'production') {
 setupProdMockServer();

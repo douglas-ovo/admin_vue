@@ -7,15 +7,19 @@ const userinfo = (options: any) => {
     })
 }
 const list = (options: any) => { }
-const login = ({ params }: any) => {
+
+const login = (options: any) => {
+    let un = options.body.username === 'admin'
+    let pw = options.body.password === '123123'
+
     return {
-        status: params ? 200 : 404,
-        message: '登录成功'
+        status: un && pw ? 1 : 2,
+        message: un && pw ? '登录成功' : '登录失败'
     }
 }
 
 const api: MockMethod[] = [
-    { url: 'login.json', method: 'post', response: login },
+    { url: '/login.json', method: 'post', response: login },
     { url: '/userinfo.json', method: 'get', response: userinfo },
     { url: '/list.json', method: 'get', response: list },
 ]
