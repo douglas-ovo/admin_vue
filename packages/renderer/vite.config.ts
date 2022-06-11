@@ -11,10 +11,22 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
-// https://vitejs.dev/config/
 export default defineConfig({
   mode: process.env.NODE_ENV,
   root: __dirname,
+  resolve: {
+    alias: {
+      '@': '/src/',
+    }
+  },
+  css: {
+    preprocessorOptions: {
+      less: {
+        charset: false,
+        additionalData: '@import "/src/assets/css/global.less";',
+      },
+    },
+  },
   plugins: [
     vue(),
     electron(),
@@ -26,25 +38,10 @@ export default defineConfig({
     }),
     resolve(
       {
-        // If you use the following modules, the following configuration will work
-        // What they have in common is that they will return - ESM format code snippets
-
-        // ESM format string
         'electron-store': 'export default require("electron-store");',
-        // Use lib2esm() to easy to convert ESM
-        // Equivalent to
-        /**
-         * sqlite3: () => `
-         * const _M_ = require('sqlite3');
-         * const _D_ = _M_.default || _M_;
-         * export { _D_ as default }
-         * `
-         */
         sqlite3: lib2esm('sqlite3', { format: 'cjs' }),
         serialport: lib2esm(
-          // CJS lib name
           'serialport',
-          // export memebers
           [
             'SerialPort',
             'SerialPortMock',
@@ -70,9 +67,9 @@ export default defineConfig({
     emptyOutDir: true,
     sourcemap: true,
     minify: 'terser',
-    
+
     //去除打包size警告
-    chunkSizeWarningLimit: 1500, 
+    chunkSizeWarningLimit: 1500,
     terserOptions: {
       compress: {
         drop_console: true,

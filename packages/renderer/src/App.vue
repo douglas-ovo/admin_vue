@@ -8,34 +8,7 @@
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
-import * as echarts from 'echarts/core';
-// 引入柱状图图表，图表后缀都为 Chart
-import { BarChart } from 'echarts/charts';
-// 引入提示框，标题，直角坐标系，数据集，内置数据转换器组件，组件后缀都为 Component
-import {
-  TitleComponent,
-  TooltipComponent,
-  GridComponent,
-  DatasetComponent,
-  TransformComponent
-} from 'echarts/components';
-// 标签自动布局，全局过渡动画等特性
-import { LabelLayout, UniversalTransition } from 'echarts/features';
-// 引入 Canvas 渲染器，注意引入 CanvasRenderer 或者 SVGRenderer 是必须的一步
-import { CanvasRenderer } from 'echarts/renderers';
-
-// 注册必须的组件
-echarts.use([
-  TitleComponent,
-  TooltipComponent,
-  GridComponent,
-  DatasetComponent,
-  TransformComponent,
-  BarChart,
-  LabelLayout,
-  UniversalTransition,
-  CanvasRenderer
-]);
+import * as echarts from 'echarts';
 
 const container = ref<HTMLElement | null>(null)
 const initChart = () => {
@@ -70,9 +43,9 @@ onMounted(() => {
 })
 </script>
 
-<style>
+<style lang="less">
 #app {
-  font-size: 12px;
+  height: 100%;
 }
 
 .container {
