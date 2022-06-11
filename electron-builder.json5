@@ -5,18 +5,20 @@
   "appId": "YourAppID",
   "asar": true,
   "directories": {
-    "output": "release/${version}"
+    "output": "release"
   },
   "files": [
     "dist"
   ],
   "mac": {
+    "icon": "dist/renderer/icon.icns",
     "artifactName": "${productName}_${version}.${ext}",
     "target": [
       "dmg"
     ]
   },
   "win": {
+    "icon": "dist/renderer/icon.ico",
     "target": [
       {
         "target": "nsis",
