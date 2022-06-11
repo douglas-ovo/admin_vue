@@ -11,13 +11,6 @@ const api: MockMethod[] = [
             })
         }
     },
-    {
-        url: '/list.json',
-        method: 'get',
-        response() {
-            return [1, 2, 3]
-        }
-    },
 ]
 
 export default api

@@ -7,6 +7,10 @@ import pkg from '../../package.json'
 import { resolve as resolves } from 'path'
 import { viteMockServe } from 'vite-plugin-mock'
 
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+
 // https://vitejs.dev/config/
 export default defineConfig({
   mode: process.env.NODE_ENV,
@@ -14,12 +18,13 @@ export default defineConfig({
   plugins: [
     vue(),
     electron(),
+    AutoImport({
+      resolvers: [ElementPlusResolver()],
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()],
+    }),
     resolve(
-      /**
-       * Here you can specify other modules
-       * 🚧 You have to make sure that your module is in `dependencies` and not in the` devDependencies`,
-       *    which will ensure that the electron-builder can package it correctly
-       */
       {
         // If you use the following modules, the following configuration will work
         // What they have in common is that they will return - ESM format code snippets
