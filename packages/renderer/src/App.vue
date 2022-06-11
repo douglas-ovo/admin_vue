@@ -2,6 +2,8 @@
   <h2>{{ text }} electron+vite+ts+mock</h2>
   <button @click="handleClick">点击</button>
   <div ref="container" class="container"></div>
+  <h3>{{ counter }}</h3>
+  <button @click="store.increment()">add</button>
 </template>
 
 <script setup lang="ts">
@@ -9,6 +11,10 @@ import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import * as echarts from 'echarts';
+import { storeToRefs } from 'pinia'
+import useStore from './store'
+const store = useStore()
+const { counter } = storeToRefs(store)
 
 const container = ref<HTMLElement | null>(null)
 const initChart = () => {
