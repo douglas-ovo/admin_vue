@@ -1,11 +1,11 @@
 <template>
-   home
+   
 </template>
 
 
 <script lang="ts">
 export default {
-    name: "Home"
+    name: "Login"
 }
 </script>
 <script lang="ts" setup>

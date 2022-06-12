@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell, ipcMain } from 'electron'
+import { app, BrowserWindow, shell, ipcMain, globalShortcut, Menu, Tray } from 'electron'
 import { release } from 'os'
 import { join } from 'path'
 
@@ -15,6 +15,15 @@ if (!app.requestSingleInstanceLock()) {
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
 let win: BrowserWindow | null = null
+let tray: Tray | null = null
+
+const contextMenu = Menu.buildFromTemplate([{
+  label: '退出系统',
+  click: function () {
+    tray?.destroy()
+    app.quit()
+  }
+}])
 
 async function createWindow() {
   win = new BrowserWindow({
@@ -27,24 +36,40 @@ async function createWindow() {
       contextIsolation: false,
     },
   })
+
   win.webContents.openDevTools()
+
+  globalShortcut.register('CommandOrControl+q', function () {
+    win?.webContents.openDevTools()
+  })
+
+  win.setMenu(null)
+
+  //设置托盘
+  if (process.env.NODE_ENV === 'development') {
+    tray = new Tray('./dist/renderer/icon.ico')
+  } else {
+    tray = new Tray(join(__dirname, '../renderer/icon.ico'))
+  }
+  tray.setToolTip('xx系统')
+  tray.setContextMenu(contextMenu)
+  tray.on('click', () => {
+    win?.show()
+    win?.focus()
+    win?.setSkipTaskbar(false)
+  })
 
   if (app.isPackaged) {
     win.loadFile(join(__dirname, '../renderer/index.html'))
   } else {
-    // 🚧 Use ['ENV_NAME'] avoid vite:define plugin
     const url = `http://${process.env['VITE_DEV_SERVER_HOST']}:${process.env['VITE_DEV_SERVER_PORT']}`
-
     win.loadURL(url)
-    // win.webContents.openDevTools()
   }
 
-  // Test active push message to Renderer-process
   win.webContents.on('did-finish-load', () => {
     win?.webContents.send('main-process-message', new Date().toLocaleString())
   })
 
-  // Make all links open with the browser, not with the application
   win.webContents.setWindowOpenHandler(({ url }) => {
     if (url.startsWith('https:')) shell.openExternal(url)
     return { action: 'deny' }
@@ -60,7 +85,6 @@ app.on('window-all-closed', () => {
 
 app.on('second-instance', () => {
   if (win) {
-    // Focus on the main window if the user tried to open another
     if (win.isMinimized()) win.restore()
     win.focus()
   }
@@ -75,7 +99,6 @@ app.on('activate', () => {
   }
 })
 
-// new window example arg: new windows url
 ipcMain.handle("open-win", (event, arg) => {
   const childWindow = new BrowserWindow({
     webPreferences: {
@@ -88,9 +111,7 @@ ipcMain.handle("open-win", (event, arg) => {
       hash: `${arg}`,
     })
   } else {
-    // 🚧 Use ['ENV_NAME'] avoid vite:define plugin
     const url = `http://${process.env["VITE_DEV_SERVER_HOST"]}:${process.env["VITE_DEV_SERVER_PORT"]}/#${arg}`
     childWindow.loadURL(url);
-    // childWindow.webContents.openDevTools({ mode: "undocked", activate: true })
   }
 });
