@@ -3,6 +3,7 @@
         <Header />
         <div class="main">
             <Menu />
+            <router-view />
         </div>
     </div>
 </template>
@@ -26,6 +27,7 @@ import Menu from '@/components/Menu.vue';
     display: flex;
     flex-direction: column;
 }
+
 .main {
     flex: 1;
     display: flex;
