@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
-const Home = () => import('@/views/Home.vue')
-const Login = () => import('@/views/Login.vue')
-const ChartPage = () => import('@/views/home/ChartPage.vue')
+import { defineAsyncComponent } from 'vue'
+const Home = defineAsyncComponent(() => import('@/views/Home.vue'))
+const Login = defineAsyncComponent(() => import('@/views/Login.vue'))
+const ChartPage = defineAsyncComponent(() => import('@/views/home/ChartPage.vue'))
 
 const router = createRouter({
     history: createWebHistory(),
@@ -24,10 +25,10 @@ const router = createRouter({
             name: 'login',
             component: Login,
         },
-        // {
-        //     path: '*',
-        //     redirect: '/'
-        // }
+        {
+            path: "/:pathMatch(.*)*",
+            redirect: "/"
+        }
     ]
 })
 

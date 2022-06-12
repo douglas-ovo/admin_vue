@@ -13,6 +13,9 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
+// exports报错
+import polyfillExports from 'vite-plugin-electron/polyfill-exports'
+
 export default defineConfig({
   mode: process.env.NODE_ENV,
   root: __dirname,
@@ -22,6 +25,7 @@ export default defineConfig({
     }
   },
   plugins: [
+    polyfillExports(),
     vue(),
     electron(),
     AutoImport({

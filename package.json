@@ -41,7 +41,7 @@
     "unplugin-auto-import": "^0.8.7",
     "unplugin-vue-components": "^0.19.6",
     "vite": "^2.9.8",
-    "vite-plugin-electron": "^0.4.5",
+    "vite-plugin-electron": "^0.4.8",
     "vite-plugin-resolve": "^2.1.2",
     "vue": "^3.2.36",
     "vue-tsc": "^0.35.2"
