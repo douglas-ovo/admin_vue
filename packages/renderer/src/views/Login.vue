@@ -1,5 +1,5 @@
 <template>
-    <div id="login">
+    <div class="login">
         <div class="left">
             <h1>xx系统</h1>
         </div>
@@ -62,12 +62,14 @@ const handleLogin = () => {
 
 
 <style lang="less" scoped>
-#login {
+.login {
     height: 100%;
-    background: #8fb2c9;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    background-image: url(@/assets/img/bg.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
 
     .right {
         width: 500px;

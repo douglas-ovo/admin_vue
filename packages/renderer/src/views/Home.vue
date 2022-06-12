@@ -1,5 +1,10 @@
 <template>
-    <div id="home">home</div>
+    <div class="home">
+        <Header />
+        <div class="main">
+            <Menu />
+        </div>
+    </div>
 </template>
 
 
@@ -10,12 +15,19 @@ export default {
 </script>
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
+import Header from '@/components/Header.vue';
+import Menu from '@/components/Menu.vue';
 </script>
 
 
 <style lang="less" scoped>
-#home {
+.home {
     height: 100%;
-    background: @theme;
+    display: flex;
+    flex-direction: column;
+}
+.main {
+    flex: 1;
+    display: flex;
 }
 </style>
