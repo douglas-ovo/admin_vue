@@ -1,5 +1,5 @@
 <template>
-   home
+    <div id="home">home</div>
 </template>
 
 
@@ -14,5 +14,8 @@ import { ref, reactive } from 'vue'
 
 
 <style lang="less" scoped>
-   
+#home {
+    height: 100%;
+    background: @theme;
+}
 </style>

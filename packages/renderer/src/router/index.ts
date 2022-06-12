@@ -8,11 +8,20 @@ const router = createRouter({
     routes: [
         { path: '/', name: 'home', component: Home },
         { path: '/login', name: 'login', component: Login },
+        { path: '/:pathMatch(.*)*', redirect: '/' }
     ]
 })
 
 router.beforeEach((to, from, next) => {
-    next()
+    if (sessionStorage.getItem('userinfo')) {
+        next()
+    } else {
+        if (to.name === 'home') {
+            next({ name: 'login' })
+        } else {
+            next()
+        }
+    }
 })
 
 export default router

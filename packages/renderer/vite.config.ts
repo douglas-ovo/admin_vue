@@ -11,6 +11,8 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
+import polyfillExports from 'vite-plugin-electron/polyfill-exports'
+
 export default defineConfig({
   mode: process.env.NODE_ENV,
   root: __dirname,
@@ -28,6 +30,7 @@ export default defineConfig({
     },
   },
   plugins: [
+    polyfillExports(),
     vue(),
     electron(),
     AutoImport({
@@ -70,33 +73,33 @@ export default defineConfig({
 
     //去除打包size警告
     chunkSizeWarningLimit: 1500,
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true
-      }
-    },
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            return id
-              .toString()
-              .split('node_modules/')[1]
-              .split('/')[0]
-              .toString();
-          }
-        },
-        chunkFileNames: (chunkInfo) => {
-          const facadeModuleId = chunkInfo.facadeModuleId
-            ? chunkInfo.facadeModuleId.split('/')
-            : [];
-          const fileName =
-            facadeModuleId[facadeModuleId.length - 2] || '[name]';
-          return `js/${fileName}/[name].[hash].js`;
-        }
-      }
-    }
+    // terserOptions: {
+    //   compress: {
+    //     drop_console: true,
+    //     drop_debugger: true
+    //   }
+    // },
+    // rollupOptions: {
+    //   output: {
+    //     manualChunks(id) {
+    //       if (id.includes('node_modules')) {
+    //         return id
+    //           .toString()
+    //           .split('node_modules/')[1]
+    //           .split('/')[0]
+    //           .toString();
+    //       }
+    //     },
+    //     chunkFileNames: (chunkInfo) => {
+    //       const facadeModuleId = chunkInfo.facadeModuleId
+    //         ? chunkInfo.facadeModuleId.split('/')
+    //         : [];
+    //       const fileName =
+    //         facadeModuleId[facadeModuleId.length - 2] || '[name]';
+    //       return `js/${fileName}/[name].[hash].js`;
+    //     }
+    //   }
+    // }
   },
   server: {
     host: pkg.env.VITE_DEV_SERVER_HOST,

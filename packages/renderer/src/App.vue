@@ -1,9 +1,10 @@
 <template>
-  <h2>{{ text }} electron+vite+ts+mock</h2>
+  <!-- <h2>{{ text }} electron+vite+ts+mock</h2>
   <button @click="handleClick">点击</button>
   <div ref="container" class="container"></div>
   <h3>{{ counter }}</h3>
-  <button @click="store.increment()">add</button>
+  <button @click="store.increment()">add</button> -->
+  <router-view />
 </template>
 
 <script setup lang="ts">
@@ -45,15 +46,11 @@ const handleClick = () => {
   ElMessage('this is a message.')
 }
 onMounted(() => {
-  initChart()
+  // initChart()
 })
 </script>
 
-<style lang="less">
-#app {
-  height: 100%;
-}
-
+<style lang="less" scoped>
 .container {
   width: 200px;
   height: 200px
