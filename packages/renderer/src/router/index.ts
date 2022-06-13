@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 const Login = () => import('@/views/Login.vue')
 const Home = () => import('@/views/Home.vue')
 const Charts = () => import('@/views/home/Charts.vue')
+const About = () => import('@/views/home/About.vue')
 
 const router = createRouter({
     history: createWebHistory(),
@@ -14,6 +15,11 @@ const router = createRouter({
                     path: 'charts',
                     name: 'charts',
                     component: Charts
+                },
+                {
+                    path: 'about',
+                    name: 'about',
+                    component: About
                 }
             ]
         },

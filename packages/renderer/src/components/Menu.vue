@@ -1,8 +1,7 @@
 <template>
     <div class="menu">
         <el-menu active-text-color="#ffd04b" unique-opened background-color="#545c64"
-            class="menu-inner el-menu-vertical-demo" default-active="1" text-color="#fff" @open="handleOpen"
-            @close="handleClose">
+            class="menu-inner el-menu-vertical-demo" default-active="1" text-color="#fff" @open="handleOpen">
             <el-menu-item index="1">
                 <el-icon>
                     <TrendCharts />
@@ -68,10 +67,12 @@ import {
 } from '@element-plus/icons-vue'
 
 const handleOpen = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath)
-}
-const handleClose = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath)
+    switch (key) {
+        case '1':
+            break;
+        case '5':
+            break;
+    }
 }
 </script>
 
