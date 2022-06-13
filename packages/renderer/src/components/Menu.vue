@@ -58,6 +58,7 @@ export default {
 </script>
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
+import { useRouter } from "vue-router";
 import {
     Setting,
     QuestionFilled,
@@ -66,11 +67,18 @@ import {
     Search
 } from '@element-plus/icons-vue'
 
+const router = useRouter()
+
 const handleOpen = (key: string, keyPath: string[]) => {
     switch (key) {
         case '1':
+            router.push({ name: 'charts' })
+            break;
+        case '4':
+            router.push({ name: 'setting' })
             break;
         case '5':
+            router.push({ name: 'about' })
             break;
     }
 }

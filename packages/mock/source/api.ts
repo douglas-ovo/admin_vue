@@ -3,6 +3,13 @@ import Mock from 'mockjs'
 
 const api: MockMethod[] = [
     {
+        url: 'upload.json',
+        method: 'post',
+        response(option: any) {
+            console.log(option);
+        }
+    },
+    {
         url: '/login.json',
         method: 'post',
         response(option: any) {

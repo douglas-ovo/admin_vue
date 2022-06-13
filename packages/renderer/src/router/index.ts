@@ -4,6 +4,7 @@ const Login = () => import('@/views/Login.vue')
 const Home = () => import('@/views/Home.vue')
 const Charts = () => import('@/views/home/Charts.vue')
 const About = () => import('@/views/home/About.vue')
+const Setting = () => import('@/views/home/Setting.vue')
 
 const router = createRouter({
     history: createWebHistory(),
@@ -20,6 +21,11 @@ const router = createRouter({
                     path: 'about',
                     name: 'about',
                     component: About
+                },
+                {
+                    path: 'setting',
+                    name: 'setting',
+                    component: Setting
                 }
             ]
         },
