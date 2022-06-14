@@ -5,8 +5,8 @@
         </div>
         <el-dropdown>
             <div class="right">
-                <div class="avatar"></div>
-                <div class="un">admin</div>
+                <div class="avatar" :style="avatar"></div>
+                <div class="un">{{ username }}</div>
             </div>
             <template #dropdown>
                 <el-dropdown-menu>
@@ -25,8 +25,25 @@ export default {
 </script>
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
+import { computed, ref } from "vue";
+import Mock from 'mockjs';
 
 const router = useRouter()
+
+const username = computed(() => {
+    if (localStorage.getItem('newuserinfo')) {
+        return JSON.parse(localStorage.getItem('newuserinfo') as string).username
+    } else {
+        return JSON.parse(sessionStorage.getItem('userinfo') as string).username
+    }
+})
+
+const avatar = computed(() => {
+    let color = Mock.mock('@color()')
+    return {
+        background: color
+    }
+})
 
 const exit = () => {
     sessionStorage.removeItem('userinfo')
@@ -36,7 +53,6 @@ const exit = () => {
 
 
 <style lang="less" scoped>
-
 .header {
     height: 12%;
     background: #74787a;

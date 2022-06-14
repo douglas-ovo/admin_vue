@@ -19,7 +19,7 @@ import axios from '../../http';
 const container1 = ref<HTMLElement | null>(null)
 const container2 = ref<HTMLElement | null>(null)
 const initChart = () => {
-    axios.get('/charts.json', { params: {} }).then(res => {
+    axios.get('/charts.json', { params: {} }).then(res => {        
         const myChart1 = echarts.init(container1.value as HTMLElement)
         myChart1.setOption(res.data.chart1);
         const myChart2 = echarts.init(container2.value as HTMLElement)

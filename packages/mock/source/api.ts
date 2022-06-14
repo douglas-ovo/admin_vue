@@ -3,18 +3,19 @@ import Mock from 'mockjs'
 
 const api: MockMethod[] = [
     {
-        url: 'upload.json',
-        method: 'post',
-        response(option: any) {
-            console.log(option);
-        }
-    },
-    {
         url: '/login.json',
         method: 'post',
         response(option: any) {
-            let un = option.body.username === 'admin'
-            let pw = option.body.password === '123123'
+            const newUserinfo = JSON.parse(localStorage.getItem('newuserinfo') as string)
+            let un, pw
+            if (newUserinfo) {
+                un = option.body.username === newUserinfo.username
+                pw = option.body.password === newUserinfo.password
+            } else {
+                un = option.body.username === 'admin'
+                pw = option.body.password === '123123'
+            }
+
             return {
                 status: un && pw ? 1 : 2,
                 message: un && pw ? '登录成功' : '登录失败，请检查密码或账号是否正确'
