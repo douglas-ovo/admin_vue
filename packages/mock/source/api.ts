@@ -29,7 +29,8 @@ const api: MockMethod[] = [
             return {
                 chart1: {
                     title: {
-                        text: '商品销量'
+                        text: '商品销量',
+                        left: 'center',
                     },
                     tooltip: {},
                     xAxis: {
@@ -40,6 +41,7 @@ const api: MockMethod[] = [
                         {
                             name: '销量',
                             type: 'bar',
+                            colorBy: 'data',
                             data: [
                                 Mock.mock({
                                     "number|1-100": 100
@@ -60,7 +62,24 @@ const api: MockMethod[] = [
                 },
                 chart2: {
                     title: {
-                        text: '分类销量'
+                        text: '分类销量',
+                        left: 'center',
+                    },
+                    tooltip: {
+                        trigger: 'item'
+                    },
+                    label: {
+                        position: 'outer',
+                        alignTo: 'labelLine',
+                        bleedMargin: 50
+                    },
+                    labelLine: {
+                        lineStyle: {
+                            color: 'rgba(0, 0, 0, 0.3)'
+                        },
+                        smooth: 0.2,
+                        length: 10,
+                        length2: 10
                     },
                     series: [
                         {

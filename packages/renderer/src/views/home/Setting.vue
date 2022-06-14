@@ -37,15 +37,60 @@ const ruleForm = reactive({
 })
 const rules = reactive<FormRules>({
     username: [
-        { type: 'string', required: true, message: '请输入用户名', trigger: 'blur' },
+        {
+            trigger: 'blur',
+            required: true,
+            validator: (rule, value, callback) => {
+                var passwordreg = /^\w+$/
+                if (!passwordreg.test(value)) {
+                    callback(
+                        new Error(
+                            '用户名必须英文字母、数字、下划线组成!'
+                        )
+                    )
+                } else {
+                    callback()
+                }
+            }
+        },
         { min: 5, max: 8, message: '请输入5-8位用户名', trigger: 'blur' },
     ],
     password: [
-        { required: true, message: '请输入用户密码', trigger: 'blur' },
+        {
+            trigger: 'blur',
+            required: true,
+            validator: (rule, value, callback) => {
+                var passwordreg = /^\w+$/
+                if (!passwordreg.test(value)) {
+                    callback(
+                        new Error(
+                            '用户名必须英文字母、数字、下划线组成!'
+                        )
+                    )
+                } else {
+                    callback()
+                }
+            }
+        },
         { min: 6, max: 10, message: '请输入6-10位用户密码', trigger: 'blur' },
     ],
     cpassword: [
-        { required: true, message: '请输入用户密码', trigger: 'blur' },
+        {
+            trigger: 'blur',
+            required: true,
+            validator: (rule, value, callback) => {
+                var passwordreg = /^\w+$/
+                if (!passwordreg.test(value)) {
+                    callback(
+                        new Error(
+                            '用户名必须英文字母、数字组成!'
+                        )
+                    )
+                } else {
+                    callback()
+                }
+            }
+        },
         { min: 6, max: 10, message: '请输入6-10位用户密码', trigger: 'blur' },
     ],
 })

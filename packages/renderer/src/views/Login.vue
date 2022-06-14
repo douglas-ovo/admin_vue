@@ -11,7 +11,7 @@
                 <el-form-item label="密码" prop="password" style="margin-top: 30px;">
                     <el-input v-model="ruleForm.password" type="password" />
                 </el-form-item>
-                <el-button @click="handleLogin" type="primary" style="margin-top: 30px;width: 420px;margin-left: 80px;">
+                <el-button @click="handleLogin" type="primary" style="margin-top: 30px;width: 380px;margin-left: 80px;">
                     登录</el-button>
             </el-form>
         </div>
@@ -37,8 +37,44 @@ const ruleForm = reactive({
     password: ''
 })
 const rules = reactive<FormRules>({
-    username: [{ required: true, message: '请输入用户名', trigger: 'blur' },],
-    password: [{ required: true, message: '请输入用户密码', trigger: 'blur' },]
+    username: [
+        {
+            trigger: 'blur',
+            required: true,
+            validator: (rule, value, callback) => {
+                var passwordreg = /^\w+$/
+                if (!passwordreg.test(value)) {
+                    callback(
+                        new Error(
+                            '用户名必须英文字母、数字、下划线组成!'
+                        )
+                    )
+                } else {
+                    callback()
+                }
+            }
+        },
+        { min: 5, max: 8, message: '请输入5-8位用户名', trigger: 'blur' },
+    ],
+    password: [
+        {
+            trigger: 'blur',
+            required: true,
+            validator: (rule, value, callback) => {
+                var passwordreg = /^\w+$/
+                if (!passwordreg.test(value)) {
+                    callback(
+                        new Error(
+                            '用户名必须英文字母、数字、下划线组成!'
+                        )
+                    )
+                } else {
+                    callback()
+                }
+            }
+        },
+        { min: 6, max: 10, message: '请输入6-10位用户密码', trigger: 'blur' },
+    ],
 })
 
 const ruleFormRef = ref(null)

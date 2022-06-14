@@ -22,5 +22,6 @@ import { ref, reactive } from 'vue'
 <style lang="less" scoped>
 .about {
     padding: 50px;
+    width: 100%;
 }
 </style>
