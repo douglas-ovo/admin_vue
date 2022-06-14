@@ -1,7 +1,7 @@
 <template>
     <div class="setting">
         <div>
-            <el-upload action="/upload.json" list-type="picture-card" :on-preview="handlePictureCardPreview"
+            <el-upload action="" list-type="picture-card" :on-preview="handlePictureCardPreview"
                 :on-remove="handleRemove">
                 <el-icon>
                     <Plus />
@@ -31,7 +31,7 @@ const dialogImageUrl = ref('')
 const dialogVisible = ref(false)
 
 const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
-    console.log(uploadFile, uploadFiles)
+    // console.log(uploadFile, uploadFiles)
 }
 
 const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
