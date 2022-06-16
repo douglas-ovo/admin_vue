@@ -1,5 +1,6 @@
 import { MockMethod } from 'vite-plugin-mock'
-import Mock from 'mockjs'
+import Mock, { Random } from 'mockjs'
+import { IPubilc, role, roleAuthOption } from './data.js'
 
 const api: MockMethod[] = [
     {
@@ -111,14 +112,27 @@ const api: MockMethod[] = [
         }
     },
     {
-        url: '/userinfo.json',
+        url: '/getrole.json',
         method: 'get',
         response() {
-            return Mock.mock({
-                "string|1-10": "★"
-            })
+            return role
         }
     },
+    {
+        url: '/getRoleAuthOption.json',
+        method: 'get',
+        response() {
+            return roleAuthOption
+        }
+    },
+    {
+        url: '/editRole.json',
+        method: 'post',
+        response(option: any) {
+            let index: any = role.findIndex(item => item.id === option.body.id)
+            role[index].status = option.body.status
+        }
+    }
 ]
 
 export default api

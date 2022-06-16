@@ -1,7 +1,7 @@
 <template>
     <div class="menu">
         <el-menu active-text-color="#ffd04b" unique-opened background-color="#545c64"
-            class="menu-inner el-menu-vertical-demo" default-active="1" text-color="#fff" @open="handleOpen">
+            class="menu-inner el-menu-vertical-demo" default-active="1" text-color="#fff" @select="handleSelect">
             <el-menu-item index="1">
                 <el-icon>
                     <TrendCharts />
@@ -69,10 +69,13 @@ import {
 
 const router = useRouter()
 
-const handleOpen = (key: string, keyPath: string[]) => {
+const handleSelect = (key: string, keyPath: string[]) => {
     switch (key) {
         case '1':
             router.push({ name: 'charts' })
+            break;
+        case '2-1':
+            router.push({ name: 'role' })
             break;
         case '4':
             router.push({ name: 'setting' })
