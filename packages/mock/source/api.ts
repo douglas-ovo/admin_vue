@@ -1,12 +1,14 @@
 import { MockMethod } from 'vite-plugin-mock'
-import { roles } from './modules/role'
-import { login } from "./modules/login";
-import { charts } from './modules/charts'
+import role from './modules/role'
+import login from "./modules/login";
+import chart from './modules/charts'
+import cate from './modules/cate'
 
 const api: MockMethod[] = [
     login as MockMethod,
-    charts as MockMethod,
-    ...roles as MockMethod[]
+    chart as MockMethod,
+    ...role as MockMethod[],
+    ...cate as MockMethod[]
 ]
 
 export default api

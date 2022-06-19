@@ -1,5 +1,5 @@
 import Mock, { Random } from 'mockjs';
-export const charts = {
+export default {
     url: '/charts.json',
     method: 'get',
     response(option: any) {

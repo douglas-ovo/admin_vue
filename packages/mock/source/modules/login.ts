@@ -1,4 +1,4 @@
-export const login = {
+export default {
     url: '/login.json',
     method: 'post',
     response(option: any) {

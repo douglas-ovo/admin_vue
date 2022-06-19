@@ -77,6 +77,9 @@ const handleSelect = (key: string, keyPath: string[]) => {
         case '2-1':
             router.push({ name: 'role' })
             break;
+        case '2-2':
+            router.push({ name: 'cate' })
+            break;
         case '4':
             router.push({ name: 'setting' })
             break;

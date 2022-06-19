@@ -16,6 +16,7 @@
             </el-form>
         </div>
     </div>
+    <Particles id="tsparticles" class="login-partic" :options="options" />
 </template>
 
 
@@ -29,6 +30,8 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, FormInstance, FormRules } from 'element-plus'
 import axios from '../http'
+
+const options = reactive({})
 
 const router = useRouter()
 

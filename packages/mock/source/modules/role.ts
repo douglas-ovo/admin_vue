@@ -33,7 +33,7 @@ const roleAuthOption: IPubilc = [
     { id: 4, label: '用户管理' },
 ]
 
-export const roles = [
+export default [
     {
         url: '/getrole.json',
         method: 'get',
