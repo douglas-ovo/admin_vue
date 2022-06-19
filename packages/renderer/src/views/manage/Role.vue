@@ -29,8 +29,8 @@
                     <template #default="scope">
                         <div>
                             <el-tag v-for="item in scope.row.auth" style="margin: 5px;" :key="item.id" effect="dark">{{
-                                item.label
-                                }}
+                                    item.label
+                            }}
                             </el-tag>
                         </div>
                     </template>

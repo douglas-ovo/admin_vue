@@ -90,7 +90,7 @@ const handleSelect = (key: string, keyPath: string[]) => {
 
 <style lang="less" scoped>
 .menu {
-    width: 250px;
+    width: 200px;
     height: 100%;
     user-select: none;
     flex-shrink: 0;
