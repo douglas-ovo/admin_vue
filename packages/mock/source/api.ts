@@ -1,6 +1,6 @@
 import { MockMethod } from 'vite-plugin-mock'
 import Mock, { Random } from 'mockjs'
-import { IPubilc, role, roleAuthOption } from './data.js'
+import { role, roleAuthOption } from './data.js'
 
 const api: MockMethod[] = [
     {
@@ -129,8 +129,31 @@ const api: MockMethod[] = [
         url: '/editRole.json',
         method: 'post',
         response(option: any) {
-            let index: any = role.findIndex(item => item.id === option.body.id)
-            role[index].status = option.body.status
+            let { id, status, auth } = option.body
+            auth = auth.split(',').map((id: any) => parseInt(id))
+            console.log(auth);
+
+
+            let index: any = role.findIndex(item => item.id === id)
+            role[index].status = status
+
+            let newAuth: any[] = []
+            roleAuthOption.map((item: any) => {
+                let newAuthitem = {}
+                auth.forEach((element: any) => {
+                    if (item.id === element) {
+                        newAuthitem = item
+                    }
+                });
+                newAuth.push(newAuthitem)
+            })
+            newAuth = newAuth.filter(item => {
+                return item.id !== undefined
+            })
+            
+            role[index].auth = newAuth
+
+            return role
         }
     }
 ]

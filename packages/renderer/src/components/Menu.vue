@@ -93,6 +93,7 @@ const handleSelect = (key: string, keyPath: string[]) => {
     width: 250px;
     height: 100%;
     user-select: none;
+    flex-shrink: 0;
 
     .menu-inner {
         height: 100%;
