@@ -11,13 +11,13 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column label="类型" width="200px">
+                <el-table-column label="类型">
                     <template #default="scope">
                         <el-tag type="success">{{ scope.row.name }}</el-tag>
                     </template>
                 </el-table-column>
 
-                <el-table-column label="状态" width="100px">
+                <el-table-column label="状态">
                     <template #default="scope">
                         <div style="display: flex; align-items: center">
                             <span>{{ scope.row.status ? '启用' : '禁用' }}</span>
@@ -44,7 +44,7 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column label="操作">
+                <el-table-column label="操作" style="width:100px;">
                     <template #default="scope">
                         <el-button size="large" @click="handleEdit(scope.$index, scope.row)" style="width:50px">编辑
                         </el-button>
