@@ -1,8 +1,8 @@
 <template>
     <div class="menu">
         <el-menu active-text-color="#ffd04b" unique-opened background-color="#545c64"
-            class="menu-inner el-menu-vertical-demo" default-active="1" text-color="#fff" @select="handleSelect">
-            <el-menu-item index="1">
+            class="menu-inner el-menu-vertical-demo" default-active="1" text-color="#fff" router>
+            <el-menu-item index="/charts">
                 <el-icon>
                     <TrendCharts />
                 </el-icon>
@@ -16,10 +16,10 @@
                     </el-icon>
                     <span>超级管理员</span>
                 </template>
-                <el-menu-item index="2-1">角色管理</el-menu-item>
-                <el-menu-item index="2-2">商品分类管理</el-menu-item>
-                <el-menu-item index="2-3">商品管理</el-menu-item>
-                <el-menu-item index="2-4">用户管理</el-menu-item>
+                <el-menu-item index="/role">角色管理</el-menu-item>
+                <el-menu-item index="/cate">商品分类管理</el-menu-item>
+                <el-menu-item index="/goods">商品管理</el-menu-item>
+                <el-menu-item index="/user">用户管理</el-menu-item>
             </el-sub-menu>
 
             <el-sub-menu index="3">
@@ -29,18 +29,18 @@
                     </el-icon>
                     <span>查询</span>
                 </template>
-                <el-menu-item index="3-1">商品分类查询</el-menu-item>
-                <el-menu-item index="3-2">商品查询</el-menu-item>
+                <el-menu-item index="/catequery">商品分类查询</el-menu-item>
+                <el-menu-item index="/goodsquery">商品查询</el-menu-item>
             </el-sub-menu>
 
-            <el-menu-item index="4">
+            <el-menu-item index="/setting">
                 <el-icon>
                     <Setting />
                 </el-icon>
                 <span>个人设置</span>
             </el-menu-item>
 
-            <el-menu-item index="5">
+            <el-menu-item index="/about">
                 <el-icon>
                     <QuestionFilled />
                 </el-icon>
@@ -66,28 +66,6 @@ import {
     Avatar,
     Search
 } from '@element-plus/icons-vue'
-
-const router = useRouter()
-
-const handleSelect = (key: string, keyPath: string[]) => {
-    switch (key) {
-        case '1':
-            router.push({ name: 'charts' })
-            break;
-        case '2-1':
-            router.push({ name: 'role' })
-            break;
-        case '2-2':
-            router.push({ name: 'cate' })
-            break;
-        case '4':
-            router.push({ name: 'setting' })
-            break;
-        case '5':
-            router.push({ name: 'about' })
-            break;
-    }
-}
 </script>
 
 

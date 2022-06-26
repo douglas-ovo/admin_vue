@@ -76,16 +76,20 @@ export default [
         method: 'post',
         response(option: any) {
             const { name, status } = option.body
-            cate.unshift({
-                id: Mock.mock('@id()'),
-                name,
-                status,
-                setTime: Random.now('second'),
-            })
+            let have = cate.find(item => item.name === name)
+            console.log(have);
+            if (!have) {
+                cate.unshift({
+                    id: Mock.mock('@id()'),
+                    name,
+                    status,
+                    setTime: Random.now('second'),
+                })
+            }
 
             return {
                 status: 200,
-                message: '添加成功'
+                message: !have ? '添加成功' : '不能添加重复数据'
             }
         }
     },
@@ -94,16 +98,18 @@ export default [
         method: 'post',
         response(option: any) {
             const { name, status, id } = option.body
-            console.log(name, status, id);
-            let cateItem = cate.find(item => item.id === id)
-            if (cateItem) {
-                cateItem.name = name
-                cateItem.status = status
+            let have = cate.find(item => item.name === name)
+            if (!have) {
+                let cateItem = cate.find(item => item.id === id)
+                if (cateItem) {
+                    cateItem.name = name
+                    cateItem.status = status
+                }
             }
 
             return {
                 status: 200,
-                message: '编辑成功'
+                message: !have ? '编辑成功' : '不能添加重复数据'
             }
         }
     },
@@ -114,6 +120,17 @@ export default [
             const { ids } = option.query
             let id = ids.split(',')
             cate = cate.filter(item => !id.includes(item.id))
+            return {
+                status: 200,
+                message: '删除成功'
+            }
+        }
+    },
+    {
+        url: "/querycate.json",
+        method: 'post',
+        response(option: any) {
+            const { ids } = option.body
             return {
                 status: 200,
                 message: '删除成功'
