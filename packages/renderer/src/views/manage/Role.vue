@@ -13,7 +13,7 @@
 
                 <el-table-column label="类型">
                     <template #default="scope">
-                        <el-tag type="success">{{ scope.row.name }}</el-tag>
+                        <el-tag type="success" size="large">{{ scope.row.name }}</el-tag>
                     </template>
                 </el-table-column>
 
@@ -28,7 +28,7 @@
                 <el-table-column label="权限">
                     <template #default="scope">
                         <div>
-                            <el-tag v-for="item in scope.row.auth" style="margin: 5px;" :key="item.id" effect="dark">{{
+                            <el-tag v-for="item in scope.row.auth" style="margin: 5px;" :key="item.id" type="warning">{{
                                     item.label
                             }}
                             </el-tag>
@@ -46,7 +46,8 @@
 
                 <el-table-column label="操作" style="width:100px;">
                     <template #default="scope">
-                        <el-button size="large" @click="handleEdit(scope.$index, scope.row)" style="width:50px">编辑
+                        <el-button size="large" type="primary" @click="handleEdit(scope.$index, scope.row)"
+                            style="width:50px">编辑
                         </el-button>
                     </template>
                 </el-table-column>

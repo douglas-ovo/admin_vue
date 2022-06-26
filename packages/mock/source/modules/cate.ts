@@ -2,41 +2,41 @@ import Mock, { Random } from 'mockjs'
 interface IPubilc {
     [k: string]: any
 }
-const cate: IPubilc[] = [
+let cate: IPubilc[] = [
     {
         id: Mock.mock('@id()'),
         name: '手机',
-        status: true,
+        status: false,
         setTime: Random.now('week'),
     },
     {
         id: Mock.mock('@id()'),
         name: '食品',
-        status: false,
+        status: true,
         setTime: Random.now('week'),
     },
     {
         id: Mock.mock('@id()'),
         name: '百货',
-        status: false,
+        status: true,
         setTime: Random.now('week'),
     },
     {
         id: Mock.mock('@id()'),
         name: '男装',
-        status: false,
+        status: true,
         setTime: Random.now('week'),
     },
     {
         id: Mock.mock('@id()'),
         name: '女装',
-        status: false,
+        status: true,
         setTime: Random.now('week'),
     },
     {
         id: Mock.mock('@id()'),
         name: '童装',
-        status: false,
+        status: true,
         setTime: Random.now('week'),
     },
 ]
@@ -75,17 +75,49 @@ export default [
         url: "/addcate.json",
         method: 'post',
         response(option: any) {
+            const { name, status } = option.body
+            cate.unshift({
+                id: Mock.mock('@id()'),
+                name,
+                status,
+                setTime: Random.now('second'),
+            })
 
+            return {
+                status: 200,
+                message: '添加成功'
+            }
         }
     },
     {
         url: "/editcate.json",
         method: 'post',
-        response(option: any) { }
+        response(option: any) {
+            const { name, status, id } = option.body
+            console.log(name, status, id);
+            let cateItem = cate.find(item => item.id === id)
+            if (cateItem) {
+                cateItem.name = name
+                cateItem.status = status
+            }
+
+            return {
+                status: 200,
+                message: '编辑成功'
+            }
+        }
     },
     {
         url: "/deletecate.json",
         method: 'get',
-        response(option: any) { }
+        response(option: any) {
+            const { ids } = option.query
+            let id = ids.split(',')
+            cate = cate.filter(item => !id.includes(item.id))
+            return {
+                status: 200,
+                message: '删除成功'
+            }
+        }
     }
 ]

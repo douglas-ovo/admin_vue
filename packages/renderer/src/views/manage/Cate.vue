@@ -1,14 +1,17 @@
 <template>
     <div class="cate">
         <h2>商品分类管理</h2>
+
         <div class="multiple" style="margin-bottom:30px">
             <el-button @click="handleAdd" style="width:60px">添加
             </el-button>
-            <el-button @click="handleDels" style="width:60px" type="danger" :disabled="selOption.length === 0">批量删除
+            <el-button @click="delTipsShow = true" style="width:60px" type="danger" :disabled="curItem.length === 0">
+                批量删除
             </el-button>
         </div>
+
         <div class="cate-content">
-            <el-table :data="tableData" stripe highlight-current-row @selection-change="handleSelectionChange">
+            <el-table :data="tableData" stripe highlight-current-row @selection-change="selectionChange">
                 <el-table-column type="selection" width="55" />
 
                 <el-table-column label="编号">
@@ -21,7 +24,7 @@
 
                 <el-table-column label="分类名称">
                     <template #default="scope">
-                        <el-tag type="success">{{ scope.row.name }}</el-tag>
+                        <el-tag type="success" size="large">{{ scope.row.name }}</el-tag>
                     </template>
                 </el-table-column>
 
@@ -43,9 +46,10 @@
 
                 <el-table-column label="操作">
                     <template #default="scope">
-                        <el-button size="large" @click="handleEdit(scope.$index, scope.row)" style="width:50px">编辑
+                        <el-button size="large" type="primary" @click="handleEdit(scope.$index, scope.row)"
+                            style="width:50px">编辑
                         </el-button>
-                        <el-button size="large" @click="handleDel(scope.$index, scope.row)" style="width:50px"
+                        <el-button size="large" @click="delTipsShow = true; curItem = scope.row" style="width:50px"
                             type="danger">删除
                         </el-button>
                     </template>
@@ -57,7 +61,7 @@
             </div>
         </div>
 
-        <el-dialog v-model="dialogFormVisible" :title="formTitle" width="600px" ref="dialogForm">
+        <el-dialog v-model="editShow" :title="formTitle" width="600px" ref="dialogForm">
             <el-form :model="form">
                 <el-form-item label="分类名称" :label-width="140">
                     <el-input v-model="form.name" />
@@ -69,19 +73,19 @@
 
             <template #footer>
                 <span class="dialog-footer">
-                    <el-button size="large" @click="dialogFormVisible = false" style="width:50px">取消</el-button>
-                    <el-button size="large" type="primary" @click="handleConfirm" style="width:50px">确定
+                    <el-button size="large" @click="editShow = false" style="width:50px">取消</el-button>
+                    <el-button size="large" type="primary" @click="editConfirm" style="width:50px">确定
                     </el-button>
                 </span>
             </template>
         </el-dialog>
 
-        <el-dialog v-model="dialogVisible" title="提示" width="30%" :before-close="handleClose">
-            <span>确定删除【】吗？</span>
+        <el-dialog v-model="delTipsShow" title="提示" width="30%">
+            <span>确定删除【{{ deltitle }}】吗？</span>
             <template #footer>
                 <span class="dialog-footer">
-                    <el-button @click="dialogVisible = false">取消</el-button>
-                    <el-button type="primary" @click="dialogVisible = false">确定</el-button>
+                    <el-button @click="delTipsShow = false">取消</el-button>
+                    <el-button type="primary" @click="handleDel">确定</el-button>
                 </span>
             </template>
         </el-dialog>
@@ -95,43 +99,79 @@ export default {
 }
 </script>
 <script lang="ts" setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import axios from '../../http';
-import type { FormInstance } from 'element-plus'
+import { ElMessage, FormInstance, FormRules } from 'element-plus'
 
-const dialogVisible = ref(false)
-const handleClose = () => {
-
-}
+const delTipsShow = ref(false)
 
 const dialogForm = ref<FormInstance | null>()
 
-const handleDels = () => {
-    dialogVisible.value = true
-    console.log(selOption.value);
-}
-const handleDel = (index: number, row: any) => {
-    dialogVisible.value = true
+const handleDel = () => {
+    delTipsShow.value = true
+    let ids = ''
+    if (curItem.value.length) {
+        curItem.value.forEach((item: any, index: number) => {
+            if (index === 0) {
+                ids += item.id
+            } else {
+                ids += ',' + item.id
+            }
+        })
+    } else {
+        ids = (curItem.value as any).id
+    }
+
+    axios.get('/deletecate.json', { params: { ids } }).then(res => {
+        if (res.data.status === 200) {
+            delTipsShow.value = false
+            getCate()
+            ElMessage({
+                type: 'success',
+                message: res.data.message
+            })
+        }
+    })
 }
 
+const deltitle = computed(() => {
+    let str: string = ''
+    if (curItem.value.length) {
+        curItem.value.forEach((item: any, index: number) => {
+            if (index === 0) {
+                str += item.name
+            } else {
+                str += ',' + item.name
+            }
+        })
+    } else {
+        str = (curItem.value as any).name
+    }
+    return str
+})
+
 const formTitle = ref('添加分类')
+
 const handleAdd = () => {
-    form.value = { name: '', status: '' }
-    dialogFormVisible.value = true
+    form.value = { name: '', status: true }
+    editShow.value = true
     formTitle.value = '添加分类'
 }
 
 const tableData = ref([])
+
 const pageInfo = reactive({
     page: 1,
     pageSize: 5,
     totalPage: 0,
     total: 0
 })
+
 const pageChange = (val: any) => {
     pageInfo.page = val
     getCate()
 }
+
 const getCate = () => {
     axios.get('/getcate.json', { params: { page: pageInfo.page, pageSize: pageInfo.pageSize } }).then(res => {
         tableData.value = res.data.result
@@ -141,26 +181,44 @@ const getCate = () => {
 }
 getCate()
 
-const dialogFormVisible = ref(false)
+const editShow = ref(false)
 
 const form = ref({
     name: '',
-    status: '',
+    status: true,
 })
 
 const handleEdit = (index: number, row: any) => {
-    dialogFormVisible.value = true
+    editShow.value = true
+    curItem.value = row
     formTitle.value = '编辑分类'
     form.value = { ...row }
 }
 
-const selOption = ref([])
-const handleSelectionChange = (val: any) => {
-    selOption.value = val
+const curItem = ref([])
+
+const selectionChange = (val: any) => {
+    curItem.value = val
 }
 
-const handleConfirm = () => {
+const editConfirm = () => {
+    let url: string = ''
+    if (formTitle.value === '添加分类') {
+        url = '/addcate.json'
+    } else {
+        url = "/editcate.json"
+    }
 
+    axios.post(url, { ...form.value, id: (curItem.value as any).id }).then(res => {
+        if (res.data.status === 200) {
+            editShow.value = false
+            getCate()
+            ElMessage({
+                type: 'success',
+                message: res.data.message
+            })
+        }
+    })
 }
 </script>
 
