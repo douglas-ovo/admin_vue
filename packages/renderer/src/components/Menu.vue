@@ -17,9 +17,9 @@
                     <span>超级管理员</span>
                 </template>
                 <el-menu-item index="/role">角色管理</el-menu-item>
+                <el-menu-item index="/user">用户管理</el-menu-item>
                 <el-menu-item index="/cate">商品分类管理</el-menu-item>
                 <el-menu-item index="/goods">商品管理</el-menu-item>
-                <el-menu-item index="/user">用户管理</el-menu-item>
             </el-sub-menu>
 
             <el-sub-menu index="3">

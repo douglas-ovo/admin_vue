@@ -130,11 +130,15 @@ export default [
         url: "/querycate.json",
         method: 'post',
         response(option: any) {
-            const { ids } = option.body
-            return {
-                status: 200,
-                message: '删除成功'
-            }
+            const { keyword } = option.body
+            let useArr: any[] = []
+            cate.forEach((item) => {
+                if (item.name.match(RegExp(keyword))) {
+                    useArr.push(item)
+                }
+            })
+
+            return useArr
         }
     }
 ]
