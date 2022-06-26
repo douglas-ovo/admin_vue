@@ -77,7 +77,7 @@ router.beforeEach((to, from, next) => {
     if (sessionStorage.getItem('userinfo')) {
         next()
     } else {
-        if (to.name === 'home') {
+        if (to.name === 'charts') {
             next({ name: 'login' })
         } else {
             next()
