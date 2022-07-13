@@ -5,7 +5,7 @@
         <div class="multiple" style="margin-bottom:30px">
             <el-button @click="handleAdd" style="width:60px">添加
             </el-button>
-            <el-button @click="delTipsShow = true" style="width:60px" type="danger" :disabled="curItem.length === 0">
+            <el-button @click="delTipsShow = true" style="width:60px" type="danger" :disabled="curItems.length === 0">
                 批量删除
             </el-button>
         </div>
@@ -112,8 +112,8 @@ const dialogForm = ref<FormInstance | null>()
 const handleDel = () => {
     delTipsShow.value = true
     let ids = ''
-    if (curItem.value.length) {
-        curItem.value.forEach((item: any, index: number) => {
+    if (curItems.value.length) {
+        curItems.value.forEach((item: any, index: number) => {
             if (index === 0) {
                 ids += item.id
             } else {
@@ -138,8 +138,8 @@ const handleDel = () => {
 
 const deltitle = computed(() => {
     let str: string = ''
-    if (curItem.value.length) {
-        curItem.value.forEach((item: any, index: number) => {
+    if (curItems.value.length) {
+        curItems.value.forEach((item: any, index: number) => {
             if (index === 0) {
                 str += item.name
             } else {
@@ -209,10 +209,11 @@ const handleEdit = (index: number, row: any) => {
     form.value.cate = row.cate.id
 }
 
-const curItem = ref([])
+const curItem = ref({})
+const curItems = ref([])
 
 const selectionChange = (val: any) => {
-    curItem.value = val
+    curItems.value = val
 }
 
 const editConfirm = () => {
