@@ -19,7 +19,7 @@
 
                 <el-table-column label="权限">
                     <template #default="scope">
-                        <el-tag type="warning" size="large">{{ scope.row.auth }}</el-tag>
+                        <el-tag type="warning" size="large">{{ scope.row.auth.name }}</el-tag>
                     </template>
                 </el-table-column>
 
@@ -44,7 +44,7 @@
                 <el-form :model="form">
                     <el-form-item label="权限" :label-width="formLabelWidth">
                         <el-select v-model="form.auth" placeholder="请选择用户权限">
-                            <el-option v-for="item in userAuthOption" :label="item.label" :value="item.id" />
+                            <el-option v-for="item in userAuthOption" :label="item.name" :value="item.id" />
                         </el-select>
                     </el-form-item>
                 </el-form>
@@ -83,15 +83,14 @@ const form = ref({
 })
 
 
-axios.get('/getUserAuthOption.json', { params: {} }).then(res => {
+axios.get('/getrole.json', { params: {} }).then(res => {
     userAuthOption.value = res.data
 
     axios.get('/getuser.json', { params: {} }).then(res => {
         tableData.value = res.data.map((item: any) => {
-            let auth = userAuthOption.value.find((it: any) => it.id === item.auth).label
             return {
                 ...item,
-                auth
+                auth: userAuthOption.value.find((it: any) => it.id === item.auth)
             }
         })
     })
@@ -100,15 +99,15 @@ axios.get('/getUserAuthOption.json', { params: {} }).then(res => {
 const handleEdit = (index: number, row: any) => {
     dialogFormVisible.value = true
     form.value = { ...row }
+    form.value.auth = row.auth.id
 }
 
 const handleConfirm = () => {
     axios.post('/editUser.json', { id: form.value.id, auth: form.value.auth }).then(res => {
         tableData.value = res.data.map((item: any) => {
-            let auth = userAuthOption.value.find((it: any) => it.id === item.auth).label
             return {
                 ...item,
-                auth
+                auth: userAuthOption.value.find((it: any) => it.id === item.auth)
             }
         })
         ElMessage({

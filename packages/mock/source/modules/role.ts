@@ -2,9 +2,10 @@ import Mock, { Random } from 'mockjs'
 interface IPubilc {
     [k: string]: any
 }
+
 const role: IPubilc[] = [
     {
-        id: Mock.mock('@id()'),
+        id: 1,
         name: '系统管理员',
         status: true,
         setTime: Random.now('week'),
@@ -16,7 +17,7 @@ const role: IPubilc[] = [
         ]
     },
     {
-        id: Mock.mock('@id()'),
+        id: 2,
         name: '普通管理员',
         status: false,
         setTime: Random.now('week'),
@@ -26,6 +27,7 @@ const role: IPubilc[] = [
         ]
     }
 ]
+
 const roleAuthOption: IPubilc = [
     { id: 1, label: '角色管理' },
     { id: 2, label: '商品管理' },
@@ -46,10 +48,6 @@ const user: IPubilc[] = [
         setTime: Random.now('week'),
         auth: 2
     }
-]
-const userAuthOption: IPubilc = [
-    { id: 1, label: '系统管理员' },
-    { id: 2, label: '普通管理员' }
 ]
 
 export default [
@@ -101,13 +99,6 @@ export default [
         method: 'get',
         response() {
             return user
-        }
-    },
-    {
-        url: '/getUserAuthOption.json',
-        method: 'get',
-        response() {
-            return userAuthOption
         }
     },
     {

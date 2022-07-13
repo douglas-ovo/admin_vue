@@ -4,37 +4,37 @@ interface IPubilc {
 }
 let cate: IPubilc[] = [
     {
-        id: Mock.mock('@id()'),
+        id: 1,
         name: '手机',
         status: false,
         setTime: Random.now('week'),
     },
     {
-        id: Mock.mock('@id()'),
+        id: 2,
         name: '食品',
         status: true,
         setTime: Random.now('week'),
     },
     {
-        id: Mock.mock('@id()'),
+        id: 3,
         name: '百货',
         status: true,
         setTime: Random.now('week'),
     },
     {
-        id: Mock.mock('@id()'),
+        id: 4,
         name: '男装',
         status: true,
         setTime: Random.now('week'),
     },
     {
-        id: Mock.mock('@id()'),
+        id: 5,
         name: '女装',
         status: true,
         setTime: Random.now('week'),
     },
     {
-        id: Mock.mock('@id()'),
+        id: 6,
         name: '童装',
         status: true,
         setTime: Random.now('week'),
@@ -98,18 +98,15 @@ export default [
         method: 'post',
         response(option: any) {
             const { name, status, id } = option.body
-            let have = cate.find(item => item.name === name)
-            if (!have) {
-                let cateItem = cate.find(item => item.id === id)
-                if (cateItem) {
-                    cateItem.name = name
-                    cateItem.status = status
-                }
+            let cateItem = cate.find(item => item.id === id)
+            if (cateItem) {
+                cateItem.name = name
+                cateItem.status = status
             }
 
             return {
                 status: 200,
-                message: !have ? '编辑成功' : '不能添加重复数据'
+                message: '编辑成功'
             }
         }
     },
