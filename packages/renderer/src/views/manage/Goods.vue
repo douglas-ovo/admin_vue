@@ -178,7 +178,7 @@ const getGoods = () => {
         tableData.value = res.data.result.map((item: any) => {
             return {
                 ...item,
-                cate: cateData.value.find((it: any) => it.id === item.cate)
+                cate: cateData.value.find((it: any) => it.id === item.cate) ? cateData.value.find((it: any) => it.id === item.cate) : { name: '' }
             }
         })
         pageInfo.totalPage = res.data.totalPage

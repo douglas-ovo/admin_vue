@@ -172,7 +172,8 @@ export default [
         response(option: any) {
             const { ids } = option.query
             let id = JSON.parse(JSON.stringify(ids.split(',')))
-            cate = cate.filter(item => !id.includes(item.id))
+
+            cate = cate.filter(item => !id.includes(item.id + ''))
 
             return {
                 status: 200,
@@ -254,7 +255,7 @@ export default [
         response(option: any) {
             const { ids } = option.query
             let id = ids.split(',')
-            goods = goods.filter(item => !id.includes(item.id))
+            goods = goods.filter(item => !id.includes(item.id + ''))
             return {
                 status: 200,
                 message: '删除成功'
