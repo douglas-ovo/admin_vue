@@ -41,6 +41,16 @@ let cate: IPubilc[] = [
     },
 ]
 
+let goods: IPubilc[] = [
+    {
+        id: Mock.mock('@id()'),
+        name: '手机',
+        status: false,
+        setTime: Random.now('week'),
+        cate: 1
+    },
+]
+
 const pageCate = (page: any, pageSize: any) => {
     let proportion = pageSize;
     let num = 0;

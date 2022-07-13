@@ -39,14 +39,14 @@ const user: IPubilc[] = [
     {
         id: Mock.mock('@id()'),
         name: 'admin',
-        auth: 1,
+        role: 1,
         setTime: Random.now('week'),
     },
     {
         id: Mock.mock('@id()'),
         name: 'test',
         setTime: Random.now('week'),
-        auth: 2
+        role: 2
     }
 ]
 
@@ -105,10 +105,10 @@ export default [
         url: '/editUser.json',
         method: 'post',
         response(option: any) {
-            let { id, auth } = option.body
+            let { id, role } = option.body
             let index: any = user.findIndex(item => item.id === id)
 
-            user[index].auth = auth
+            user[index].role = role
 
             return user
         }

@@ -19,7 +19,7 @@
 
                 <el-table-column label="权限">
                     <template #default="scope">
-                        <el-tag type="warning" size="large">{{ scope.row.auth.name }}</el-tag>
+                        <el-tag type="warning" size="large">{{ scope.row.role.name }}</el-tag>
                     </template>
                 </el-table-column>
 
@@ -43,7 +43,7 @@
             <el-dialog v-model="dialogFormVisible" title="编辑用户" width="600px">
                 <el-form :model="form">
                     <el-form-item label="权限" :label-width="formLabelWidth">
-                        <el-select v-model="form.auth" placeholder="请选择用户权限">
+                        <el-select v-model="form.role" placeholder="请选择用户权限">
                             <el-option v-for="item in userAuthOption" :label="item.name" :value="item.id" />
                         </el-select>
                     </el-form-item>
@@ -77,7 +77,7 @@ const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
 
 const form = ref({
-    auth: 1,
+    role: 1,
     status: '',
     id: ''
 })
@@ -90,7 +90,7 @@ axios.get('/getrole.json', { params: {} }).then(res => {
         tableData.value = res.data.map((item: any) => {
             return {
                 ...item,
-                auth: userAuthOption.value.find((it: any) => it.id === item.auth)
+                role: userAuthOption.value.find((it: any) => it.id === item.role)
             }
         })
     })
@@ -99,15 +99,15 @@ axios.get('/getrole.json', { params: {} }).then(res => {
 const handleEdit = (index: number, row: any) => {
     dialogFormVisible.value = true
     form.value = { ...row }
-    form.value.auth = row.auth.id
+    form.value.role = row.role.id
 }
 
 const handleConfirm = () => {
-    axios.post('/editUser.json', { id: form.value.id, auth: form.value.auth }).then(res => {
+    axios.post('/editUser.json', { id: form.value.id, role: form.value.role }).then(res => {
         tableData.value = res.data.map((item: any) => {
             return {
                 ...item,
-                auth: userAuthOption.value.find((it: any) => it.id === item.auth)
+                role: userAuthOption.value.find((it: any) => it.id === item.role)
             }
         })
         ElMessage({
