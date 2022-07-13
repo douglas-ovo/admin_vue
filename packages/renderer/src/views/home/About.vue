@@ -2,7 +2,7 @@
     <div class="about">
         <h3>应用名称：xx系统</h3>
         <br />
-        <h3>开发者：liutao@163.com</h3>
+        <h3>开发者：liutao4408@163.com</h3>
         <br />
         <h3>技术栈：electron + vue3 + typescript + mock + pinia + echarts</h3>
     </div>
