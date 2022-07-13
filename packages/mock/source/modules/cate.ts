@@ -135,7 +135,7 @@ export default [
             console.log(have);
             if (!have) {
                 cate.unshift({
-                    id: Mock.mock('@id()'),
+                    id: cate.length + 1,
                     name,
                     status,
                     setTime: Random.now('second'),
@@ -257,6 +257,22 @@ export default [
                 status: 200,
                 message: '删除成功'
             }
+        }
+    },
+    //商品查询
+    {
+        url: "/querygoods.json",
+        method: 'post',
+        response(option: any) {
+            const { keyword } = option.body
+            let useArr: any[] = []
+            goods.forEach((item) => {
+                if (item.name.match(RegExp(keyword))) {
+                    useArr.push(item)
+                }
+            })
+
+            return useArr
         }
     },
 ]
