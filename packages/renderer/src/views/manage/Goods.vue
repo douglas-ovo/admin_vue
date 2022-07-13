@@ -30,9 +30,7 @@
 
                 <el-table-column label="所属分类">
                     <template #default="scope">
-                        <div style="display: flex; align-items: center">
-                            <span>{{ scope.row.cate.name }}</span>
-                        </div>
+                        <el-tag type="warning" size="large">{{ scope.row.cate.name }}</el-tag>
                     </template>
                 </el-table-column>
 
