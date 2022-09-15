@@ -30,6 +30,8 @@ async function createWindow() {
     title: '',
     width: 1280,
     height: 720,
+    // transparent: true,
+    // backgroundColor: '#00000000',
     webPreferences: {
       preload: join(__dirname, '../preload/index.cjs'),
       nodeIntegration: true,
