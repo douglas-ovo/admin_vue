@@ -1,7 +1,7 @@
 <template>
     <div class="login">
         <div class="left">
-            <h1>xx系统</h1>
+            <h1>知识产权从业人员信息化管理系统</h1>
         </div>
         <div class="right">
             <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="80px" class="demo-ruleForm">
@@ -44,7 +44,7 @@ const rules = reactive<FormRules>({
         {
             trigger: 'blur',
             required: true,
-            validator: (rule, value, callback) => {
+            validator: (rule: any, value: any, callback: Function) => {
                 var passwordreg = /^\w+$/
                 if (!passwordreg.test(value)) {
                     callback(
@@ -63,7 +63,7 @@ const rules = reactive<FormRules>({
         {
             trigger: 'blur',
             required: true,
-            validator: (rule, value, callback) => {
+            validator: (rule: any, value: any, callback: Function) => {
                 var passwordreg = /^\w+$/
                 if (!passwordreg.test(value)) {
                     callback(
@@ -84,7 +84,7 @@ const ruleFormRef = ref(null)
 const handleLogin = () => {
     (ruleFormRef.value as any).validate((valid: any, fields: any) => {
         if (valid) {
-            axios.post('/login.json', { ...ruleForm }).then(res => {
+            axios.post('/login.json', { ...ruleForm }).then((res: any) => {
                 ElMessage({
                     type: res.data.status === 1 ? 'success' : 'error',
                     message: res.data.message
