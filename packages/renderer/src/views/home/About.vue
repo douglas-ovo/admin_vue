@@ -1,10 +1,10 @@
 <template>
     <div class="about">
-        <h3>应用名称：xx系统</h3>
+        <h3>应用名称：知识产权从业人员信息化管理系统</h3>
         <br />
-        <h3>开发者：liutao4408@163.com</h3>
+        <h3>开 发 者：liutao4408@163.com</h3>
         <br />
-        <h3>技术栈：electron + vue3 + typescript + mock + pinia + echarts</h3>
+        <h3>技 术 栈：electron + vue3 + typescript + mock + pinia + echarts</h3>
     </div>
 </template>
 

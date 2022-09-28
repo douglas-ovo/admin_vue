@@ -1,15 +1,15 @@
 <template>
     <div class="setting">
         <h3>更改用户信息</h3>
-        <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="80px" class="demo-ruleForm">
+        <el-form ref="formRef" :model="form" :rules="rules" label-width="100px" class="demo-form">
             <el-form-item label="用户名" prop="username">
-                <el-input v-model="ruleForm.username" />
+                <el-input v-model="form.username" />
             </el-form-item>
-            <el-form-item label="密码" prop="password" style="margin-top: 30px;">
-                <el-input v-model="ruleForm.password" type="password" show-password />
+            <el-form-item label="新密码" prop="password" style="margin-top: 30px;">
+                <el-input v-model="form.password" type="password" show-password />
             </el-form-item>
-            <el-form-item label="确认密码" prop="cpassword" style="margin-top: 30px;">
-                <el-input v-model="ruleForm.cpassword" type="password" show-password />
+            <el-form-item label="确认新密码" prop="cpassword" style="margin-top: 30px;">
+                <el-input v-model="form.cpassword" type="password" show-password />
             </el-form-item>
             <el-button @click="handleLogin" type="primary" style="margin-top: 30px;width: 420px;margin-left: 80px;">
                 确定</el-button>
@@ -30,7 +30,7 @@ import { ElMessage, FormInstance, FormRules } from 'element-plus'
 
 const router = useRouter()
 
-const ruleForm = reactive({
+const form = reactive({
     username: '',
     password: '',
     cpassword: ''
@@ -95,12 +95,12 @@ const rules = reactive<FormRules>({
     ],
 })
 
-const ruleFormRef = ref(null)
+const formRef = ref(null)
 const handleLogin = () => {
-    (ruleFormRef.value as any).validate((valid: any, fields: any) => {
+    (formRef.value as any).validate((valid: any, fields: any) => {
         if (valid) {
-            if (ruleForm.password === ruleForm.cpassword) {
-                localStorage.setItem('newuserinfo', JSON.stringify({ ...ruleForm }))
+            if (form.password === form.cpassword) {
+                localStorage.setItem('newuserinfo', JSON.stringify({ ...form }))
                 router.push({ name: 'login' })
                 ElMessage({
                     type: 'success',

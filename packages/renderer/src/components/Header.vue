@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <div class="left">
-            <h2>xx系统</h2>
+            <h2>知识产权从业人员信息化管理系统</h2>
         </div>
         <el-dropdown>
             <div class="right">

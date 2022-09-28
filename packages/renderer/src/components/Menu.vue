@@ -9,30 +9,6 @@
                 <span>概览</span>
             </el-menu-item>
 
-            <el-sub-menu index="2">
-                <template #title>
-                    <el-icon>
-                        <Avatar />
-                    </el-icon>
-                    <span>超级管理员</span>
-                </template>
-                <el-menu-item index="/role">角色管理</el-menu-item>
-                <el-menu-item index="/user">用户管理</el-menu-item>
-                <el-menu-item index="/cate">商品分类管理</el-menu-item>
-                <el-menu-item index="/goods">商品管理</el-menu-item>
-            </el-sub-menu>
-
-            <el-sub-menu index="3">
-                <template #title>
-                    <el-icon>
-                        <Search />
-                    </el-icon>
-                    <span>查询</span>
-                </template>
-                <el-menu-item index="/catequery">商品分类查询</el-menu-item>
-                <el-menu-item index="/goodsquery">商品查询</el-menu-item>
-            </el-sub-menu>
-
             <el-menu-item index="/setting">
                 <el-icon>
                     <Setting />
