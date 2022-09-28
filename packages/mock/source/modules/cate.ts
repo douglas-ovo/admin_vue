@@ -5,37 +5,25 @@ interface IPubilc {
 let cate: IPubilc[] = [
     {
         id: 1,
-        name: '手机',
+        name: '医药',
         status: false,
         setTime: Random.now('week'),
     },
     {
         id: 2,
-        name: '食品',
+        name: '金融',
         status: true,
         setTime: Random.now('week'),
     },
     {
         id: 3,
-        name: '百货',
-        status: true,
-        setTime: Random.now('week'),
-    },
-    {
-        id: 4,
-        name: '男装',
-        status: true,
-        setTime: Random.now('week'),
-    },
-    {
-        id: 5,
-        name: '女装',
+        name: '新能源',
         status: true,
         setTime: Random.now('week'),
     },
     {
         id: 6,
-        name: '童装',
+        name: '食品饮料',
         status: true,
         setTime: Random.now('week'),
     },
@@ -60,40 +48,28 @@ const pageCate = (page: any, pageSize: any) => {
 let goods: IPubilc[] = [
     {
         id: Mock.mock('@id()'),
-        name: 'iPhone14',
+        name: '小于等于60',
         setTime: Random.now('week'),
         cate: 1
     },
     {
         id: Mock.mock('@id()'),
-        name: '小米粥',
+        name: '大于60小于80',
         setTime: Random.now('week'),
         cate: 2
     },
     {
         id: Mock.mock('@id()'),
-        name: '公牛插座',
+        name: '大于80小于90',
         setTime: Random.now('week'),
         cate: 3
     },
     {
         id: Mock.mock('@id()'),
-        name: '短裤男夏季潮流',
+        name: '大于等于90',
         setTime: Random.now('week'),
         cate: 4
-    },
-    {
-        id: Mock.mock('@id()'),
-        name: '碎花裙女夏季潮流',
-        setTime: Random.now('week'),
-        cate: 5
-    },
-    {
-        id: Mock.mock('@id()'),
-        name: '儿童速干衣',
-        setTime: Random.now('week'),
-        cate: 6
-    },
+    }
 ]
 const pageGoods = (page: any, pageSize: any) => {
     let proportion = pageSize;
@@ -285,7 +261,7 @@ export default [
             return {
                 chart1: {
                     title: {
-                        text: '商品销量',
+                        text: '人员评估',
                         left: 'center',
                     },
                     tooltip: {},
@@ -295,7 +271,7 @@ export default [
                     yAxis: {},
                     series: [
                         {
-                            name: '销量',
+                            name: '人数',
                             type: 'bar',
                             colorBy: 'data',
                             data: goods.map(() => Mock.mock({
@@ -306,7 +282,7 @@ export default [
                 },
                 chart2: {
                     title: {
-                        text: '分类销量',
+                        text: '案例分布',
                         left: 'center',
                     },
                     tooltip: {

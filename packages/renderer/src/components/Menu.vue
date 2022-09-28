@@ -4,16 +4,58 @@
             class="menu-inner el-menu-vertical-demo" default-active="1" text-color="#fff" router>
             <el-menu-item index="/charts">
                 <el-icon>
-                    <TrendCharts />
+                    <PieChart />
                 </el-icon>
                 <span>概览</span>
+            </el-menu-item>
+
+            <el-menu-item index="/info">
+                <el-icon>
+                    <User />
+                </el-icon>
+                <span>基本信息</span>
+            </el-menu-item>
+
+            <el-menu-item index="/evaluate">
+                <el-icon>
+                    <Star />
+                </el-icon>
+                <span>资格评估</span>
+            </el-menu-item>
+
+            <el-menu-item index="/record">
+                <el-icon>
+                    <Printer />
+                </el-icon>
+                <span>工作经历</span>
+            </el-menu-item>
+
+            <el-menu-item index="/case">
+                <el-icon>
+                    <Edit />
+                </el-icon>
+                <span>经典案例</span>
+            </el-menu-item>
+
+            <el-menu-item index="/train">
+                <el-icon>
+                    <School />
+                </el-icon>
+                <span>继续教育</span>
+            </el-menu-item>
+
+            <el-menu-item index="/communic">
+                <el-icon>
+                    <Message />
+                </el-icon>
+                <span>在线互动沟通</span>
             </el-menu-item>
 
             <el-menu-item index="/setting">
                 <el-icon>
                     <Setting />
                 </el-icon>
-                <span>个人设置</span>
+                <span>管理员设置</span>
             </el-menu-item>
 
             <el-menu-item index="/about">
@@ -38,9 +80,13 @@ import { useRouter } from "vue-router";
 import {
     Setting,
     QuestionFilled,
-    TrendCharts,
-    Avatar,
-    Search
+    PieChart,
+    User,
+    Star,
+    Printer,
+    Edit,
+    School,
+    Message
 } from '@element-plus/icons-vue'
 </script>
 

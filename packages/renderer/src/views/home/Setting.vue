@@ -1,6 +1,6 @@
 <template>
     <div class="setting">
-        <h3>更改用户信息</h3>
+        <h3>更改管理员信息</h3>
         <el-form ref="formRef" :model="form" :rules="rules" label-width="100px" class="demo-form">
             <el-form-item label="用户名" prop="username">
                 <el-input v-model="form.username" />
