@@ -50,13 +50,21 @@ import { ArrowRight } from '@element-plus/icons-vue'
 
 const chatRef = ref<Element | null>(null)
 const inputMsg = ref('')
+interface Imsg {
+    content: string,
+    from: number
+}
+
 const send = () => {
     if (inputMsg.value.trim() !== '') {
-        chatMsg.value.push({
+        let msg: Imsg = {
             content: inputMsg.value,
             from: 1
-        })
+        }
+        chatMsg.value.push(msg)
+
         inputMsg.value = ''
+
         if (chatRef.value) {
             nextTick(() => {
                 if (chatRef.value)
@@ -67,18 +75,13 @@ const send = () => {
 }
 
 const chat = ref(false)
-const chatMsg = ref(
-    [
-        { content: '你好啊', from: 0 },
-        { content: 'hello', from: 1 },
-        { content: '在吗', from: 0 },
-    ]
-)
+const chatMsg = ref<Imsg[]>([])
 const title = ref('')
 
 const communicate = (item: any) => {
     chat.value = true
     title.value = item.name
+    chatMsg.value = item.msg
     nextTick(() => {
         if (chatRef.value)
             chatRef.value.scrollTop = chatRef.value.clientHeight
@@ -97,24 +100,44 @@ const status = (item: any) => {
     return sta
 }
 
-const comList = ref([
+interface Icom {
+    id: number,
+    name: string,
+    avatar: string,
+    status: number,
+    msg: Imsg[]
+}
+
+const comList = ref<Icom[]>([
     {
         id: 0,
         name: '科创知识产权',
         avatar: 'https://img0.baidu.com/it/u=2264664417,2109988758&fm=253&fmt=auto&app=138&f=PNG?w=265&h=265',
-        status: 1
+        status: 1,
+        msg: [
+            { content: '你好啊', from: 0 },
+            { content: 'hello', from: 1 },
+            { content: '在吗', from: 0 }
+        ]
     },
     {
         id: 1,
         name: '智慧芽知识产权',
         avatar: 'https://img2.baidu.com/it/u=2893147358,3393430132&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
-        status: 0
+        status: 0,
+        msg: [
+            { content: '吃饭了吗', from: 1 },
+            { content: '有事？', from: 0 },
+        ]
     },
     {
         id: 2,
         name: '智享知识产权',
         avatar: 'https://img2.baidu.com/it/u=1338017924,2404379381&fm=253&fmt=auto&app=138&f=JPEG?w=450&h=450',
-        status: 2
+        status: 2,
+        msg: [
+            { content: '有空吗', from: 0 },
+        ]
     }
 ])
 </script>
@@ -206,6 +229,12 @@ const comList = ref([
             padding: 0 30px;
             background: skyblue;
             border-radius: 25px;
+        }
+
+        .ta {
+            .msg {
+                background: pink;
+            }
         }
 
         .ta {

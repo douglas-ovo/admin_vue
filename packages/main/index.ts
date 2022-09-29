@@ -39,11 +39,11 @@ async function createWindow() {
     },
   })
 
-  win.webContents.openDevTools()
+  // win.webContents.openDevTools()
 
-  globalShortcut.register('CommandOrControl+q', function () {
-    win?.webContents.openDevTools()
-  })
+  // globalShortcut.register('CommandOrControl+q', function () {
+  //   win?.webContents.openDevTools()
+  // })
 
   win.setMenu(null)
 
