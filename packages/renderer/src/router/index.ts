@@ -11,7 +11,7 @@ const Evaluate = () => import('@/views/home/Evaluate.vue')
 const Record = () => import('@/views/home/Record.vue')
 const Case = () => import('@/views/home/Case.vue')
 const Train = () => import('@/views/home/Train.vue')
-const Communic = () => import('@/views/home/Communic.vue')
+const Chat = () => import('@/views/home/Chat.vue')
 
 const router = createRouter({
     history: createWebHistory(),
@@ -60,9 +60,9 @@ const router = createRouter({
                     component: Train
                 },
                 {
-                    path: 'communic',
-                    name: 'communic',
-                    component: Communic
+                    path: 'chat',
+                    name: 'chat',
+                    component: Chat
                 }
             ]
         },

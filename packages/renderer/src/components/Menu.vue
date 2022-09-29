@@ -44,7 +44,7 @@
                 <span>继续教育</span>
             </el-menu-item>
 
-            <el-menu-item index="/communic">
+            <el-menu-item index="/chat">
                 <el-icon>
                     <Message />
                 </el-icon>

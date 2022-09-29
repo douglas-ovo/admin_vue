@@ -1,5 +1,5 @@
 <template>
-    <div class="communic">
+    <div class="chat">
         <el-breadcrumb :separator-icon="ArrowRight">
             <el-breadcrumb-item :to="{ path: '/' }">主页</el-breadcrumb-item>
             <el-breadcrumb-item>在线互动沟通</el-breadcrumb-item>
