@@ -14,6 +14,27 @@
                 </p>
             </div>
         </div>
+
+        <el-dialog v-model="chat" :title="title" width="40%">
+            <div class="chat-box" ref="chatRef">
+                <div class="chat-item" v-for="(item,index) in chatMsg" :key="index">
+                    <div class="ta" v-if="item.from===0">
+                        <div class="avatar">TA</div>
+                        <div class="msg">{{item.content}}</div>
+                    </div>
+
+                    <div class="wo" v-else>
+                        <div class="msg">{{item.content}}</div>
+                        <div class="avatar">我</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input">
+                <el-input v-model="inputMsg" type="textarea" resize="none" @keydown.prevent.enter="send" />
+                <el-button class="btn" type="primary" @click="send" style="width: 100px;">发送</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -24,11 +45,44 @@ export default {
 }
 </script>
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, nextTick } from 'vue'
 import { ArrowRight } from '@element-plus/icons-vue'
 
-const communicate = (item: any) => {
+const chatRef = ref<Element | null>(null)
+const inputMsg = ref('')
+const send = () => {
+    if (inputMsg.value.trim() !== '') {
+        chatMsg.value.push({
+            content: inputMsg.value,
+            from: 1
+        })
+        inputMsg.value = ''
+        if (chatRef.value) {
+            nextTick(() => {
+                if (chatRef.value)
+                    chatRef.value.scrollTop = chatRef.value.clientHeight
+            })
+        }
+    }
+}
 
+const chat = ref(false)
+const chatMsg = ref(
+    [
+        { content: '你好啊', from: 0 },
+        { content: 'hello', from: 1 },
+        { content: '在吗', from: 0 },
+    ]
+)
+const title = ref('')
+
+const communicate = (item: any) => {
+    chat.value = true
+    title.value = item.name
+    nextTick(() => {
+        if (chatRef.value)
+            chatRef.value.scrollTop = chatRef.value.clientHeight
+    })
 }
 
 const status = (item: any) => {
@@ -123,5 +177,70 @@ const comList = ref([
             }
         }
     }
+}
+
+.chat-box {
+    max-height: 300px;
+    overflow-y: auto;
+    background: #f0f0f0;
+    padding: 10px;
+
+    .chat-item {
+        margin-bottom: 10px;
+
+        .avatar {
+            width: 50px;
+            font-size: 30px;
+            height: 50px;
+            color: #fff;
+            font-weight: bold;
+            line-height: 50px;
+            text-align: center;
+            border-radius: 50%;
+        }
+
+        .msg {
+            min-height: 50px;
+            line-height: 50px;
+            margin: 0 10px;
+            padding: 0 30px;
+            background: skyblue;
+            border-radius: 25px;
+        }
+
+        .ta {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            .avatar {
+                background: #bb377d;
+            }
+        }
+
+        .wo {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+
+            .avatar {
+                background: indigo;
+            }
+        }
+    }
+}
+
+.chat-input {
+    display: flex;
+    flex-direction: column;
+
+    .btn {
+        align-self: flex-end;
+    }
+}
+
+/deep/.el-overlay .el-overlay-dialog .el-dialog .el-dialog__body {
+    padding: 0;
+    padding-bottom: 10px;
 }
 </style>

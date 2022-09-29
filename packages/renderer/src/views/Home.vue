@@ -29,6 +29,8 @@ import Menu from '@/components/Menu.vue';
 }
 
 .main {
+    height: 100%;
+    overflow: hidden;
     flex: 1;
     display: flex;
 }
