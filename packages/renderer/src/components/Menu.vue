@@ -16,18 +16,18 @@
                 <span>基本信息</span>
             </el-menu-item>
 
-            <el-menu-item index="/evaluate">
-                <el-icon>
-                    <Star />
-                </el-icon>
-                <span>资格评估</span>
-            </el-menu-item>
-
             <el-menu-item index="/record">
                 <el-icon>
                     <Printer />
                 </el-icon>
-                <span>工作经历</span>
+                <span>工作履历</span>
+            </el-menu-item>
+
+            <el-menu-item index="/train">
+                <el-icon>
+                    <School />
+                </el-icon>
+                <span>继续教育</span>
             </el-menu-item>
 
             <el-menu-item index="/case">
@@ -37,11 +37,11 @@
                 <span>经典案例</span>
             </el-menu-item>
 
-            <el-menu-item index="/train">
+            <el-menu-item index="/query">
                 <el-icon>
-                    <School />
+                    <Search />
                 </el-icon>
-                <span>继续教育</span>
+                <span>信息检索</span>
             </el-menu-item>
 
             <el-menu-item index="/chat">
@@ -82,7 +82,7 @@ import {
     QuestionFilled,
     PieChart,
     User,
-    Star,
+    Search,
     Printer,
     Edit,
     School,

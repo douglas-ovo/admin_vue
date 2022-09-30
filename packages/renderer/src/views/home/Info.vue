@@ -6,29 +6,57 @@
         </el-breadcrumb>
 
         <div class="form-wrap">
-            <el-form :model="form" ref="formRef" label-width="120px" :rules="rules">
-                <el-form-item label="姓名" prop="name">
-                    <el-input v-model="form.name" placeholder="请填写人员姓名" />
-                </el-form-item>
+            <el-form :model="form" ref="formRef" label-width="100px" :rules="rules">
+                <div class="form">
+                    <div class="company">
+                        <div class="title">企业信息</div>
+                        <el-form-item label="单位名称" prop="unit">
+                            <el-input v-model="form.unit" placeholder="请填写单位名称" />
+                        </el-form-item>
 
-                <el-form-item label="学历" prop="educational" style="width:100%">
-                    <el-select v-model="form.educational" placeholder="请选择人员学历">
-                        <el-option v-for="(item,index) in educational" :label="item.message" :value="item.value" />
-                    </el-select>
-                </el-form-item>
+                        <el-form-item label="单位地址" prop="address">
+                            <el-input v-model="form.address" placeholder="请填写单位地址" />
+                        </el-form-item>
 
-                <el-form-item label="专业" prop="major">
-                    <el-input v-model="form.major" placeholder="请填写人员专业" />
-                </el-form-item>
+                        <el-form-item label="联系人" prop="linkman">
+                            <el-input v-model="form.linkman" placeholder="请填写联系人" />
+                        </el-form-item>
 
-                <el-form-item label="工作单位" prop="unit">
-                    <el-input v-model="form.unit" placeholder="请填写人员工作单位" />
-                </el-form-item>
+                        <el-form-item label="联系电话" prop="phone">
+                            <el-input v-model="form.phone" placeholder="请填写联系电话" />
+                        </el-form-item>
+                    </div>
 
-                <el-form-item label="备注" prop="remark">
-                    <el-input v-model="form.remark" type="textarea" :rows="3" />
-                </el-form-item>
+                    <div class="personal">
+                        <div class="title">个人信息</div>
+                        <el-form-item label="姓名" prop="name">
+                            <el-input v-model="form.name" placeholder="请填写人员姓名" />
+                        </el-form-item>
 
+                        <el-form-item label="性别" prop="gender">
+                            <el-radio-group v-model="form.gender" placeholder="请选择人员性别">
+                                <el-radio label="男" />
+                                <el-radio label="女" />
+                            </el-radio-group>
+                        </el-form-item>
+
+                        <el-form-item label="学历" prop="educational" style="width:100%">
+                            <el-select v-model="form.educational" placeholder="请选择人员学历">
+                                <el-option v-for="(item,index) in educational" :label="item.message"
+                                    :value="item.value" />
+                            </el-select>
+                        </el-form-item>
+
+                        <el-form-item label="专业" prop="major">
+                            <el-input v-model="form.major" placeholder="请填写人员专业" />
+                        </el-form-item>
+
+                        <el-form-item label="备注" prop="remark">
+                            <el-input v-model="form.remark" type="textarea" />
+                        </el-form-item>
+                    </div>
+                </div>
+                
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit" style="width:200px">提交</el-button>
                     <el-button @click="onReset" style="width:200px">重置</el-button>
@@ -54,7 +82,11 @@ const defaultForm = {
     educational: '',
     major: '',
     unit: '',
-    remark: ''
+    remark: '',
+    address: '',
+    linkman: '',
+    phone: '',
+    gender: ""
 }
 
 const form = ref({
@@ -62,7 +94,11 @@ const form = ref({
     educational: '',
     major: '',
     unit: '',
-    remark: ''
+    remark: '',
+    address: '',
+    linkman: '',
+    phone: '',
+    gender: ""
 })
 
 const formRef = ref(null)
@@ -101,7 +137,11 @@ const rules = reactive<FormRules>({
     name: [{ required: true, message: '请填写人员姓名', trigger: 'blur' }],
     educational: [{ required: true, message: '请填写人员姓名', trigger: 'change' }],
     major: [{ required: true, message: '请填写人员姓名', trigger: 'blur' }],
-    unit: [{ required: true, message: '请填写人员姓名', trigger: 'blur' }]
+    unit: [{ required: true, message: '请填写单位名称', trigger: 'blur' }],
+    address: [{ required: true, message: '请填写单位地址', trigger: 'blur' }],
+    linkman: [{ required: true, message: '请填写联系人', trigger: 'blur' }],
+    phone: [{ required: true, message: '请填写联系电话', trigger: 'blur' }],
+    gender: [{ required: true, message: '请选择人员性别', trigger: 'change' }],
 })
 </script>
 
@@ -109,6 +149,8 @@ const rules = reactive<FormRules>({
 <style lang="less" scoped>
 .info {
     width: 100%;
+    height: 100%;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
 
@@ -118,7 +160,24 @@ const rules = reactive<FormRules>({
         justify-content: space-around;
 
         .el-form {
-            width: 650px;
+            box-shadow: 2px 2px 10px #06C;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            width: 750px;
+
+            .form {
+                display: flex;
+
+                .title {
+                    text-align: center;
+                    font-weight: bold;
+                }
+
+                >div {
+                    flex: 1;
+                }
+            }
 
             .el-form-item {
                 margin-top: 30px;

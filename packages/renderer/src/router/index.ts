@@ -7,7 +7,7 @@ const Charts = () => import('@/views/home/Charts.vue')
 const About = () => import('@/views/home/About.vue')
 const Setting = () => import('@/views/home/Setting.vue')
 const Info = () => import('@/views/home/Info.vue')
-const Evaluate = () => import('@/views/home/Evaluate.vue')
+const Query = () => import('@/views/home/Query.vue')
 const Record = () => import('@/views/home/Record.vue')
 const Case = () => import('@/views/home/Case.vue')
 const Train = () => import('@/views/home/Train.vue')
@@ -40,9 +40,9 @@ const router = createRouter({
                     component: Info
                 },
                 {
-                    path: 'evaluate',
-                    name: 'evaluate',
-                    component: Evaluate
+                    path: 'query',
+                    name: 'query',
+                    component: Query
                 },
                 {
                     path: 'record',

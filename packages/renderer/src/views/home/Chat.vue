@@ -126,7 +126,7 @@ const comList = ref<Icom[]>([
         avatar: 'https://img2.baidu.com/it/u=2893147358,3393430132&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
         status: 0,
         msg: [
-            { content: '吃饭了吗', from: 1 },
+            { content: '在忙吗', from: 1 },
             { content: '有事？', from: 0 },
         ]
     },

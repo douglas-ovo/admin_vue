@@ -2,11 +2,12 @@
     <div class="record">
         <el-breadcrumb :separator-icon="ArrowRight">
             <el-breadcrumb-item :to="{ path: '/' }">主页</el-breadcrumb-item>
-            <el-breadcrumb-item>工作经历</el-breadcrumb-item>
+            <el-breadcrumb-item>工作履历</el-breadcrumb-item>
         </el-breadcrumb>
 
         <div class="form-wrap">
-            <el-form ref="formRef" :model="form" label-width="120px">
+            <el-form ref="formRef" :model="form" label-width="100px">
+
                 <div class="record-item" v-for="(item, index) in form.record" :key="item.key">
                     <div class="box">
                         <div class="title">
@@ -40,14 +41,12 @@
                             <el-input v-model="item.position" placeholder="请填写职位名称" />
                         </el-form-item>
                     </div>
-
-
                 </div>
 
                 <el-form-item>
                     <el-button type="primary" @click="submit" style="width: 100px;">提交</el-button>
-                    <el-button @click="add" type="success" style="width: 100px;">添加经历</el-button>
                     <el-button @click="reset" style="width: 100px;">重置</el-button>
+                    <el-button @click="add" type="success" style="width: 100px;">添加经历</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -121,6 +120,8 @@ const reset = () => {
         width: 100%;
         display: flex;
         justify-content: space-around;
+        // flex: 1;
+        // overflow-y: scroll;
 
         .el-form {
             width: 650px;
@@ -130,16 +131,33 @@ const reset = () => {
             }
 
             .record-item {
+                box-shadow: 2px 2px 10px #06C;
+                border: 1px solid #ccc;
+                padding-right: 20px;
+                border-radius: 10px;
+                margin-bottom: 20px;
                 display: flex;
 
                 .title {
+                    font-weight: bold;
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
+                    padding-left: 120px;
+                    position: relative;
+                    padding-top: 10px;
+
+                    .mt-2 {
+                        position: absolute;
+                        right: -20px;
+                        top: 0;
+                        border-radius: 10px;
+                    }
                 }
 
                 .box {
                     width: 100%;
+
                 }
             }
         }

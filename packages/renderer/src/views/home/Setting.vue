@@ -1,19 +1,22 @@
 <template>
     <div class="setting">
-        <h3>更改管理员信息</h3>
-        <el-form ref="formRef" :model="form" :rules="rules" label-width="100px" class="demo-form">
-            <el-form-item label="用户名" prop="username">
-                <el-input v-model="form.username" />
-            </el-form-item>
-            <el-form-item label="新密码" prop="password" style="margin-top: 30px;">
-                <el-input v-model="form.password" type="password" show-password />
-            </el-form-item>
-            <el-form-item label="确认新密码" prop="cpassword" style="margin-top: 30px;">
-                <el-input v-model="form.cpassword" type="password" show-password />
-            </el-form-item>
-            <el-button @click="handleLogin" type="primary" style="margin-top: 30px;width: 420px;margin-left: 80px;">
-                确定</el-button>
-        </el-form>
+        <div class="form-wrap">
+            <h3>更改管理员信息</h3>
+            <el-form ref="formRef" :model="form" :rules="rules" label-width="100px" class="demo-form">
+                <el-form-item label="用户名" prop="username">
+                    <el-input v-model="form.username" />
+                </el-form-item>
+                <el-form-item label="新密码" prop="password" style="margin-top: 30px;">
+                    <el-input v-model="form.password" type="password" show-password />
+                </el-form-item>
+                <el-form-item label="确认新密码" prop="cpassword" style="margin-top: 30px;">
+                    <el-input v-model="form.cpassword" type="password" show-password />
+                </el-form-item>
+                <el-button @click="handleLogin" type="primary"
+                    style="margin-top: 20px;width: 400px;margin-left: 100px;">
+                    确定</el-button>
+            </el-form>
+        </div>
     </div>
 </template>
 
@@ -126,8 +129,17 @@ const handleLogin = () => {
     flex-direction: column;
     align-items: center;
 
+    .form-wrap {
+        box-shadow: 2px 2px 10px #06C;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 50px;
+    }
+
     h3 {
         margin: 50px 0 30px 50px;
+        margin-top: 0;
     }
 }
 </style>
