@@ -5,10 +5,37 @@
             <el-breadcrumb-item>在线互动沟通</el-breadcrumb-item>
         </el-breadcrumb>
 
+        <div class="search">
+            <el-form :model="form" ref="formRef" label-width="80px">
+                <el-form-item label="关键词">
+                    <el-input v-model="form.name" style="width: 200px;" />
+                </el-form-item>
+
+                <el-form-item label="工作年限">
+                    <el-input-number v-model="form.years" :min="1" :max="30" />
+                </el-form-item>
+
+                <el-form-item label="业务类型" prop="type">
+                    <el-select v-model="form.type" placeholder="请选择所属业务类型" style="width:100%">
+                        <el-option v-for="(item,index) in type" :label="item.message" :value="item.value" />
+                    </el-select>
+                </el-form-item>
+
+                <div class="btn">
+                    <el-button type="primary" @click="onSubmit">查询</el-button>
+                    <el-button @click="onReset">重置</el-button>
+                </div>
+            </el-form>
+        </div>
+
         <div class="com-list">
             <div class="user" v-for="item in comList" :key="item.id" @click="communicate(item)">
                 <img :src="item.avatar" alt="">
-                <span>{{item.name}}</span>
+                <div class="info">
+                    <div>{{item.name}}</div>
+                    <div>工作年限：<span>{{item.years}}年</span></div>
+                    <div>个人简介：<span>{{item.remark}}</span></div>
+                </div>
                 <p :class="['tag',`tag${item.status}`]">
                     {{status(item)}}
                 </p>
@@ -53,6 +80,27 @@ const inputMsg = ref('')
 interface Imsg {
     content: string,
     from: number
+}
+
+const form = ref({
+    name: '',
+    type: '',
+    years: 2
+})
+
+const type = ref([
+    { value: 0, message: '专利' },
+    { value: 1, message: '商标' },
+    { value: 2, message: '版权' },
+])
+
+const onSubmit = () => { }
+const onReset = () => {
+    form.value = {
+        name: '',
+        type: '',
+        years: 2
+    }
 }
 
 const send = () => {
@@ -105,15 +153,19 @@ interface Icom {
     name: string,
     avatar: string,
     status: number,
-    msg: Imsg[]
+    msg: Imsg[],
+    years: number,
+    remark: string
 }
 
 const comList = ref<Icom[]>([
     {
         id: 0,
-        name: '科创知识产权',
+        name: '张三三',
         avatar: 'https://img0.baidu.com/it/u=2264664417,2109988758&fm=253&fmt=auto&app=138&f=PNG?w=265&h=265',
         status: 1,
+        years: 5,
+        remark: '聊聊？',
         msg: [
             { content: '你好啊', from: 0 },
             { content: 'hello', from: 1 },
@@ -122,9 +174,11 @@ const comList = ref<Icom[]>([
     },
     {
         id: 1,
-        name: '智慧芽知识产权',
+        name: '李思思',
         avatar: 'https://img2.baidu.com/it/u=2893147358,3393430132&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
         status: 0,
+        years: 10,
+        remark: '从业十年',
         msg: [
             { content: '在忙吗', from: 1 },
             { content: '有事？', from: 0 },
@@ -132,7 +186,9 @@ const comList = ref<Icom[]>([
     },
     {
         id: 2,
-        name: '智享知识产权',
+        name: '张三疯',
+        years: 3,
+        remark: '欢迎来访',
         avatar: 'https://img2.baidu.com/it/u=1338017924,2404379381&fm=253&fmt=auto&app=138&f=JPEG?w=450&h=450',
         status: 2,
         msg: [
@@ -144,7 +200,21 @@ const comList = ref<Icom[]>([
 
 
 <style lang="less" scoped>
+.chat {
+    width: 100%
+}
+
+.search {
+    padding: 0 50px;
+
+    .el-form {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
 .com-list {
+    margin-top: 50px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -154,12 +224,12 @@ const comList = ref<Icom[]>([
         display: flex;
         align-items: center;
         height: 100px;
-        width: 450px;
+        width: 250px;
         background: #f0f0f0;
         border-radius: 10px;
         margin-left: 50px;
         margin-bottom: 50px;
-        padding: 30px;
+        padding: 10px;
         cursor: pointer;
         transition: all 0.2s;
 
@@ -171,12 +241,23 @@ const comList = ref<Icom[]>([
             height: 70px;
             width: 70px;
             border-radius: 50%;
+            margin-right: 10px;
         }
 
-        span {
-            margin-left: 30px;
-            font-size: 20px;
-            font-weight: bold;
+        .info {
+            font-size: 15px;
+
+            div:nth-child(1) {
+                font-weight: bold;
+            }
+
+            div:not(:nth-child(1)) {
+                color: gray;
+            }
+
+            span {
+                font-weight: bold;
+            }
         }
 
         .tag {

@@ -1,19 +1,26 @@
 <template>
     <div class="login">
-        <div class="left">
-            <h1>知识产权从业人员信息化管理系统</h1>
+        <div class="main">
+            <div class="left">
+                <h1>知识产权从业人员信息化管理系统</h1>
+            </div>
+            <div class="right">
+                <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="80px" class="demo-ruleForm">
+                    <el-form-item label="用户名" prop="username" style="margin-top: 70px;">
+                        <el-input v-model="ruleForm.username" />
+                    </el-form-item>
+                    <el-form-item label="密码" prop="password" style="margin-top: 30px;">
+                        <el-input v-model="ruleForm.password" type="password" />
+                    </el-form-item>
+                    <el-button @click="handleLogin" type="primary"
+                        style="margin-top: 30px;width: 380px;margin-left: 80px;">
+                        登录</el-button>
+                </el-form>
+            </div>
         </div>
-        <div class="right">
-            <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" label-width="80px" class="demo-ruleForm">
-                <el-form-item label="用户名" prop="username" style="margin-top: 70px;">
-                    <el-input v-model="ruleForm.username" />
-                </el-form-item>
-                <el-form-item label="密码" prop="password" style="margin-top: 30px;">
-                    <el-input v-model="ruleForm.password" type="password" />
-                </el-form-item>
-                <el-button @click="handleLogin" type="primary" style="margin-top: 30px;width: 380px;margin-left: 80px;">
-                    登录</el-button>
-            </el-form>
+
+        <div class="footer">
+            xxx公司版权所有&copy;
         </div>
     </div>
     <Particles id="tsparticles" class="login-partic" :options="options" />
@@ -103,20 +110,31 @@ const handleLogin = () => {
 <style lang="less" scoped>
 .login {
     height: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
     background-image: url(@/assets/img/bg.png);
     background-repeat: no-repeat;
     background-size: 100% 100%;
+    overflow: hidden;
 
-    .right {
-        width: 500px;
-        height: 350px;
-        background: #fff;
-        border-radius: 10px;
-        padding-right: 40px;
-        box-shadow: 2px 2px 10px #06C;
+    .main {
+        margin-top: 150px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        .right {
+            width: 500px;
+            height: 350px;
+            background: #fff;
+            border-radius: 10px;
+            padding-right: 40px;
+            box-shadow: 2px 2px 10px #06C;
+        }
+    }
+
+    .footer {
+        margin: 0 auto;
+        margin-top: 100px;
+        text-align: center;
     }
 }
 </style>

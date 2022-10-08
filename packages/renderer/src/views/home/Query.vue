@@ -6,12 +6,16 @@
         </el-breadcrumb>
 
         <div class="search">
-            <el-form :model="form" ref="formRef" label-width="100px">
+            <el-form :model="form" ref="formRef" label-width="80px">
                 <el-form-item label="关键词">
                     <el-input v-model="form.name" style="width: 200px;" />
                 </el-form-item>
 
-                <el-form-item label="所属业务类型" prop="type">
+                <el-form-item label="工作年限">
+                    <el-input-number v-model="form.years" :min="1" :max="30" />
+                </el-form-item>
+
+                <el-form-item label="业务类型" prop="type">
                     <el-select v-model="form.type" placeholder="请选择所属业务类型" style="width:100%">
                         <el-option v-for="(item,index) in type" :label="item.message" :value="item.value" />
                     </el-select>
@@ -26,22 +30,40 @@
 
         <div class="table">
             <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
-                <el-table-column prop="date" label="年份" width="180" />
+                <el-table-column prop="id" label="编号" />
 
-                <el-table-column prop="name" label="姓名" width="180" />
+                <el-table-column prop="name" label="姓名" />
 
-                <el-table-column prop="gender" label="性别" />
+                <el-table-column prop="gender" label="性别">
+                    <template #default="{ row, column, $index }">
+                        <span>
+                            {{row.gender===1?'男':'女'}}
+                        </span>
+                    </template>
+                </el-table-column>
 
-                <el-table-column prop="case" label="经典案例" />
+                <el-table-column prop="educational" label="学历">
+                    <template #default="{ row, column, $index }">
+                        <span>
+                            {{row.educational===0?'初中及以下':row.educational===1?'高中':row.educational===2?'统招专科':row.educational===3?'统招本科':row.educational===4?'硕士及以上':"其他"}}
+                        </span>
+                    </template>
+                </el-table-column>
 
-                <el-table-column prop="type" label="业务类型" />
+                <el-table-column prop="unit" label="单位名称" />
 
                 <el-table-column prop="phone" label="联系电话" />
+
+                <el-table-column label="操作">
+                    <template #default="{ row, column, $index }">
+                        <el-button link type="primary" size="small" @click="check(row)">查看详情</el-button>
+                    </template>
+                </el-table-column>
             </el-table>
 
             <el-pagination v-model:currentPage="currentPage" v-model:page-size="pageSize" :page-sizes="[10, 20, 30, 40]"
-                background layout="total, sizes, prev, pager, next, jumper" :total="100" @size-change="handleSizeChange"
-                @current-change="handleCurrentChange" />
+                background layout="total, sizes, prev, pager, next, jumper" :total="tableData.length"
+                @size-change="handleSizeChange" @current-change="handleCurrentChange" />
         </div>
     </div>
 </template>
@@ -55,15 +77,19 @@ export default {
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { ArrowRight } from '@element-plus/icons-vue'
+import axios from '../../http'
 
 const currentPage = ref(1)
 const pageSize = ref(10)
 const handleSizeChange = () => { }
 const handleCurrentChange = () => { }
 
+const check = (row: any) => { }
+
 const form = ref({
     name: '',
-    type: ''
+    type: '',
+    years: 2
 })
 
 const type = ref([
@@ -76,92 +102,22 @@ const onSubmit = () => { }
 const onReset = () => {
     form.value = {
         name: '',
-        type: ''
+        type: '',
+        years: 2
     }
 }
 
-interface User {
-    date: string
-    name: string
-    gender: string,
-    case: string,
-    phone: number,
-    type: string
-}
-
-const tableData: User[] = [
-    {
-        date: '2022',
-        name: '张三',
-        gender: '男',
-        case: '新能源汽车',
-        phone: 10010,
-        type: '版权'
-    },
-    {
-        date: '2022',
-        name: '张三',
-        gender: '男',
-        case: '新能源汽车',
-        phone: 10010,
-        type: '版权'
-    },
-    {
-        date: '2022',
-        name: '张三',
-        gender: '男',
-        case: '新能源汽车',
-        phone: 10010,
-        type: '版权'
-    },
-    {
-        date: '2022',
-        name: '张三',
-        gender: '男',
-        case: '新能源汽车',
-        phone: 10010,
-        type: '版权'
-    },
-    {
-        date: '2022',
-        name: '张三',
-        gender: '男',
-        case: '新能源汽车',
-        phone: 10010,
-        type: '版权'
-    },
-    {
-        date: '2022',
-        name: '张三',
-        gender: '男',
-        case: '新能源汽车',
-        phone: 10010,
-        type: '版权'
-    },
-    {
-        date: '2022',
-        name: '张三',
-        gender: '男',
-        case: '新能源汽车',
-        phone: 10010,
-        type: '版权'
-    },
-    {
-        date: '2022',
-        name: '张三',
-        gender: '男',
-        case: '新能源汽车',
-        phone: 10010,
-        type: '版权'
-    }
-]
+const tableData = ref([])
+axios.get('/getinfo.json', { params: {} }).then(res => {
+    tableData.value = res.data
+})
 
 const tableRowClassName = ({
     row,
     rowIndex,
 }: {
-    row: User
-    rowIndex: number
+    row: any
+    rowIndex: any
 }) => {
     if (rowIndex === 1) {
         return 'warning-row'
@@ -177,14 +133,6 @@ const tableRowClassName = ({
 .query {
     width: 100%;
 
-    :deep(.el-table .warning-row) {
-        --el-table-tr-bg-color: var(--el-color-warning-light-9);
-    }
-
-    :deep(.el-table .success-row) {
-        --el-table-tr-bg-color: var(--el-color-success-light-9);
-    }
-
     .search {
         padding: 0 50px;
 
@@ -198,9 +146,10 @@ const tableRowClassName = ({
         display: flex;
         flex-direction: column;
         padding: 0 50px;
+        margin-top: 30px;
 
         .el-table {
-            max-height: 360px;
+            height: 360px;
             overflow-y: auto;
         }
 

@@ -63,6 +63,11 @@ export default {
 import { ref, reactive } from 'vue'
 import { ArrowRight, Delete } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
+import axios from '../../http'
+
+axios.get('/getrecord.json', { params: {} }).then(res => {
+    console.log(res);
+})
 
 const defaultForm = {
     record: [{ time: '', company: '', position: '', key: Date.now() }]

@@ -19,6 +19,24 @@ li {
 .el-select-dropdown__item {
     padding: 0 30px;
 }
+
 .el-breadcrumb {
     padding: 30px 50px;
+}
+
+:deep(.el-table .warning-row) {
+    --el-table-tr-bg-color: var(--el-color-warning-light-9);
+}
+
+:deep(.el-table .success-row) {
+    --el-table-tr-bg-color: var(--el-color-success-light-9);
+}
+
+:deep(.el-dialog) {
+    box-shadow: 2px 2px 10px #06C;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    .el-dialog__body {
+        padding: 0;
+    }
 }
