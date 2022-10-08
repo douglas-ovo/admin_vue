@@ -17,7 +17,7 @@
 
                 <el-table-column prop="userid" label="对应用户" width="80px">
                     <template #default="{ row, column, $index }">
-                        <span>
+                        <span v-if="userData.find((item:any)=>item.id===row.userid)">
                             {{(userData.find((item:any)=>item.id===row.userid) as any).name}}
                         </span>
                     </template>
