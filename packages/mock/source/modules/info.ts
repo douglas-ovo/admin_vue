@@ -18,17 +18,24 @@ let info: IPubilc[] = [
         record: [
             {
                 userid: 1,
-                id: Mock.mock('@id()'),
-                time: '2020',
+                id: 1,
+                time: ['2020-10-01', '2020-11-02'],
                 company: 'xxx公司1',
                 position: 'java工程师'
+            },
+            {
+                userid: 1,
+                id: 2,
+                time: ['2020-01-01', '2020-11-02'],
+                company: 'xxx公司2',
+                position: 'java工程师2'
             }
         ],
         train: [
             {
                 userid: 1,
-                id: Mock.mock('@id()'),
-                time: '2019',
+                id: 1,
+                time: ['2020-10-01', '2020-11-02'],
                 company: '中公教育',
                 position: '基本培训',
             }
@@ -36,9 +43,9 @@ let info: IPubilc[] = [
         case: [
             {
                 userid: 1,
-                id: Mock.mock('@id()'),
+                id: 1,
                 name: '新能源汽车1',
-                year: '2020',
+                year: ['2020-10-01', '2020-11-02'],
                 type: 0,
                 intro: '新能源汽车专利',
                 error: '专利被申请',
@@ -60,8 +67,8 @@ let info: IPubilc[] = [
         record: [
             {
                 userid: 2,
-                id: Mock.mock('@id()'),
-                time: '2022',
+                id: 3,
+                time: ['2020-10-01', '2020-11-02'],
                 company: 'xxx公司2',
                 position: 'java工程师2'
             }
@@ -69,8 +76,8 @@ let info: IPubilc[] = [
         train: [
             {
                 userid: 2,
-                id: Mock.mock('@id()'),
-                time: '2019',
+                id: 2,
+                time: ['2020-10-01', '2020-11-02'],
                 company: '中公教育',
                 position: '基本培训',
             }
@@ -78,9 +85,9 @@ let info: IPubilc[] = [
         case: [
             {
                 userid: 2,
-                id: Mock.mock('@id()'),
+                id: 2,
                 name: '新能源汽车1',
-                year: '2020',
+                year: ['2020-10-01', '2020-11-02'],
                 type: 0,
                 intro: '新能源汽车专利',
                 error: '专利被申请',

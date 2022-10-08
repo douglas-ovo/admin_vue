@@ -13,11 +13,11 @@
             </div>
 
             <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
-                <el-table-column prop="id" label="编号" />
+                <el-table-column prop="id" label="编号" width="80px"/>
 
-                <el-table-column prop="name" label="姓名" />
+                <el-table-column prop="name" label="姓名" width="80px"/>
 
-                <el-table-column prop="gender" label="性别">
+                <el-table-column prop="gender" label="性别" width="80px">
                     <template #default="{ row, column, $index }">
                         <span>
                             {{row.gender===1?'男':'女'}}
@@ -37,7 +37,7 @@
 
                 <el-table-column prop="phone" label="联系电话" />
 
-                <el-table-column label="操作">
+                <el-table-column label="操作" width="120px">
                     <template #default="{ row, column, $index }">
                         <el-button link type="primary" size="small" @click="edit(row)">编辑</el-button>
                         <el-button link type="primary" size="small" @click="del(row)">删除</el-button>
@@ -137,9 +137,6 @@ const dialogshow = ref(false)
 const add = () => {
     dialogshow.value = true;
     form.value = JSON.parse(JSON.stringify(defaultForm))
-    // setTimeout(() => {
-    //     (formRef.value as any).resetFields()
-    // }, 100)
 }
 
 const edit = (row: any) => {
@@ -211,9 +208,6 @@ const onSubmit = () => {
 const onCancel = () => {
     dialogshow.value = false
     form.value = JSON.parse(JSON.stringify(defaultForm))
-    // setTimeout(() => {
-    //     (formRef.value as any).resetFields()
-    // }, 100)
 }
 
 const educational = reactive([
