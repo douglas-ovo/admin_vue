@@ -45,7 +45,7 @@ let info: IPubilc[] = [
                 userid: 1,
                 id: 1,
                 name: '新能源汽车1',
-                year: ['2020-10-01', '2020-11-02'],
+                year: '2022',
                 type: 0,
                 intro: '新能源汽车专利',
                 error: '专利被申请',
@@ -87,7 +87,7 @@ let info: IPubilc[] = [
                 userid: 2,
                 id: 2,
                 name: '新能源汽车1',
-                year: ['2020-10-01', '2020-11-02'],
+                year: '2019',
                 type: 0,
                 intro: '新能源汽车专利',
                 error: '专利被申请',
@@ -125,12 +125,30 @@ export default [
     {
         url: '/gettrain.json',
         method: 'get',
-        response() { }
+        response() {
+            let train = info.map(item => {
+                return item.train
+            })
+                .reduce((pre, cur) => {
+                    return pre.concat(cur)
+                }, [])
+
+            return train
+        }
     },
     //经典案例
     {
         url: '/getcase.json',
         method: 'get',
-        response() { }
+        response() {
+            let ca = info.map(item => {
+                return item.case
+            })
+                .reduce((pre, cur) => {
+                    return pre.concat(cur)
+                }, [])
+
+            return ca
+        }
     },
 ]

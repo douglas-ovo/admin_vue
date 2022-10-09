@@ -6,50 +6,92 @@
         </el-breadcrumb>
 
         <div class="form-wrap">
-            <el-form ref="formRef" :model="form" label-width="100px">
-                <div class="record-item" v-for="(item, index) in form.record" :key="item.key">
-                    <div class="box">
-                        <div class="title">
-                            <span>培训记录{{index+1}}</span>
-                            <el-button class="mt-2" v-if="index!==0" :icon="Delete" type="danger"
-                                @click.prevent="del(index)">删除
-                            </el-button>
-                        </div>
-                        <el-form-item :label="'培训时间'" :prop="'record.'+index+'.time'" :rules="{
-                          required: true,
-                          message: '请填写培训时间',
-                          trigger: 'blur',
-                        }">
-                            <el-date-picker v-model="item.time" type="daterange" start-placeholder="开始日期"
-                                end-placeholder="结束日期" :default-value="[new Date(2020, 9, 1), new Date(2022, 10, 1)]" />
-                        </el-form-item>
+            <div class="btn-group">
+                <el-button @click="add" type="success" style="width: 100px;">添加经历</el-button>
+                <el-button style="width: 100px;">导入</el-button>
+                <el-button style="width: 100px;">导出</el-button>
+            </div>
 
-                        <el-form-item :label="'培训机构'" :prop="'record.'+index+'.company'" :rules="{
-                          required: true,
-                          message: '请填写培训机构',
-                          trigger: 'blur',
-                        }">
-                            <el-input v-model="item.company" placeholder="请填写培训机构" />
-                        </el-form-item>
+            <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
+                <el-table-column prop="id" label="编号" width="55px" />
 
-                        <el-form-item :label="'培训内容'" :prop="'record.'+index+'.position'" :rules="{
-                          required: true,
-                          message: '请填写培训内容',
-                          trigger: 'blur',
-                        }">
-                            <el-input v-model="item.position" type="textarea" placeholder="请填写培训内容" />
-                        </el-form-item>
-                    </div>
+                <el-table-column prop="userid" label="对应用户" width="80px">
+                    <template #default="{ row, column, $index }">
+                        <span v-if="userData.find((item:any)=>item.id===row.userid)">
+                            {{(userData.find((item:any)=>item.id===row.userid) as any).name}}
+                        </span>
+                    </template>
+                </el-table-column>
 
+                <el-table-column prop="time" label="培训时间">
+                    <template #default="{ row, column, $index }">
+                        <span>
+                            {{row.time[0] +'至'+row.time[1]}}
+                        </span>
+                    </template>
+                </el-table-column>
 
-                </div>
+                <el-table-column prop="company" label="机构名称" />
 
-                <el-form-item>
-                    <el-button type="primary" @click="submit" style="width: 100px;">提交</el-button>
-                    <el-button @click="reset" style="width: 100px;">重置</el-button>
-                    <el-button @click="add" type="success" style="width: 100px;">添加经历</el-button>
-                </el-form-item>
-            </el-form>
+                <el-table-column prop="position" label="培训内容" />
+
+                <el-table-column label="操作" width="120px">
+                    <template #default="{ row, column, $index }">
+                        <el-button link type="primary" size="small" @click="edit(row)">编辑</el-button>
+                        <el-button link type="primary" size="small" @click="del(row)">删除</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+
+            <el-pagination v-model:currentPage="currentPage" v-model:page-size="pageSize" :page-sizes="[10, 20, 30, 40]"
+                background layout="total, sizes, prev, pager, next, jumper" :total="tableData.length"
+                @size-change="handleSizeChange" @current-change="handleCurrentChange" />
+
+            <el-dialog v-model="dialogshow" width="580px">
+                <el-form ref="formRef" :model="form" label-width="100px">
+                    <el-form-item :label="'对应人员'" prop="userid" :rules="{
+                      required: true,
+                      message: '请填写对应人员',
+                      trigger: 'blur',
+                    }">
+                        <el-select v-model="form.userid" placeholder="请选择对应人员">
+                            <el-option v-for="(item,index) in userData" :label="item.name" :value="item.id" />
+                        </el-select>
+                    </el-form-item>
+
+                    <el-form-item :label="'培训时间'" prop="time" :rules="{
+                      required: true,
+                      message: '请填写培训时间',
+                      trigger: 'blur',
+                    }">
+                        <el-date-picker v-model="form.time" format="YYYY/MM/DD" value-format="YYYY-MM-DD"
+                            type="daterange" start-placeholder="开始日期" end-placeholder="结束日期"
+                            :default-value="[new Date(2020, 9, 1), new Date(2022, 10, 1)]" />
+                    </el-form-item>
+
+                    <el-form-item :label="'机构名称'" prop="company" :rules="{
+                      required: true,
+                      message: '请填写机构名称',
+                      trigger: 'blur',
+                    }">
+                        <el-input v-model="form.company" placeholder="请填写机构名称" />
+                    </el-form-item>
+
+                    <el-form-item :label="'培训内容'" prop="position" :rules="{
+                      required: true,
+                      message: '请填写培训内容',
+                      trigger: 'blur',
+                    }">
+                        <el-input v-model="form.position" placeholder="请填写培训内容" />
+                    </el-form-item>
+                </el-form>
+                <template #footer>
+                    <span class="dialog-footer">
+                        <el-button type="primary" @click="onSubmit" style="width:100px">确认</el-button>
+                        <el-button @click="onCancel" style="width:100px">取消</el-button>
+                    </span>
+                </template>
+            </el-dialog>
         </div>
     </div>
 </template>
@@ -63,48 +105,100 @@ export default {
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { ArrowRight, Delete } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import axios from '../../http'
+interface IPubilc {
+    [k: string]: any
+}
 
-const defaultForm = {
-    record: [{ time: '', company: '', position: '', key: Date.now() }]
-}
-const form = ref({
-    record: [{ time: '', company: '', position: '', key: Date.now() }]
+const userData = ref<IPubilc[]>([])
+axios.get('/getinfo.json', { params: {} }).then(res => {
+    userData.value = res.data
 })
-const del = (index: number) => {
-    if (index !== 0) {
-        form.value.record.splice(index, 1)
-    }
+
+const tableData = ref([])
+axios.get('/gettrain.json', { params: {} }).then(res => {
+    tableData.value = res.data
+})
+
+const dialogshow = ref(false)
+const edit = (row: any) => {
+    dialogshow.value = true;
+    form.value = JSON.parse(JSON.stringify(row))
 }
-const add = () => {
-    form.value.record.push({
-        key: Date.now(),
-        time: '',
-        company: '',
-        position: '',
+
+const del = (row: any) => {
+    ElMessageBox.confirm(`确定删除【当前经历】吗？`, {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+    }).then(() => {
+        ElMessage({
+            type: 'success',
+            message: '删除成功',
+        })
     })
 }
-const submit = () => {
+
+const add = () => {
+    dialogshow.value = true;
+    form.value = JSON.parse(JSON.stringify(defaultForm))
+}
+
+const currentPage = ref(1)
+const pageSize = ref(10)
+const handleSizeChange = () => { }
+const handleCurrentChange = () => { }
+
+const defaultForm = {
+    userid: 1,
+    time: '',
+    company: '',
+    position: ''
+}
+const form = ref({
+    userid: 1,
+    time: '',
+    company: '',
+    position: ''
+})
+
+const formRef = ref(null)
+
+const onCancel = () => {
+    dialogshow.value = false
+    form.value = JSON.parse(JSON.stringify(defaultForm))
+}
+
+const onSubmit = () => {
     (formRef.value as any).validate((valid: any, fields: any) => {
         if (valid) {
             ElMessage({
                 type: 'success',
                 message: '提交成功'
             })
-            form.value = JSON.parse(JSON.stringify(defaultForm))
-            setTimeout(() => {
-                (formRef.value as any).resetFields()
-            }, 100)
+            console.log(form.value);
+
+            // form.value = JSON.parse(JSON.stringify(defaultForm))
+            // setTimeout(() => {
+            //     (formRef.value as any).resetFields()
+            // }, 100)
         }
     })
 }
 
-const formRef = ref(null)
-const reset = () => {
-    form.value = JSON.parse(JSON.stringify(defaultForm))
-    setTimeout(() => {
-        (formRef.value as any).resetFields()
-    }, 100)
+const tableRowClassName = ({
+    row,
+    rowIndex,
+}: {
+    row: any
+    rowIndex: any
+}) => {
+    if (rowIndex === 1) {
+        return 'warning-row'
+    } else if (rowIndex === 3) {
+        return 'success-row'
+    }
+    return ''
 }
 </script>
 
@@ -120,10 +214,26 @@ const reset = () => {
     .form-wrap {
         width: 100%;
         display: flex;
+        flex-direction: column;
         justify-content: space-around;
+        padding: 0 50px;
+
+        .btn-group {
+            margin-bottom: 20px;
+        }
+
+        .el-table {
+            height: 360px;
+            overflow-y: auto;
+        }
+
+        .el-pagination {
+            align-self: flex-end;
+            padding: 10px 0;
+        }
 
         .el-form {
-            width: 650px;
+            width: 550px;
 
             .el-form-item {
                 margin-bottom: 30px;

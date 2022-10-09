@@ -13,7 +13,7 @@
             </div>
 
             <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
-                <el-table-column prop="id" label="编号" width="80px" />
+                <el-table-column prop="id" label="编号" width="55px" />
 
                 <el-table-column prop="userid" label="对应用户" width="80px">
                     <template #default="{ row, column, $index }">
@@ -49,12 +49,12 @@
 
             <el-dialog v-model="dialogshow" width="580px">
                 <el-form ref="formRef" :model="form" label-width="100px">
-                    <el-form-item :label="'对应用户'" prop="userid" :rules="{
+                    <el-form-item :label="'对应人员'" prop="userid" :rules="{
                       required: true,
-                      message: '请填写工作时间',
+                      message: '请填写对应人员',
                       trigger: 'blur',
                     }">
-                        <el-select v-model="form.userid" placeholder="请选择人员学历">
+                        <el-select v-model="form.userid" placeholder="请选择对应人员">
                             <el-option v-for="(item,index) in userData" :label="item.name" :value="item.id" />
                         </el-select>
                     </el-form-item>
@@ -70,7 +70,6 @@
                     </el-form-item>
 
                     <!-- <el-form-item :label="'公司名称'" :prop="'record.'+index+'.company'" :rules="{ -->
-
                     <el-form-item :label="'公司名称'" prop="company" :rules="{
                       required: true,
                       message: '请填写公司名称',
