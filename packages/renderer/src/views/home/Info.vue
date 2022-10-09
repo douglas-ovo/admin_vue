@@ -13,9 +13,9 @@
             </div>
 
             <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
-                <el-table-column prop="id" label="编号" width="80px"/>
+                <el-table-column prop="id" label="编号" width="55px" />
 
-                <el-table-column prop="name" label="姓名" width="80px"/>
+                <el-table-column prop="name" label="姓名" width="80px" />
 
                 <el-table-column prop="gender" label="性别" width="80px">
                     <template #default="{ row, column, $index }">
@@ -207,7 +207,9 @@ const onSubmit = () => {
 
 const onCancel = () => {
     dialogshow.value = false
-    form.value = JSON.parse(JSON.stringify(defaultForm))
+    setTimeout(() => {
+        form.value = JSON.parse(JSON.stringify(defaultForm))
+    }, 100)
 }
 
 const educational = reactive([

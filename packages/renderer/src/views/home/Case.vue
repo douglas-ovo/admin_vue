@@ -147,7 +147,9 @@ const formRef = ref(null)
 
 const onCancel = () => {
     dialogshow.value = false
-    form.value = JSON.parse(JSON.stringify(defaultForm))
+    setTimeout(() => {
+        form.value = JSON.parse(JSON.stringify(defaultForm))
+    }, 100)
 }
 
 const onSubmit = () => {

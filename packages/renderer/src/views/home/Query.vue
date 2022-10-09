@@ -30,9 +30,9 @@
 
         <div class="table">
             <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
-                <el-table-column prop="id" label="编号" />
+                <el-table-column prop="id" label="编号" width="55px" />
 
-                <el-table-column prop="name" label="姓名" />
+                <el-table-column prop="name" label="姓名" width="80px" />
 
                 <el-table-column prop="gender" label="性别">
                     <template #default="{ row, column, $index }">
@@ -64,6 +64,137 @@
             <el-pagination v-model:currentPage="currentPage" v-model:page-size="pageSize" :page-sizes="[10, 20, 30, 40]"
                 background layout="total, sizes, prev, pager, next, jumper" :total="tableData.length"
                 @size-change="handleSizeChange" @current-change="handleCurrentChange" />
+
+            <el-dialog v-model="dialogshow" width="580px" destroy-on-close>
+                <div class="dialog-wrap" ref="dialog">
+                    <div class="self">
+                        <div class="c-title">个人信息</div>
+                        <div class="con">
+                            <div class="con-item">
+                                <span>姓名：</span>
+                                <div>{{info.name}}</div>
+                            </div>
+                            <div class="con-item">
+                                <span>性别：</span>
+                                <div>{{info.gender===1?"男":'女'}}</div>
+                            </div>
+                            <div class="con-item">
+                                <span>学历：</span>
+                                <div>
+                                    {{info.educational===0?'初中及以下':info.educational===1?'高中':info.educational===2?'统招专科':info.educational===3?'统招本科':info.educational===4?'硕士及以上':"其他"}}
+                                </div>
+                            </div>
+                            <div class="con-item">
+                                <span>专业：</span>
+                                <div>{{info.major}}</div>
+                            </div>
+                            <div class="con-item" v-if="info.remark">
+                                <span>个人简介：</span>
+                                <div>{{info.remark}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+                    <br>
+                    <div class="compan">
+                        <div class="c-title">企业信息</div>
+                        <div class="con">
+                            <div class="con-item">
+                                <span>单位名称：</span>
+                                <div>{{info.unit}}</div>
+                            </div>
+                            <div class="con-item">
+                                <span>单位地址：</span>
+                                <div>{{info.address}}</div>
+                            </div>
+                            <div class="con-item">
+                                <span>联系人：</span>
+                                <div>{{info.linkman}}</div>
+                            </div>
+                            <div class="con-item">
+                                <span>联系电话：</span>
+                                <div>{{info.phone}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+                    <br>
+                    <div class="exp">
+                        <div class="c-title">工作履历</div>
+                        <div class="con" v-for="(item,index) in info.record" :key="index">
+                            <div class="con-item">
+                                <span>工作时间：</span>
+                                <div>{{item.time[0]+'至'+item.time[1]}}</div>
+                            </div>
+                            <div class="con-item">
+                                <span>公司名称：</span>
+                                <div>{{item.company}}</div>
+                            </div>
+                            <div class="con-item">
+                                <span>职位名称：</span>
+                                <div>{{item.position}}</div>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+                    <br>
+                    <div class="train">
+                        <div class="c-title">继续教育</div>
+                        <div class="con" v-for="(item,index) in info.train" :key="index">
+                            <div class="con-item">
+                                <span>培训时间：</span>
+                                <div>{{item.time[0]+'至'+item.time[1]}}</div>
+                            </div>
+                            <div class="con-item">
+                                <span>机构名称：</span>
+                                <div>{{item.company}}</div>
+                            </div>
+                            <div class="con-item">
+                                <span>培训内容：</span>
+                                <div>{{item.position}}</div>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+                    <br>
+                    <div class="case">
+                        <div class="c-title">经典案例</div>
+                        <div class="con" v-for="(item,index) in info.case" :key="index">
+                            <div class="con-item">
+                                <span>案例名称：</span>
+                                <div>{{item.name}}</div>
+                            </div>
+                            <div class="con-item">
+                                <span>案例年份：</span>
+                                <div>{{item.year}}</div>
+                            </div>
+                            <div class="con-item">
+                                <span>所属业务类型：</span>
+                                <div>{{info.type===0?'专利':info.type===1?'商标':'版权'}}</div>
+                            </div>
+                            <div class="con-item">
+                                <span>案例基本情况：</span>
+                                <div>{{item.intro}}</div>
+                            </div>
+                            <div class="con-item" v-if="item.error">
+                                <span>问题争议点：</span>
+                                <div>{{item.error}}</div>
+                            </div>
+                            <div class="con-item" v-if="item.deal">
+                                <span>方案解决：</span>
+                                <div>{{item.deal}}</div>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </el-dialog>
         </div>
     </div>
 </template>
@@ -75,16 +206,29 @@ export default {
 }
 </script>
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, nextTick } from 'vue'
 import { ArrowRight } from '@element-plus/icons-vue'
 import axios from '../../http'
+interface IPubilc {
+    [k: string]: any
+}
 
 const currentPage = ref(1)
 const pageSize = ref(10)
 const handleSizeChange = () => { }
 const handleCurrentChange = () => { }
 
-const check = (row: any) => { }
+const dialogshow = ref(false)
+const info = ref<IPubilc>({})
+
+const dialog = ref(null)
+const check = (row: any) => {
+    setTimeout(() => {
+        info.value = JSON.parse(JSON.stringify(row))
+        dialogshow.value = true
+    }, 80)
+
+}
 
 const form = ref({
     name: '',
@@ -156,6 +300,30 @@ const tableRowClassName = ({
         .el-pagination {
             align-self: flex-end;
             padding: 10px 0;
+        }
+    }
+}
+
+.dialog-wrap {
+    padding: 20px;
+    padding-left: 30px;
+    max-height: 450px;
+    overflow-y: auto;
+
+    .c-title {
+        font-weight: bold;
+        font-size: 17px;
+        margin: 10px 0;
+    }
+
+    .con {
+        .con-item {
+            display: flex;
+
+            span {
+                font-weight: bold;
+                color: gray;
+            }
         }
     }
 }

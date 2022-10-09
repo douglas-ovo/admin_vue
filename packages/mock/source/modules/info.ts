@@ -92,6 +92,16 @@ let info: IPubilc[] = [
                 intro: '新能源汽车专利',
                 error: '专利被申请',
                 deal: '重置申请'
+            },
+            {
+                userid: 2,
+                id: 3,
+                name: '新能源汽车2',
+                year: '2020',
+                type: 0,
+                intro: '新能源汽车专利',
+                error: '专利被申请',
+                deal: '重置申请'
             }
         ]
     }
