@@ -214,7 +214,7 @@ interface IPubilc {
 }
 
 const currentPage = ref(1)
-const pageSize = ref(10)
+const pageSize = ref(7)
 const totalPage = ref(1)
 const tableData = ref([])
 const handleSizeChange = (evt: any) => {

@@ -116,37 +116,6 @@ axios.get('/getinfo.json', { params: { page: 1, pageSize: 10000 } }).then(res =>
     userData.value = res.data.result
 })
 
-const tableData = ref([])
-const getData = () => {
-    axios.get('/gettrain.json', { params: {} }).then(res => {
-        tableData.value = res.data
-    })
-}
-getData()
-
-const dialogshow = ref(false)
-const edit = (row: any) => {
-    dialogshow.value = true;
-    form.value = JSON.parse(JSON.stringify(row))
-}
-
-const del = (row: any) => {
-    ElMessageBox.confirm(`确定删除【当前经历】吗？`, {
-        confirmButtonText: '确认',
-        cancelButtonText: '取消',
-    }).then(() => {
-        ElMessage({
-            type: 'success',
-            message: '删除成功',
-        })
-    })
-}
-
-const add = () => {
-    dialogshow.value = true;
-    form.value = JSON.parse(JSON.stringify(defaultForm))
-}
-
 const currentPage = ref(1)
 const totalPage = ref(1)
 const pageSize = ref(7)
@@ -159,14 +128,53 @@ const handleCurrentChange = (evt: any) => {
     getData()
 }
 
+const tableData = ref([])
+const getData = () => {
+    axios.get('/gettrain.json', { params: { page: currentPage.value, pageSize: pageSize.value } }).then(res => {
+        tableData.value = res.data.result
+        totalPage.value = res.data.total
+    })
+}
+getData()
+
+const dialogshow = ref(false)
+const isEdit = ref(false)
+const edit = (row: any) => {
+    dialogshow.value = true;
+    form.value = JSON.parse(JSON.stringify(row))
+    isEdit.value = true
+}
+
+const del = (row: any) => {
+    ElMessageBox.confirm(`确定删除【当前经历】吗？`, {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+    }).then(() => {
+        axios.get('/deletetrain.json', { params: { id: row.id, userid: row.userid } }).then((res: any) => {
+            getData()
+
+            ElMessage({
+                type: 'success',
+                message: res.data.message,
+            })
+        })
+    })
+}
+
+const add = () => {
+    dialogshow.value = true;
+    form.value = JSON.parse(JSON.stringify(defaultForm))
+    isEdit.value = false
+}
+
 const defaultForm = {
-    userid: 1,
+    userid: 2,
     time: '',
     company: '',
     position: ''
 }
 const form = ref({
-    userid: 1,
+    userid: 2,
     time: '',
     company: '',
     position: ''
@@ -184,16 +192,29 @@ const onCancel = () => {
 const onSubmit = () => {
     (formRef.value as any).validate((valid: any, fields: any) => {
         if (valid) {
-            ElMessage({
-                type: 'success',
-                message: '添加成功'
-            })
-            console.log(form.value);
+            let url
+            if (isEdit.value) {
+                url = '/edittrain.json'
+            } else {
+                url = '/addtrain.json'
+            }
 
-            // form.value = JSON.parse(JSON.stringify(defaultForm))
-            // setTimeout(() => {
-            //     (formRef.value as any).resetFields()
-            // }, 100)
+            axios.post(url, {
+                ...JSON.parse(JSON.stringify(form.value))
+            }).then((res: any) => {
+                getData()
+
+                ElMessage({
+                    type: 'success',
+                    message: res.data.message
+                })
+
+                form.value = JSON.parse(JSON.stringify(defaultForm))
+                dialogshow.value = false
+                setTimeout(() => {
+                    (formRef.value as any).resetFields()
+                }, 100)
+            })
         }
     })
 }

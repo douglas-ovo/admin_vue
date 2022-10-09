@@ -275,7 +275,8 @@ export default [
     {
         url: '/gettrain.json',
         method: 'get',
-        response() {
+        response(option: any) {
+            const { page, pageSize } = option.query
             let train = info.map(item => {
                 return item.train
             })
@@ -283,7 +284,67 @@ export default [
                     return pre.concat(cur)
                 }, [])
 
-            return train
+            return {
+                result: handlePage(train, page, pageSize),
+                total: train.length,
+                totalPage: Math.ceil(train.length / pageSize)
+            }
+        }
+    },
+    {
+        url: '/addtrain.json',
+        method: 'post',
+        response(option: any) {
+            const { userid } = option.body
+
+            let infoItem = info.find(item => item.id === userid)
+
+            infoItem.train.unshift({
+                id: `${userid}-${infoItem.train.length + 1}`,
+                ...option.body
+            })
+
+            return {
+                status: 200,
+                message: '添加成功'
+            }
+        }
+    },
+    {
+        url: '/edittrain.json',
+        method: 'post',
+        response(option: any) {
+            const { userid, id, time, company, position } = option.body
+            let infoItem = info.find(item => item.id === userid)
+
+            let trainItem = infoItem.train.find(item => item.id === id)
+
+            if (trainItem) {
+                trainItem.time = time
+                trainItem.company = company
+                trainItem.position = position
+            }
+
+            return {
+                status: 200,
+                message: '编辑成功'
+            }
+        }
+    },
+    {
+        url: '/deletetrain.json',
+        method: 'get',
+        response(option: any) {
+            const { id, userid } = option.query
+
+            let infoItem = info.find(item => item.id === JSON.parse(userid))
+
+            infoItem.train = infoItem.train.filter(item => !id.includes(item.id + ''))
+
+            return {
+                status: 200,
+                message: '删除成功'
+            }
         }
     },
     //经典案例
