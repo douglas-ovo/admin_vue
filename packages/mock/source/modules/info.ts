@@ -1,4 +1,7 @@
+import { method } from 'lodash'
+import { addResizeListener } from 'element-plus/es/utils'
 import Mock, { Random } from 'mockjs'
+import { option } from 'yargs'
 interface IPubilc {
     [k: string]: any
 }
@@ -107,13 +110,91 @@ let info: IPubilc[] = [
     }
 ]
 
+const handlePage = (data: any[], page: any, pageSize: any) => {
+    let proportion = pageSize;
+    let num = 0;
+    let _data = [];
+    for (let i = 0; i < data.length; i++) {
+        if (i % proportion == 0 && i != 0) {
+            _data.push(data.slice(num, i));
+            num = i;
+        }
+        if ((i + 1) == data.length) {
+            _data.push(data.slice(num, (i + 1)));
+        }
+    }
+    return _data[page - 1];
+}
+
 export default [
     //基本信息
     {
         url: '/getinfo.json',
         method: 'get',
-        response() {
-            return info
+        response(option: any) {
+            const { page, pageSize } = option.query
+
+            return {
+                result: handlePage(info, page, pageSize),
+                total: info.length,
+                totalPage: Math.ceil(info.length / pageSize)
+            }
+        }
+    },
+    {
+        url: '/addinfo.json',
+        method: 'post',
+        response(option: any) {
+            info.unshift({
+                id: info.length + 1,
+                ...option.body,
+                record: [],
+                train: [],
+                case: []
+            })
+
+            return {
+                status: 200,
+                message: '添加成功'
+            }
+        }
+    },
+    {
+        url: '/editinfo.json',
+        method: 'post',
+        response(option: any) {
+            const { id, name, educational, major, unit, address, linkman, phone, gender } = option.body
+            let infoItem = info.find(item => item.id === id)
+
+            infoItem.name = name
+            infoItem.educational = educational
+            infoItem.major = major
+            infoItem.unit = unit
+            infoItem.address = address
+            infoItem.linkman = linkman
+            infoItem.phone = phone
+            infoItem.gender = gender
+
+            return {
+                status: 200,
+                message: '编辑成功'
+            }
+        }
+    },
+    {
+        url: '/deleteinfo.json',
+        method: 'get',
+        response(option: any) {
+            const { id } = option.query
+            console.log(id);
+
+
+            info = info.filter(item => !id.includes(item.id + ''))
+
+            return {
+                status: 200,
+                message: '删除成功'
+            }
         }
     },
     //工作履历

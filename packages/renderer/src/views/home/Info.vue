@@ -128,21 +128,34 @@ import axios from '../../http'
 
 const formRef = ref(null)
 const tableData = ref([])
-axios.get('/getinfo.json', { params: {} }).then(res => {
-    tableData.value = res.data
-})
+const currentPage = ref(1)
+const pageSize = ref(10)
+const handleSizeChange = (evt: any) => {
+    pageSize.value = evt
+}
+const handleCurrentChange = (evt: any) => {
+    currentPage.value = evt
+}
+const getInfo = () => {
+    axios.get('/getinfo.json', { params: { page: currentPage.value, pageSize: pageSize.value } }).then(res => {
+        tableData.value = res.data.result
+    })
+}
+getInfo()
 
 const dialogshow = ref(false)
+const isEdit = ref(false)
 
 const add = () => {
     dialogshow.value = true;
     form.value = JSON.parse(JSON.stringify(defaultForm))
+    isEdit.value = false
 }
 
 const edit = (row: any) => {
-    console.log(row);
     dialogshow.value = true;
     form.value = JSON.parse(JSON.stringify(row));
+    isEdit.value = true
     // setTimeout(() => {
     //     (formRef.value as any).resetFields()
     // }, 100)
@@ -153,17 +166,15 @@ const del = (row: any) => {
         confirmButtonText: '确认',
         cancelButtonText: '取消',
     }).then(() => {
-        ElMessage({
-            type: 'success',
-            message: '删除成功',
+        axios.get('/deleteinfo.json', { params: { id: row.id } }).then((res: any) => {
+            getInfo()
+            ElMessage({
+                type: 'success',
+                message: res.data.message,
+            })
         })
     })
 }
-
-const currentPage = ref(1)
-const pageSize = ref(10)
-const handleSizeChange = () => { }
-const handleCurrentChange = () => { }
 
 const defaultForm = {
     name: '',
@@ -192,15 +203,30 @@ const form = ref({
 const onSubmit = () => {
     (formRef.value as any).validate((valid: any, fields: any) => {
         if (valid) {
-            ElMessage({
-                type: 'success',
-                message: '提交成功'
+            let url
+
+            if (isEdit.value) {
+                url = '/editinfo.json'
+            } else {
+                url = '/addinfo.json'
+            }
+
+            axios.post(url, {
+                ...JSON.parse(JSON.stringify(form.value))
+            }).then((res: any) => {
+                getInfo()
+
+                ElMessage({
+                    type: 'success',
+                    message: res.data.message
+                })
+
+                form.value = JSON.parse(JSON.stringify(defaultForm))
+                setTimeout(() => {
+                    (formRef.value as any).resetFields()
+                    dialogshow.value = false
+                }, 100)
             })
-            form.value = JSON.parse(JSON.stringify(defaultForm))
-            setTimeout(() => {
-                (formRef.value as any).resetFields()
-                dialogshow.value = false
-            }, 100)
         }
     })
 }

@@ -121,7 +121,7 @@
                     <br>
                     <hr>
                     <br>
-                    <div class="exp">
+                    <div class="exp" v-if="info.record.length!==0">
                         <div class="c-title">工作履历</div>
                         <div class="con" v-for="(item,index) in info.record" :key="index">
                             <div class="con-item">
@@ -139,10 +139,10 @@
                             <br>
                         </div>
                     </div>
-                    <br>
-                    <hr>
-                    <br>
-                    <div class="train">
+                    <br v-if="info.record.length!==0">
+                    <hr v-if="info.record.length!==0">
+                    <br v-if="info.record.length!==0">
+                    <div class="train" v-if="info.train.length!==0">
                         <div class="c-title">继续教育</div>
                         <div class="con" v-for="(item,index) in info.train" :key="index">
                             <div class="con-item">
@@ -160,10 +160,10 @@
                             <br>
                         </div>
                     </div>
-                    <br>
-                    <hr>
-                    <br>
-                    <div class="case">
+                    <br v-if="info.train.length!==0">
+                    <hr v-if="info.train.length!==0">
+                    <br v-if="info.train.length!==0">
+                    <div class="case" v-if="info.case.length!==0">
                         <div class="c-title">经典案例</div>
                         <div class="con" v-for="(item,index) in info.case" :key="index">
                             <div class="con-item">
@@ -252,8 +252,8 @@ const onReset = () => {
 }
 
 const tableData = ref([])
-axios.get('/getinfo.json', { params: {} }).then(res => {
-    tableData.value = res.data
+axios.get('/getinfo.json', { params: { page: currentPage.value, pageSize: pageSize.value } }).then(res => {
+    tableData.value = res.data.result
 })
 
 const tableRowClassName = ({

@@ -112,8 +112,8 @@ interface IPubilc {
 }
 
 const userData = ref<IPubilc[]>([])
-axios.get('/getinfo.json', { params: {} }).then(res => {
-    userData.value = res.data
+axios.get('/getinfo.json', { params: { page: 1, pageSize: 10000 } }).then(res => {
+    userData.value = res.data.result
 })
 
 const tableData = ref([])
@@ -176,7 +176,7 @@ const onSubmit = () => {
         if (valid) {
             ElMessage({
                 type: 'success',
-                message: '提交成功'
+                message: '添加成功'
             })
             console.log(form.value);
 
