@@ -15,7 +15,7 @@
             <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
                 <el-table-column prop="id" label="编号" width="55px" />
 
-                <el-table-column prop="userid" label="对应用户" width="80px">
+                <el-table-column prop="userid" label="对应人员" width="80px">
                     <template #default="{ row, column, $index }">
                         <span v-if="userData.find((item: any) => item.id === row.userid)">
                             {{ (userData.find((item: any) => item.id === row.userid) as any).name }}
