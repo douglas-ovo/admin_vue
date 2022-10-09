@@ -43,8 +43,8 @@
                 </el-table-column>
             </el-table>
 
-            <el-pagination v-model:currentPage="currentPage" v-model:page-size="pageSize" :page-sizes="[10, 20, 30, 40]"
-                background layout="total, sizes, prev, pager, next, jumper" :total="tableData.length"
+            <el-pagination v-model:currentPage="currentPage" v-model:page-size="pageSize" :page-sizes="[7, 14, 21, 28]"
+                background layout="total, sizes, prev, pager, next, jumper" :total="totalPage"
                 @size-change="handleSizeChange" @current-change="handleCurrentChange" />
 
             <el-dialog v-model="dialogshow" width="580px">
@@ -54,7 +54,7 @@
                       message: '请填写对应人员',
                       trigger: 'blur',
                     }">
-                        <el-select v-model="form.userid" placeholder="请选择对应人员">
+                        <el-select v-model="form.userid" placeholder="请选择对应人员" :disabled="isEdit">
                             <el-option v-for="(item,index) in userData" :label="item.name" :value="item.id" />
                         </el-select>
                     </el-form-item>
@@ -117,16 +117,32 @@ axios.get('/getinfo.json', { params: { page: 1, pageSize: 10000 } }).then(res =>
     userData.value = res.data.result
 })
 
+const currentPage = ref(1)
+const pageSize = ref(7)
+const totalPage = ref(1)
+const handleSizeChange = (evt: any) => {
+    pageSize.value = evt
+    getData()
+}
+const handleCurrentChange = (evt: any) => {
+    currentPage.value = evt
+    getData()
+}
 const tableData = ref([])
-axios.get('/getrecord.json', { params: {} }).then(res => {
-    tableData.value = res.data
-})
+const getData = () => {
+    axios.get('/getrecord.json', { params: { page: currentPage.value, pageSize: pageSize.value } }).then(res => {
+        tableData.value = res.data.result
+        totalPage.value = res.data.total
+    })
+}
+getData()
 
 const dialogshow = ref(false)
 
 const edit = (row: any) => {
     dialogshow.value = true;
     form.value = JSON.parse(JSON.stringify(row))
+    isEdit.value = true
 }
 
 const del = (row: any) => {
@@ -134,9 +150,13 @@ const del = (row: any) => {
         confirmButtonText: '确认',
         cancelButtonText: '取消',
     }).then(() => {
-        ElMessage({
-            type: 'success',
-            message: '删除成功',
+        axios.get('/deleterecord.json', { params: { id: row.id, userid: row.userid } }).then((res: any) => {
+            getData()
+
+            ElMessage({
+                type: 'success',
+                message: res.data.message,
+            })
         })
     })
 }
@@ -144,41 +164,51 @@ const del = (row: any) => {
 const add = () => {
     dialogshow.value = true;
     form.value = JSON.parse(JSON.stringify(defaultForm))
+    isEdit.value = false
 }
-
-const currentPage = ref(1)
-const pageSize = ref(10)
-const handleSizeChange = () => { }
-const handleCurrentChange = () => { }
 
 const defaultForm = {
     time: '',
     company: '',
     position: '',
-    userid: 1
+    userid: 2
 }
 
 const form = ref({
     time: '',
     company: '',
     position: '',
-    userid: 1
+    userid: 2
 })
 
-
+const isEdit = ref(false)
 const onSubmit = () => {
     (formRef.value as any).validate((valid: any, fields: any) => {
         if (valid) {
-            ElMessage({
-                type: 'success',
-                message: '添加成功'
-            })
-            console.log(form.value);
+            let url
+            if (isEdit.value) {
+                url = '/editrecord.json'
+            } else {
+                url = '/addrecord.json'
+            }
 
-            // form.value = JSON.parse(JSON.stringify(defaultForm))
-            // setTimeout(() => {
-            //     (formRef.value as any).resetFields()
-            // }, 100)
+            axios.post(url, {
+                ...JSON.parse(JSON.stringify(form.value))
+            }).then((res: any) => {
+                getData()
+
+                ElMessage({
+                    type: 'success',
+                    message: res.data.message
+                })
+
+                form.value = JSON.parse(JSON.stringify(defaultForm))
+                dialogshow.value = false
+                setTimeout(() => {
+                    (formRef.value as any).resetFields()
+                }, 100)
+            })
+
         }
     })
 }
@@ -198,11 +228,13 @@ const tableRowClassName = ({
     row: any
     rowIndex: any
 }) => {
-    if (rowIndex === 1) {
-        return 'warning-row'
-    } else if (rowIndex === 3) {
+    if ((rowIndex + 1) % 2 === 0) {
+        // return 'warning-row'
         return 'success-row'
-    }
+    } 
+    // else if (rowIndex % 3 === 0) {
+    //     return 'success-row'
+    // }
     return ''
 }
 </script>

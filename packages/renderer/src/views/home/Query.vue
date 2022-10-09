@@ -61,8 +61,8 @@
                 </el-table-column>
             </el-table>
 
-            <el-pagination v-model:currentPage="currentPage" v-model:page-size="pageSize" :page-sizes="[10, 20, 30, 40]"
-                background layout="total, sizes, prev, pager, next, jumper" :total="tableData.length"
+            <el-pagination v-model:currentPage="currentPage" v-model:page-size="pageSize" :page-sizes="[7, 14, 21, 28]"
+                background layout="total, sizes, prev, pager, next, jumper" :total="totalPage"
                 @size-change="handleSizeChange" @current-change="handleCurrentChange" />
 
             <el-dialog v-model="dialogshow" width="580px" destroy-on-close>
@@ -215,8 +215,23 @@ interface IPubilc {
 
 const currentPage = ref(1)
 const pageSize = ref(10)
-const handleSizeChange = () => { }
-const handleCurrentChange = () => { }
+const totalPage = ref(1)
+const tableData = ref([])
+const handleSizeChange = (evt: any) => {
+    pageSize.value = evt
+    getInfo()
+}
+const handleCurrentChange = (evt: any) => {
+    currentPage.value = evt
+    getInfo()
+}
+const getInfo = () => {
+    axios.get('/getinfo.json', { params: { page: currentPage.value, pageSize: pageSize.value } }).then(res => {
+        totalPage.value = res.data.total
+        tableData.value = res.data.result
+    })
+}
+getInfo()
 
 const dialogshow = ref(false)
 const info = ref<IPubilc>({})
@@ -251,11 +266,6 @@ const onReset = () => {
     }
 }
 
-const tableData = ref([])
-axios.get('/getinfo.json', { params: { page: currentPage.value, pageSize: pageSize.value } }).then(res => {
-    tableData.value = res.data.result
-})
-
 const tableRowClassName = ({
     row,
     rowIndex,
@@ -263,11 +273,13 @@ const tableRowClassName = ({
     row: any
     rowIndex: any
 }) => {
-    if (rowIndex === 1) {
-        return 'warning-row'
-    } else if (rowIndex === 3) {
+    if ((rowIndex + 1) % 2 === 0) {
+        // return 'warning-row'
         return 'success-row'
     }
+    // else if (rowIndex % 3 === 0) {
+    //     return 'success-row'
+    // }
     return ''
 }
 </script>

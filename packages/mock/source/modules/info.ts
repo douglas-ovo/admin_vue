@@ -1,61 +1,9 @@
-import { method } from 'lodash'
-import { addResizeListener } from 'element-plus/es/utils'
 import Mock, { Random } from 'mockjs'
-import { option } from 'yargs'
 interface IPubilc {
     [k: string]: any
 }
 
 let info: IPubilc[] = [
-    {
-        id: 1,
-        name: '张三三',
-        educational: 3,
-        major: '物联网工程',
-        unit: 'xxx有限公司',
-        remark: '练习时长两年半',
-        address: '重庆市渝北区',
-        linkman: '张三',
-        phone: '10010',
-        gender: 1,
-        record: [
-            {
-                userid: 1,
-                id: 1,
-                time: ['2020-10-01', '2020-11-02'],
-                company: 'xxx公司1',
-                position: 'java工程师'
-            },
-            {
-                userid: 1,
-                id: 2,
-                time: ['2020-01-01', '2020-11-02'],
-                company: 'xxx公司2',
-                position: 'java工程师2'
-            }
-        ],
-        train: [
-            {
-                userid: 1,
-                id: 1,
-                time: ['2020-10-01', '2020-11-02'],
-                company: '中公教育',
-                position: '基本培训',
-            }
-        ],
-        case: [
-            {
-                userid: 1,
-                id: 1,
-                name: '新能源汽车1',
-                year: '2022',
-                type: 0,
-                intro: '新能源汽车专利',
-                error: '专利被申请',
-                deal: '重置申请'
-            }
-        ]
-    },
     {
         id: 2,
         name: '李思思',
@@ -70,7 +18,7 @@ let info: IPubilc[] = [
         record: [
             {
                 userid: 2,
-                id: 3,
+                id: '2-1',
                 time: ['2020-10-01', '2020-11-02'],
                 company: 'xxx公司2',
                 position: 'java工程师2'
@@ -79,7 +27,7 @@ let info: IPubilc[] = [
         train: [
             {
                 userid: 2,
-                id: 2,
+                id: '2-1',
                 time: ['2020-10-01', '2020-11-02'],
                 company: '中公教育',
                 position: '基本培训',
@@ -88,9 +36,9 @@ let info: IPubilc[] = [
         case: [
             {
                 userid: 2,
-                id: 2,
-                name: '新能源汽车1',
-                year: '2019',
+                id: '2-1',
+                name: '新能源汽车2',
+                year: '2020',
                 type: 0,
                 intro: '新能源汽车专利',
                 error: '专利被申请',
@@ -98,9 +46,58 @@ let info: IPubilc[] = [
             },
             {
                 userid: 2,
-                id: 3,
-                name: '新能源汽车2',
-                year: '2020',
+                id: '2-2',
+                name: '新能源汽车1',
+                year: '2019',
+                type: 0,
+                intro: '新能源汽车专利',
+                error: '专利被申请',
+                deal: '重置申请'
+            }
+        ]
+    },
+    {
+        id: 1,
+        name: '张三三',
+        educational: 3,
+        major: '物联网工程',
+        unit: 'xxx有限公司',
+        remark: '练习时长两年半',
+        address: '重庆市渝北区',
+        linkman: '张三',
+        phone: '10010',
+        gender: 1,
+        record: [
+            {
+                userid: 1,
+                id: '1-1',
+                time: ['2020-01-01', '2020-11-02'],
+                company: 'xxx公司2',
+                position: 'java工程师2'
+            },
+            {
+                userid: 1,
+                id: '1-2',
+                time: ['2020-10-01', '2020-11-02'],
+                company: 'xxx公司1',
+                position: 'java工程师'
+            }
+        ],
+        train: [
+            {
+                userid: 1,
+                id: '1-1',
+                time: ['2020-10-01', '2020-11-02'],
+                company: '中公教育',
+                position: '基本培训',
+            }
+        ],
+        case: [
+            {
+                userid: 1,
+                id: '1-1',
+                name: '新能源汽车1',
+                year: '2022',
                 type: 0,
                 intro: '新能源汽车专利',
                 error: '专利被申请',
@@ -166,14 +163,16 @@ export default [
             const { id, name, educational, major, unit, address, linkman, phone, gender } = option.body
             let infoItem = info.find(item => item.id === id)
 
-            infoItem.name = name
-            infoItem.educational = educational
-            infoItem.major = major
-            infoItem.unit = unit
-            infoItem.address = address
-            infoItem.linkman = linkman
-            infoItem.phone = phone
-            infoItem.gender = gender
+            if (infoItem) {
+                infoItem.name = name
+                infoItem.educational = educational
+                infoItem.major = major
+                infoItem.unit = unit
+                infoItem.address = address
+                infoItem.linkman = linkman
+                infoItem.phone = phone
+                infoItem.gender = gender
+            }
 
             return {
                 status: 200,
@@ -186,8 +185,6 @@ export default [
         method: 'get',
         response(option: any) {
             const { id } = option.query
-            console.log(id);
-
 
             info = info.filter(item => !id.includes(item.id + ''))
 
@@ -201,7 +198,9 @@ export default [
     {
         url: '/getrecord.json',
         method: 'get',
-        response() {
+        response(option: any) {
+            const { page, pageSize } = option.query
+
             let record = info.map(item => {
                 return item.record
             })
@@ -209,7 +208,67 @@ export default [
                     return pre.concat(cur)
                 }, [])
 
-            return record
+            return {
+                result: handlePage(record, page, pageSize),
+                total: record.length,
+                totalPage: Math.ceil(record.length / pageSize)
+            }
+        }
+    },
+    {
+        url: '/addrecord.json',
+        method: 'post',
+        response(option: any) {
+            const { userid } = option.body
+
+            let infoItem = info.find(item => item.id === userid)
+
+            infoItem.record.unshift({
+                id: `${userid}-${infoItem.record.length + 1}`,
+                ...option.body
+            })
+
+            return {
+                status: 200,
+                message: '添加成功'
+            }
+        }
+    },
+    {
+        url: '/editrecord.json',
+        method: 'post',
+        response(option: any) {
+            const { userid, id, time, company, position } = option.body
+            let infoItem = info.find(item => item.id === userid)
+
+            let recordItem = infoItem.record.find(item => item.id === id)
+
+            if (recordItem) {
+                recordItem.time = time
+                recordItem.company = company
+                recordItem.position = position
+            }
+
+            return {
+                status: 200,
+                message: '编辑成功'
+            }
+        }
+    },
+    {
+        url: '/deleterecord.json',
+        method: 'get',
+        response(option: any) {
+            const { id, userid } = option.query
+
+            let infoItem = info.find(item => item.id === JSON.parse(userid))
+
+            infoItem.record = infoItem.record.filter(item => !id.includes(item.id + ''))
+
+            return {
+                status: 200,
+                message: '删除成功'
+            }
         }
     },
     //继续教育

@@ -43,8 +43,8 @@
                 </el-table-column>
             </el-table>
 
-            <el-pagination v-model:currentPage="currentPage" v-model:page-size="pageSize" :page-sizes="[10, 20, 30, 40]"
-                background layout="total, sizes, prev, pager, next, jumper" :total="tableData.length"
+            <el-pagination v-model:currentPage="currentPage" v-model:page-size="pageSize" :page-sizes="[7, 14, 21, 28]"
+                background layout="total, sizes, prev, pager, next, jumper" :total="totalPage"
                 @size-change="handleSizeChange" @current-change="handleCurrentChange" />
 
             <el-dialog v-model="dialogshow" width="580px">
@@ -117,9 +117,12 @@ axios.get('/getinfo.json', { params: { page: 1, pageSize: 10000 } }).then(res =>
 })
 
 const tableData = ref([])
-axios.get('/gettrain.json', { params: {} }).then(res => {
-    tableData.value = res.data
-})
+const getData = () => {
+    axios.get('/gettrain.json', { params: {} }).then(res => {
+        tableData.value = res.data
+    })
+}
+getData()
 
 const dialogshow = ref(false)
 const edit = (row: any) => {
@@ -145,9 +148,16 @@ const add = () => {
 }
 
 const currentPage = ref(1)
-const pageSize = ref(10)
-const handleSizeChange = () => { }
-const handleCurrentChange = () => { }
+const totalPage = ref(1)
+const pageSize = ref(7)
+const handleSizeChange = (evt: any) => {
+    pageSize.value = evt
+    getData()
+}
+const handleCurrentChange = (evt: any) => {
+    currentPage.value = evt
+    getData()
+}
 
 const defaultForm = {
     userid: 1,
@@ -195,11 +205,13 @@ const tableRowClassName = ({
     row: any
     rowIndex: any
 }) => {
-    if (rowIndex === 1) {
-        return 'warning-row'
-    } else if (rowIndex === 3) {
+    if ((rowIndex + 1) % 2 === 0) {
+        // return 'warning-row'
         return 'success-row'
     }
+    // else if (rowIndex % 3 === 0) {
+    //     return 'success-row'
+    // }
     return ''
 }
 </script>
