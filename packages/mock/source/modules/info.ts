@@ -223,10 +223,12 @@ export default [
 
             let infoItem = info.find(item => item.id === userid)
 
-            infoItem.record.unshift({
-                id: `${userid}-${infoItem.record.length + 1}`,
-                ...option.body
-            })
+            if (infoItem) {
+                infoItem.record.unshift({
+                    id: `${userid}-${infoItem.record.length + 1}`,
+                    ...option.body
+                })
+            }
 
             return {
                 status: 200,
@@ -240,8 +242,10 @@ export default [
         response(option: any) {
             const { userid, id, time, company, position } = option.body
             let infoItem = info.find(item => item.id === userid)
-
-            let recordItem = infoItem.record.find(item => item.id === id)
+            let recordItem
+            if (infoItem) {
+                recordItem = infoItem.record.find((item: any) => item.id === id)
+            }
 
             if (recordItem) {
                 recordItem.time = time
@@ -262,8 +266,10 @@ export default [
             const { id, userid } = option.query
 
             let infoItem = info.find(item => item.id === JSON.parse(userid))
+            if (infoItem) {
+                infoItem.record = infoItem.record.filter((item: any) => !id.includes(item.id + ''))
+            }
 
-            infoItem.record = infoItem.record.filter(item => !id.includes(item.id + ''))
 
             return {
                 status: 200,
@@ -299,10 +305,12 @@ export default [
 
             let infoItem = info.find(item => item.id === userid)
 
-            infoItem.train.unshift({
-                id: `${userid}-${infoItem.train.length + 1}`,
-                ...option.body
-            })
+            if (infoItem) {
+                infoItem.train.unshift({
+                    id: `${userid}-${infoItem.train.length + 1}`,
+                    ...option.body
+                })
+            }
 
             return {
                 status: 200,
@@ -316,8 +324,11 @@ export default [
         response(option: any) {
             const { userid, id, time, company, position } = option.body
             let infoItem = info.find(item => item.id === userid)
+            let trainItem
 
-            let trainItem = infoItem.train.find(item => item.id === id)
+            if (infoItem) {
+                trainItem = infoItem.train.find((item: any) => item.id === id)
+            }
 
             if (trainItem) {
                 trainItem.time = time
@@ -339,7 +350,9 @@ export default [
 
             let infoItem = info.find(item => item.id === JSON.parse(userid))
 
-            infoItem.train = infoItem.train.filter(item => !id.includes(item.id + ''))
+            if (infoItem) {
+                infoItem.train = infoItem.train.filter((item: any) => !id.includes(item.id + ''))
+            }
 
             return {
                 status: 200,
@@ -351,7 +364,9 @@ export default [
     {
         url: '/getcase.json',
         method: 'get',
-        response() {
+        response(option: any) {
+            const { page, pageSize } = option.query
+
             let ca = info.map(item => {
                 return item.case
             })
@@ -359,7 +374,78 @@ export default [
                     return pre.concat(cur)
                 }, [])
 
-            return ca
+            return {
+                result: handlePage(ca, page, pageSize),
+                total: ca.length,
+                totalPage: Math.ceil(ca.length / pageSize)
+            }
         }
     },
+    {
+        url: '/addcase.json',
+        method: 'post',
+        response(option: any) {
+            const { userid } = option.body
+
+            let infoItem = info.find(item => item.id === userid)
+
+            if (infoItem) {
+                infoItem.case.unshift({
+                    id: `${userid}-${infoItem.case.length + 1}`,
+                    ...option.body
+                })
+            }
+
+            return {
+                status: 200,
+                message: '添加成功'
+            }
+        }
+    },
+    {
+        url: '/editcase.json',
+        method: 'post',
+        response(option: any) {
+            const { userid, id, name, year, type, intro, error, deal } = option.body
+            let infoItem = info.find(item => item.id === JSON.parse(userid))
+            let caseItem
+
+            if (infoItem) {
+                caseItem = infoItem.case.find((item: any) => item.id === id)
+            }
+
+            if (caseItem) {
+                caseItem.name = name
+                caseItem.year = year
+                caseItem.type = type
+                caseItem.intro = intro
+                caseItem.error = error
+                caseItem.deal = deal
+            }
+
+
+            return {
+                status: 200,
+                message: '编辑成功'
+            }
+        }
+    },
+    {
+        url: '/deletecase.json',
+        method: 'get',
+        response(option: any) {
+            const { id, userid } = option.query
+
+            let infoItem = info.find(item => item.id === JSON.parse(userid))
+
+            if (infoItem) {
+                infoItem.case = infoItem.case.filter((item: any) => !id.includes(item.id + ''))
+            }
+
+            return {
+                status: 200,
+                message: '删除成功'
+            }
+        }
+    }
 ]

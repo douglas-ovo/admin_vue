@@ -17,8 +17,8 @@
 
                 <el-table-column prop="userid" label="对应用户" width="80px">
                     <template #default="{ row, column, $index }">
-                        <span v-if="userData.find((item:any)=>item.id===row.userid)">
-                            {{(userData.find((item:any)=>item.id===row.userid) as any).name}}
+                        <span v-if="userData.find((item: any) => item.id === row.userid)">
+                            {{ (userData.find((item: any) => item.id === row.userid) as any).name }}
                         </span>
                     </template>
                 </el-table-column>
@@ -26,7 +26,7 @@
                 <el-table-column prop="time" label="培训时间">
                     <template #default="{ row, column, $index }">
                         <span>
-                            {{row.time[0] +'至'+row.time[1]}}
+                            {{ row.time[0] + '至' + row.time[1] }}
                         </span>
                     </template>
                 </el-table-column>
@@ -50,19 +50,19 @@
             <el-dialog v-model="dialogshow" width="580px">
                 <el-form ref="formRef" :model="form" label-width="100px">
                     <el-form-item :label="'对应人员'" prop="userid" :rules="{
-                      required: true,
-                      message: '请填写对应人员',
-                      trigger: 'blur',
+                        required: true,
+                        message: '请填写对应人员',
+                        trigger: 'blur',
                     }">
-                        <el-select v-model="form.userid" placeholder="请选择对应人员">
-                            <el-option v-for="(item,index) in userData" :label="item.name" :value="item.id" />
+                        <el-select v-model="form.userid" :disabled="isEdit" placeholder="请选择对应人员">
+                            <el-option v-for="(item, index) in userData" :label="item.name" :value="item.id" />
                         </el-select>
                     </el-form-item>
 
                     <el-form-item :label="'培训时间'" prop="time" :rules="{
-                      required: true,
-                      message: '请填写培训时间',
-                      trigger: 'blur',
+                        required: true,
+                        message: '请填写培训时间',
+                        trigger: 'blur',
                     }">
                         <el-date-picker v-model="form.time" format="YYYY/MM/DD" value-format="YYYY-MM-DD"
                             type="daterange" start-placeholder="开始日期" end-placeholder="结束日期"
@@ -70,17 +70,17 @@
                     </el-form-item>
 
                     <el-form-item :label="'机构名称'" prop="company" :rules="{
-                      required: true,
-                      message: '请填写机构名称',
-                      trigger: 'blur',
+                        required: true,
+                        message: '请填写机构名称',
+                        trigger: 'blur',
                     }">
                         <el-input v-model="form.company" placeholder="请填写机构名称" />
                     </el-form-item>
 
                     <el-form-item :label="'培训内容'" prop="position" :rules="{
-                      required: true,
-                      message: '请填写培训内容',
-                      trigger: 'blur',
+                        required: true,
+                        message: '请填写培训内容',
+                        trigger: 'blur',
                     }">
                         <el-input v-model="form.position" placeholder="请填写培训内容" />
                     </el-form-item>

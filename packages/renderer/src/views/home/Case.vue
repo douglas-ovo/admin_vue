@@ -17,16 +17,18 @@
 
                 <el-table-column prop="userid" label="对应用户" width="80px">
                     <template #default="{ row, column, $index }">
-                        <span v-if="userData.find((item:any)=>item.id===row.userid)">
-                            {{(userData.find((item:any)=>item.id===row.userid) as any).name}}
+                        <span v-if="userData.find((item: any) => item.id === row.userid)">
+                            {{ (userData.find((item: any) => item.id === row.userid) as any).name }}
                         </span>
                     </template>
                 </el-table-column>
 
+                <el-table-column prop="name" label="案例名称" />
+
                 <el-table-column prop="year" label="案例年份">
                     <template #default="{ row, column, $index }">
                         <span>
-                            {{row.year}}
+                            {{ row.year }}
                         </span>
                     </template>
                 </el-table-column>
@@ -34,7 +36,7 @@
                 <el-table-column prop="type" label="业务类型">
                     <template #default="{ row, column, $index }">
                         <span>
-                            {{row.type===0?'专利':row.type===1?'商标':'版权'}}
+                            {{ row.type === 0 ? '专利' : row.type === 1 ? '商标' : '版权' }}
                         </span>
                     </template>
                 </el-table-column>
@@ -55,6 +57,16 @@
 
             <el-dialog v-model="dialogshow" width="580px">
                 <el-form :model="form" ref="formRef" label-width="120px" :rules="rules">
+                    <el-form-item :label="'对应人员'" prop="userid" :rules="{
+                        required: true,
+                        message: '请填写对应人员',
+                        trigger: 'blur',
+                    }">
+                        <el-select v-model="form.userid" :disabled="isEdit" placeholder="请选择对应人员">
+                            <el-option v-for="(item, index) in userData" :label="item.name" :value="item.id" />
+                        </el-select>
+                    </el-form-item>
+
                     <el-form-item label="案例名称" prop="name">
                         <el-input v-model="form.name" placeholder="请填写案例名称" />
                     </el-form-item>
@@ -66,7 +78,7 @@
 
                     <el-form-item label="所属业务类型" prop="type">
                         <el-select v-model="form.type" placeholder="请选择所属业务类型" style="width:100%">
-                            <el-option v-for="(item,index) in type" :label="item.message" :value="item.value" />
+                            <el-option v-for="(item, index) in type" :label="item.message" :value="item.value" />
                         </el-select>
                     </el-form-item>
 
@@ -116,17 +128,31 @@ axios.get('/getinfo.json', { params: { page: 1, pageSize: 10000 } }).then(res =>
 })
 
 const tableData = ref([])
-const getData=()=>{
-    axios.get('/getcase.json', { params: {} }).then(res => {
-        tableData.value = res.data
+const currentPage = ref(1)
+const pageSize = ref(7)
+const totalPage = ref(1)
+const handleSizeChange = (evt: any) => {
+    pageSize.value = evt
+    getData()
+}
+const handleCurrentChange = (evt: any) => {
+    currentPage.value = evt
+    getData()
+}
+const getData = () => {
+    axios.get('/getcase.json', { params: { page: currentPage.value, pageSize: pageSize.value } }).then(res => {
+        tableData.value = res.data.result
+        totalPage.value = res.data.total
     })
 }
 getData()
 
+const isEdit = ref(false)
 const dialogshow = ref(false)
 const edit = (row: any) => {
     dialogshow.value = true;
     form.value = JSON.parse(JSON.stringify(row))
+    isEdit.value = true
 }
 
 const del = (row: any) => {
@@ -134,9 +160,13 @@ const del = (row: any) => {
         confirmButtonText: '确认',
         cancelButtonText: '取消',
     }).then(() => {
-        ElMessage({
-            type: 'success',
-            message: '删除成功',
+        axios.get('/deletecase.json', { params: { id: row.id, userid: row.userid } }).then((res: any) => {
+            getData()
+
+            ElMessage({
+                type: 'success',
+                message: res.data.message,
+            })
         })
     })
 }
@@ -144,6 +174,7 @@ const del = (row: any) => {
 const add = () => {
     dialogshow.value = true;
     form.value = JSON.parse(JSON.stringify(defaultForm))
+    isEdit.value = false
 }
 
 const formRef = ref(null)
@@ -158,30 +189,31 @@ const onCancel = () => {
 const onSubmit = () => {
     (formRef.value as any).validate((valid: any, fields: any) => {
         if (valid) {
-            ElMessage({
-                type: 'success',
-                message: '添加成功'
-            })
-            console.log(form.value);
+            let url
+            if (isEdit.value) {
+                url = '/editcase.json'
+            } else {
+                url = '/addcase.json'
+            }
 
-            // form.value = JSON.parse(JSON.stringify(defaultForm))
-            // setTimeout(() => {
-            //     (formRef.value as any).resetFields()
-            // }, 100)
+            axios.post(url, {
+                ...JSON.parse(JSON.stringify(form.value))
+            }).then((res: any) => {
+                getData()
+
+                ElMessage({
+                    type: 'success',
+                    message: res.data.message
+                })
+
+                form.value = JSON.parse(JSON.stringify(defaultForm))
+                dialogshow.value = false
+                setTimeout(() => {
+                    (formRef.value as any).resetFields()
+                }, 100)
+            })
         }
     })
-}
-
-const currentPage = ref(1)
-const pageSize = ref(7)
-const totalPage = ref(1)
-const handleSizeChange = (evt: any) => {
-    pageSize.value = evt
-    getData()
-}
-const handleCurrentChange = (evt: any) => {
-    currentPage.value = evt
-    getData()
 }
 
 const defaultForm = {
@@ -263,6 +295,10 @@ const tableRowClassName = ({
         padding: 10px 0;
     }
 
+}
+
+:deep(.el-dialog .el-dialog__header .el-dialog__headerbtn) {
+    top: -5px;
 }
 
 .el-form {
