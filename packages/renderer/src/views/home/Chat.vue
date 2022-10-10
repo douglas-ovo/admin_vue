@@ -214,7 +214,7 @@ const comList = ref<Icom[]>([
 }
 
 .com-list {
-    margin-top: 50px;
+    margin-top: 40px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
