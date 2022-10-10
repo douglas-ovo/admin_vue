@@ -20,7 +20,7 @@
         </div>
 
         <div class="footer">
-            xxx公司版权所有&copy;
+            <!-- xxx公司版权所有&copy; -->
         </div>
     </div>
     <Particles id="tsparticles" class="login-partic" :options="options" />

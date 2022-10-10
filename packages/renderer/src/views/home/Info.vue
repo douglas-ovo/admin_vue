@@ -25,7 +25,7 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column prop="educational" label="学历">
+                <el-table-column prop="educational" label="学历" width="120px">
                     <template #default="{ row, column, $index }">
                         <span>
                             {{row.educational===0?'初中及以下':row.educational===1?'高中':row.educational===2?'统招专科':row.educational===3?'统招本科':row.educational===4?'硕士及以上':"其他"}}

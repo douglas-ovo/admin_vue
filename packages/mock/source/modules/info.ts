@@ -9,19 +9,19 @@ let info: IPubilc[] = [
         name: '李思思',
         educational: 3,
         major: '物联网工程',
-        unit: 'xxx有限公司',
-        remark: '练习时长两年半',
-        address: '',
-        linkman: '张三',
-        phone: '10010',
+        unit: '北京一二三知识产权代理有限公司',
+        remark: '毕业于重庆工商大学，从事知识产权申报多年，具有丰富的行业经验，熟悉知识产权行业管理体系以及发展前沿趋势，曾服务于美国客座教授、挪威兼职教授、大专院校科研教学工作者、医院专职专家、企业项目咨询申报等。擅长知识产权事务办理、高新技术企业、政府项目申报及同行相关业务咨询。欢迎您的来访，期待与您的合作！',
+        address: '北京市海淀区',
+        linkman: '李思思',
+        phone: '15612366679',
         gender: 0,
         record: [
             {
                 userid: 2,
                 id: '2-1',
                 time: ['2020-10-01', '2020-11-02'],
-                company: 'xxx公司2',
-                position: 'java工程师2'
+                company: '北京一二三知识产权代理有限公司',
+                position: '市场调研'
             }
         ],
         train: [
@@ -29,15 +29,15 @@ let info: IPubilc[] = [
                 userid: 2,
                 id: '2-1',
                 time: ['2020-10-01', '2020-11-02'],
-                company: '中公教育',
-                position: '基本培训',
+                company: '中国版权保护中心',
+                position: '版权经纪人业务培训班',
             }
         ],
         case: [
             {
                 userid: 2,
                 id: '2-1',
-                name: '新能源汽车2',
+                name: '新能源汽车',
                 year: '2020',
                 type: 0,
                 intro: '新能源汽车专利',
@@ -47,10 +47,10 @@ let info: IPubilc[] = [
             {
                 userid: 2,
                 id: '2-2',
-                name: '新能源汽车1',
+                name: '镁离子电池',
                 year: '2019',
-                type: 0,
-                intro: '新能源汽车专利',
+                type: 2,
+                intro: '电动汽车专利',
                 error: '专利被申请',
                 deal: '重置申请'
             }
@@ -61,26 +61,26 @@ let info: IPubilc[] = [
         name: '张三三',
         educational: 3,
         major: '物联网工程',
-        unit: 'xxx有限公司',
-        remark: '练习时长两年半',
-        address: '重庆市渝北区',
-        linkman: '张三',
-        phone: '10010',
+        unit: '上海科勒知识产权代理有限公司',
+        remark: '毕业于上海财经大学，从事知识产权申报多年，具有丰富的行业经验，熟悉知识产权行业管理体系以及发展前沿趋势，曾服务于美国客座教授、挪威兼职教授、大专院校科研教学工作者、医院专职专家、企业项目咨询申报等。擅长知识产权事务办理、高新技术企业、政府项目申报及同行相关业务咨询。欢迎您的来访，期待与您的合作！',
+        address: '上海市浦东区',
+        linkman: '张三三',
+        phone: '15612366679',
         gender: 1,
         record: [
             {
                 userid: 1,
                 id: '1-1',
                 time: ['2020-01-01', '2020-11-02'],
-                company: 'xxx公司2',
-                position: 'java工程师2'
+                company: '上海科勒知识产权代理有限公司',
+                position: '产权代理'
             },
             {
                 userid: 1,
                 id: '1-2',
                 time: ['2020-10-01', '2020-11-02'],
-                company: 'xxx公司1',
-                position: 'java工程师'
+                company: '湖北科兴知识产权代理有限公司',
+                position: '产权代理'
             }
         ],
         train: [
@@ -88,18 +88,18 @@ let info: IPubilc[] = [
                 userid: 1,
                 id: '1-1',
                 time: ['2020-10-01', '2020-11-02'],
-                company: '中公教育',
-                position: '基本培训',
+                company: '中国知识产权培训中心',
+                position: '专利检索',
             }
         ],
         case: [
             {
                 userid: 1,
                 id: '1-1',
-                name: '新能源汽车1',
+                name: '光伏电池',
                 year: '2022',
-                type: 0,
-                intro: '新能源汽车专利',
+                type: 1,
+                intro: '新能源专利',
                 error: '专利被申请',
                 deal: '重置申请'
             }

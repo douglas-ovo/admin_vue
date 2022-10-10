@@ -165,7 +165,7 @@ const comList = ref<Icom[]>([
         avatar: 'https://img0.baidu.com/it/u=2264664417,2109988758&fm=253&fmt=auto&app=138&f=PNG?w=265&h=265',
         status: 1,
         years: 5,
-        remark: '聊聊？',
+        remark: '毕业于重庆工商大学，从事知识产权申报多年，具有丰富的行业经验，熟悉知识产权行业管理体系以及发展前沿趋势，曾服务于美国客座教授、挪威兼职教授、大专院校科研教学工作者、医院专职专家、企业项目咨询申报等。擅长知识产权事务办理、高新技术企业、政府项目申报及同行相关业务咨询。欢迎您的来访，期待与您的合作！',
         msg: [
             { content: '你好啊', from: 0 },
             { content: 'hello', from: 1 },
@@ -178,7 +178,7 @@ const comList = ref<Icom[]>([
         avatar: 'https://img2.baidu.com/it/u=2893147358,3393430132&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
         status: 0,
         years: 10,
-        remark: '从业十年',
+        remark: '毕业于上海财经大学，从事知识产权申报多年，具有丰富的行业经验，熟悉知识产权行业管理体系以及发展前沿趋势，曾服务于美国客座教授、挪威兼职教授、大专院校科研教学工作者、医院专职专家、企业项目咨询申报等。擅长知识产权事务办理、高新技术企业、政府项目申报及同行相关业务咨询。欢迎您的来访，期待与您的合作！',
         msg: [
             { content: '在忙吗', from: 1 },
             { content: '有事？', from: 0 },
@@ -188,7 +188,7 @@ const comList = ref<Icom[]>([
         id: 2,
         name: '张三疯',
         years: 3,
-        remark: '欢迎来访',
+        remark: '毕业于重庆工商大学，从事知识产权申报多年，具有丰富的行业经验，熟悉知识产权行业管理体系以及发展前沿趋势，曾服务于美国客座教授、挪威兼职教授、大专院校科研教学工作者、医院专职专家、企业项目咨询申报等。擅长知识产权事务办理、高新技术企业、政府项目申报及同行相关业务咨询。欢迎您的来访，期待与您的合作！',
         avatar: 'https://img2.baidu.com/it/u=1338017924,2404379381&fm=253&fmt=auto&app=138&f=JPEG?w=450&h=450',
         status: 2,
         msg: [
@@ -223,13 +223,13 @@ const comList = ref<Icom[]>([
         position: relative;
         display: flex;
         align-items: center;
-        height: 100px;
-        width: 250px;
+        height: 150px;
+        width: 450px;
         background: #f0f0f0;
         border-radius: 10px;
         margin-left: 50px;
-        margin-bottom: 50px;
-        padding: 10px;
+        margin-bottom: 30px;
+        padding: 20px;
         cursor: pointer;
         transition: all 0.2s;
 
@@ -238,8 +238,8 @@ const comList = ref<Icom[]>([
         }
 
         img {
-            height: 70px;
-            width: 70px;
+            height: 100px;
+            width: 100px;
             border-radius: 50%;
             margin-right: 10px;
         }
@@ -257,6 +257,13 @@ const comList = ref<Icom[]>([
 
             span {
                 font-weight: bold;
+            }
+
+            div:nth-child(3) {
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                -webkit-line-clamp: 3;
             }
         }
 

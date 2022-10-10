@@ -34,7 +34,7 @@
 
                 <el-table-column prop="name" label="姓名" width="80px" />
 
-                <el-table-column prop="gender" label="性别">
+                <el-table-column prop="gender" label="性别" width="55px">
                     <template #default="{ row, column, $index }">
                         <span>
                             {{row.gender===1?'男':'女'}}
@@ -42,7 +42,7 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column prop="educational" label="学历">
+                <el-table-column prop="educational" label="学历" width="120px">
                     <template #default="{ row, column, $index }">
                         <span>
                             {{row.educational===0?'初中及以下':row.educational===1?'高中':row.educational===2?'统招专科':row.educational===3?'统招本科':row.educational===4?'硕士及以上':"其他"}}
@@ -54,7 +54,7 @@
 
                 <el-table-column prop="phone" label="联系电话" />
 
-                <el-table-column label="操作">
+                <el-table-column label="操作" width="120px">
                     <template #default="{ row, column, $index }">
                         <el-button link type="primary" size="small" @click="check(row)">查看详情</el-button>
                     </template>
@@ -335,6 +335,9 @@ const tableRowClassName = ({
             span {
                 font-weight: bold;
                 color: gray;
+            }
+            div {
+                width: 400px;
             }
         }
     }
