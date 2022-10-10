@@ -1,7 +1,7 @@
 <template>
     <div class="menu">
         <el-menu active-text-color="#ffd04b" unique-opened background-color="#545c64"
-            class="menu-inner el-menu-vertical-demo" default-active="1" text-color="#fff" router>
+            class="menu-inner el-menu-vertical-demo" default-active="/charts" text-color="#fff" router>
             <el-menu-item index="/charts">
                 <el-icon>
                     <PieChart />
