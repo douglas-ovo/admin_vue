@@ -56,13 +56,48 @@
     "vue"
   ],
   "build": {
-    "productName": "vue-electron-template",
-    "appId": "top.cyyjs",
+    "appId": "com.smallpig.desktop",
+    "productName": "知识产权从业人员信息化管理系统V1.0",
+    "asar": true,
+    "copyright": "Copyright © 2022 smallpig",
     "directories": {
       "output": "release"
     },
     "files": [
-      "dist/**/*"
-    ]
+      "dist"
+    ],
+    "mac": {
+      "artifactName": "${productName}_${version}.${ext}",
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "icon": "dist/renderer/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": false
+    },
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "http://127.0.0.1:8080"
+      }
+    ],
+    "releaseInfo": {
+      "releaseNotes": "版本更新的具体内容"
+    }
   }
 }
