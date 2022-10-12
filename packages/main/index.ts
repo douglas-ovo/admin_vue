@@ -32,6 +32,7 @@ async function createWindow() {
     height: 720,
     // transparent: true,
     // backgroundColor: '#00000000',
+    icon:join(__dirname,'../renderer/icon.ico'),
     webPreferences: {
       preload: join(__dirname, '../preload/index.cjs'),
       nodeIntegration: true,
