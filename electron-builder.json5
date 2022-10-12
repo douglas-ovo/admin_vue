@@ -2,37 +2,32 @@
  * @see https://www.electron.build/configuration/configuration
  */
 {
-  "appId": "YourAppID",
-  "asar": true,
-  "directories": {
-    "output": "release"
+  appId: 'YourAppID',
+  productName: '知识产权从业人员信息化管理系统V1.0',
+  asar: true,
+  directories: {
+    output: 'release'
   },
-  "files": [
-    "dist"
-  ],
-  "mac": {
-    "icon": "dist/renderer/icon.icns",
-    "artifactName": "${productName}_${version}.${ext}",
-    "target": [
-      "dmg"
-    ]
+  files: ['dist'],
+  mac: {
+    icon: 'dist/renderer/icon.icns',
+    artifactName: '${productName}_${version}.${ext}',
+    target: ['dmg']
   },
-  "win": {
-    "icon": "dist/renderer/icon.ico",
-    "target": [
+  win: {
+    icon: 'dist/renderer/icon.ico',
+    target: [
       {
-        "target": "nsis",
-        "arch": [
-          "x64"
-        ]
+        target: 'nsis',
+        arch: ['x64']
       }
     ],
-    "artifactName": "${productName}_${version}.${ext}"
+    artifactName: '${productName}.${ext}'
   },
-  "nsis": {
-    "oneClick": false,
-    "perMachine": false,
-    "allowToChangeInstallationDirectory": true,
-    "deleteAppDataOnUninstall": false
+  nsis: {
+    oneClick: false,
+    perMachine: false,
+    allowToChangeInstallationDirectory: true,
+    deleteAppDataOnUninstall: false
   }
 }
