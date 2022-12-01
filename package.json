@@ -21,7 +21,7 @@
     "element-plus": "^2.2.5",
     "mockjs": "^1.1.0",
     "particles.vue3": "^2.1.0",
-    "pinia": "^2.0.14",
+    "pinia": "^2.0.27",
     "vite-plugin-mock": "^2.9.6",
     "vue-router": "^4.0.16"
   },
